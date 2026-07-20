@@ -198,7 +198,6 @@ pipeline {
     stage('Summary') {
       steps {
         echo 'App pipeline finished after pushing images. Deployment orchestration is owned by the infra job.'
-        }
       }
     }
   }
