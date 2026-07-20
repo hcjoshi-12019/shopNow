@@ -1,0 +1,104 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+env:
+  FRONTEND_IMAGE: shopnow-frontend
+  ADMIN_IMAGE: shopnow-admin
+  BACKEND_IMAGE: shopnow-backend
+  SHOPNOW_USER_NAME: aryan
+
+jobs:
+  docker-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker images
+        run: |
+          set -euo pipefail
+          USER_NAME="${SHOPNOW_USER_NAME:-aryan}"
+
+          docker build \
+            --tag "${FRONTEND_IMAGE}:${GITHUB_SHA}" \
+            --tag "${FRONTEND_IMAGE}:latest" \
+            --build-arg "USER_NAME=${USER_NAME}" \
+            ./frontend
+
+          docker build \
+            --tag "${ADMIN_IMAGE}:${GITHUB_SHA}" \
+            --tag "${ADMIN_IMAGE}:latest" \
+            --build-arg "USER_NAME=${USER_NAME}" \
+            ./admin
+
+          docker build \
+            --tag "${BACKEND_IMAGE}:${GITHUB_SHA}" \
+            --tag "${BACKEND_IMAGE}:latest" \
+            ./backend
+
+      - name: Smoke test frontend image
+        run: |
+          set -euo pipefail
+          docker run -d --name shopnow-frontend-smoke -p 8080:80 "${FRONTEND_IMAGE}:${GITHUB_SHA}"
+          trap 'docker rm -f shopnow-frontend-smoke >/dev/null 2>&1 || true' EXIT
+
+          timeout=30
+          until curl -fsS http://127.0.0.1:8080/health >/dev/null; do
+            timeout=$((timeout-1))
+            if [ "$timeout" -le 0 ]; then
+              docker logs shopnow-frontend-smoke || true
+              exit 1
+            fi
+            sleep 1
+          done
+
+          curl -fsS http://127.0.0.1:8080/health
+
+      - name: Smoke test admin image
+        run: |
+          set -euo pipefail
+          docker run -d --name shopnow-admin-smoke -p 8081:80 "${ADMIN_IMAGE}:${GITHUB_SHA}"
+          trap 'docker rm -f shopnow-admin-smoke >/dev/null 2>&1 || true' EXIT
+
+          timeout=30
+          until curl -fsS http://127.0.0.1:8081/health >/dev/null; do
+            timeout=$((timeout-1))
+            if [ "$timeout" -le 0 ]; then
+              docker logs shopnow-admin-smoke || true
+              exit 1
+            fi
+            sleep 1
+          done
+
+          curl -fsS http://127.0.0.1:8081/health
+
+      - name: Smoke test backend image
+        run: |
+          set -euo pipefail
+          docker run -d --name shopnow-backend-smoke -p 8082:5000 "${BACKEND_IMAGE}:${GITHUB_SHA}"
+          trap 'docker rm -f shopnow-backend-smoke >/dev/null 2>&1 || true' EXIT
+
+          timeout=30
+          until curl -fsS http://127.0.0.1:8082/api/health >/dev/null; do
+            timeout=$((timeout-1))
+            if [ "$timeout" -le 0 ]; then
+              docker logs shopnow-backend-smoke || true
+              exit 1
+            fi
+            sleep 1
+          done
+
+          curl -fsS http://127.0.0.1:8082/api/health

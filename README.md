@@ -8,6 +8,8 @@ ShopNow is a **Kubernetes learning project** built around a full-stack MERN e-co
 
 This project teaches **Kubernetes** from container basics to production-ready deployments with Dockerfiles, Kubernetes manifests, Helm, GitOps and CICD using Jenkins.
 
+The repo is split into two communicating sides: `shopNow/` owns the application services and the app-side CI/CD entrypoint, while `herovired-infra/` owns the infrastructure, deployment orchestration, and deployment contracts.
+
 ## 🎯 Learning Objectives
 - Write Dockerfiles for containerising the application
 - Master Kubernetes fundamentals through hands-on practice
@@ -21,18 +23,20 @@ This project teaches **Kubernetes** from container basics to production-ready de
 
 ```
 shopNow/
+├── herovired-infra/      # Shared infra defaults, helpers, and pipeline implementations
+├── .github/workflows/     # GitHub Actions CI workflow
 ├── backend/               # Node.js API server
 ├── frontend/              # React customer app
 ├── admin/                 # React admin dashboard
-├── kubernetes
-│   ├── k8s-manifests/     # Raw Kubernetes YAML files
-│   ├── helm/              # Helm charts for package management
-│   │   └── charts/        # Individual charts
-│   ├── argocd/            # GitOps deployment configs
-│   └── pre-req/           # Cluster prerequisites
-├── jenkins/               # Pipeline definitions (CI & CD)       
+├── Jenkinsfile            # App-side Jenkins CI/CD pipeline
+├── herovired-infra/Jenkinsfile # Separate Jenkins CI/CD pipeline for infra
+├── herovired-infra/
+│   ├── terraform/         # Terraform backend, providers, VPC, EKS, and management host
+│   ├── ansible/           # Management-host inventory and playbooks
+│   ├── kubernetes/        # Application and monitoring manifests
+│   └── scripts/           # Infra helper scripts
 ├── docs/                  # learning resources and guides
-└── scripts/               # Automation and utility scripts
+└── README.pdf
 ```
 
 ---
@@ -41,11 +45,11 @@ shopNow/
 
 ### Container & Kubernetes Basics
 1. **Start Here**: [docs/K8S-CONCEPTS.md](docs/K8S-CONCEPTS.md) - Core concepts explained
-2. **Raw Kubernetes Manifests**: `kubernetes/k8s-manifests/`
+2. **Raw Kubernetes Manifests**: `herovired-infra/kubernetes/k8s-manifests/`
 
 ### Package Management & Automation  
 3. **Helm Charts**: `kubernetes/helm/`
-4. **CI/CD Pipelines**: `jenkins/`
+4. **CI/CD Pipelines**: app-side `Jenkinsfile`, infra-side `herovired-infra/Jenkinsfile`, `.github/workflows/ci.yml`, and `herovired-infra/`
 
 ### GitOps & Production Readiness
 5. **ArgoCD GitOps**: `kubernetes/argocd/`
@@ -96,7 +100,7 @@ aws ecr get-login-password --region <region> | docker login --username AWS --pas
 3.1. Replace "aryan" with your username in these locations:
 
   **Ingress Paths** (in both Kubernetes manifests and Helm charts):
-   - `kubernetes/k8s-manifests/ingress/ingress-shopnow.yaml`
+  - `herovired-infra/kubernetes/k8s-manifests/ingress/ingress-shopnow.yaml`
      - Change `/aryan` to `/<your-username>`
      - Change `/aryan-admin` to `/<your-username>-admin`
    
@@ -109,8 +113,8 @@ aws ecr get-login-password --region <region> | docker login --username AWS --pas
 
   **Nginx ConfigMaps**
    - All references with 'aryan' to <your-username> in following files:
-   - `kubernetes/k8s-manifests/frontend/cm-nginx.yaml`   
-   - `kubernetes/k8s-manifests/admin/cm-nginx.yaml`
+  - `herovired-infra/kubernetes/k8s-manifests/frontend/cm-nginx.yaml`
+  - `herovired-infra/kubernetes/k8s-manifests/admin/cm-nginx.yaml`
 
 
   **Helm Chart Nginx Configurations**:
@@ -126,20 +130,22 @@ aws ecr get-login-password --region <region> | docker login --username AWS --pas
      - Change `ARG USER_NAME=aryan` to `ARG USER_NAME=<your-username>`
 
   **Build Script** (optional):
-   - `scripts/build-and-push.sh`
+  - `herovired-infra/scripts/build-and-push.sh`
      - Update the example usage comments that reference "aryan"
 
 3.2. **ECR Repository Names** - Update to your username:
-   - All `kubernetes/k8s-manifests/*/deployment.yaml` files
+  - All `herovired-infra/kubernetes/k8s-manifests/*/deployment.yaml` files
    - All `kubernetes/helm/charts/*/values.yaml` files
-   - All `jenkins\Jenkinsfile.*.*` files
+  - `Jenkinsfile`
+  - `.github/workflows/ci.yml`
+  - `herovired-infra/scripts/build-and-push.sh`
    - Change `shopnow/frontend` to `<your-username>-shopnow/frontend`
    - Change `shopnow/backend` to `<your-username>-shopnow/backend`
    - Change `shopnow/admin` to `<your-username>-shopnow/admin`
 
 3.3. **Update Namespace** on these locations:
-  - `kubernetes/k8s-manifests/namespace/namespace.yaml` - Change namespace name
-  - All files in `kubernetes/k8s-manifests/*/` - Update namespace references
+  - `herovired-infra/kubernetes/k8s-manifests/namespace/namespace.yaml` - Change namespace name
+  - All files in `herovired-infra/kubernetes/k8s-manifests/*/` - Update namespace references
   - `kubernetes/argocd/apps/*.yaml` - Update destination namespace
   - All kubectl commands in this README - Replace `shopnow-demo` with your namespace
 
@@ -213,34 +219,36 @@ kubectl get storageclass
 ### 1. Build the docker images and push it to the ECR registry created above
 
 ```bash
-scripts/build-and-push.sh <account-id>.dkr.ecr.<region>.amazonaws.com/<registry-name> <tag-name-number> <your-username> 
+herovired-infra/scripts/build-and-push.sh <account-id>.dkr.ecr.<region>.amazonaws.com/<registry-name> <tag-name-number> <your-username> 
 
 # Example for user 'aryan' with tag 'latest' and ECR registry '975050024946.dkr.ecr.ap-southeast-1.amazonaws.com/shopnow':
-./scripts/build-and-push.sh 975050024946.dkr.ecr.ap-southeast-1.amazonaws.com/shopnow latest aryan
+./herovired-infra/scripts/build-and-push.sh 975050024946.dkr.ecr.ap-southeast-1.amazonaws.com/shopnow latest aryan
 
 
 ```
+
+For the full CI/CD setup details, see [docs/CICD-PIPELINE.md](docs/CICD-PIPELINE.md).
 
 ### 2. Choose Your Deployment Method
 
 **Option A: Raw Kubernetes Manifests**
 ```bash
-kubectl apply -f kubernetes/k8s-manifests/namespace/
-kubectl apply -f kubernetes/k8s-manifests/database/
-kubectl apply -f kubernetes/k8s-manifests/backend/
-kubectl apply -f kubernetes/k8s-manifests/frontend/
-kubectl apply -f kubernetes/k8s-manifests/admin/
-kubectl apply -f kubernetes/k8s-manifests/ingress/
-kubectl apply -f kubernetes/k8s-manifests/daemonsets-example/
+kubectl apply -f herovired-infra/kubernetes/k8s-manifests/namespace/
+kubectl apply -f herovired-infra/kubernetes/k8s-manifests/database/
+kubectl apply -f herovired-infra/kubernetes/k8s-manifests/backend/
+kubectl apply -f herovired-infra/kubernetes/k8s-manifests/frontend/
+kubectl apply -f herovired-infra/kubernetes/k8s-manifests/admin/
+kubectl apply -f herovired-infra/kubernetes/k8s-manifests/ingress/
+kubectl apply -f herovired-infra/kubernetes/k8s-manifests/daemonsets-example/
 ```
 
 **Option B: Helm Charts**
 
 ```bash
-helm upgrade --install mongo kubernetes/helm/charts/mongo -n shopnow-demo --create-namespace
-helm upgrade --install backend kubernetes/helm/charts/backend -n shopnow-demo
-helm upgrade --install frontend kubernetes/helm/charts/frontend -n shopnow-demo
-helm upgrade --install admin kubernetes/helm/charts/admin -n shopnow-demo
+helm upgrade --install mongo herovired-infra/helm/charts/mongo -n shopnow-demo --create-namespace
+helm upgrade --install backend herovired-infra/helm/charts/backend -n shopnow-demo
+helm upgrade --install frontend herovired-infra/helm/charts/frontend -n shopnow-demo
+helm upgrade --install admin herovired-infra/helm/charts/admin -n shopnow-demo
 ```
 
 **Option C: ArgoCD GitOps**
