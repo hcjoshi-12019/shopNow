@@ -73,12 +73,26 @@ pipeline {
           env.REPO_ROOT = repoRoot(this)
           env.IMAGE_TAG = "${env.BUILD_NUMBER}-${sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()}"
 
-          def previousSha = env.GIT_PREVIOUS_SUCCESSFUL_COMMIT ?: env.GIT_PREVIOUS_COMMIT
-          if (!previousSha) {
-            previousSha = sh(script: 'git rev-parse HEAD~1', returnStdout: true).trim()
+          def currentSha = env.GIT_COMMIT?.trim()
+          if (!currentSha || currentSha == 'null') {
+            currentSha = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
           }
-          env.CHANGESET = sh(script: "git diff --name-only ${previousSha} ${env.GIT_COMMIT}", returnStdout: true).trim()
-          def changedFiles = env.CHANGESET ? env.CHANGESET.split('\n') as List<String> : []
+
+          def previousSha = env.GIT_PREVIOUS_SUCCESSFUL_COMMIT?.trim()
+          if (!previousSha || previousSha == 'null') {
+            previousSha = env.GIT_PREVIOUS_COMMIT?.trim()
+          }
+
+          def changedFiles = [] as List<String>
+          if (previousSha && previousSha != 'null') {
+            env.CHANGESET = sh(script: "git diff --name-only ${previousSha} ${currentSha}", returnStdout: true).trim()
+            changedFiles = env.CHANGESET ? env.CHANGESET.split('\n') as List<String> : []
+          } else {
+            // First build or no previous commit metadata: treat repository files as changed.
+            env.CHANGESET = sh(script: "git ls-tree --name-only -r ${currentSha}", returnStdout: true).trim()
+            changedFiles = env.CHANGESET ? env.CHANGESET.split('\n') as List<String> : []
+            echo 'No previous commit metadata found. Using repository file list for initial change detection.'
+          }
 
           def frontendChanged = changeMatches(changedFiles, ['frontend/'])
           def adminChanged = changeMatches(changedFiles, ['admin/'])
