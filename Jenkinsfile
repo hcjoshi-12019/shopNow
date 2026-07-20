@@ -188,11 +188,6 @@ pipeline {
           ]
         }
       }
-      post {
-        skipped {
-          echo 'Infra handoff skipped because INFRA_JOB_NAME was not provided or triggering was disabled.'
-        }
-      }
     }
 
     stage('Summary') {
