@@ -71,6 +71,9 @@ pipeline {
       steps {
         script {
           def resolvedRepoRoot = repoRoot(this)
+          if (!resolvedRepoRoot || resolvedRepoRoot == 'null') {
+            resolvedRepoRoot = '.'
+          }
           env.REPO_ROOT = resolvedRepoRoot
 
           def resolvedImageTag = "${env.BUILD_NUMBER}-${sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()}"
@@ -85,6 +88,12 @@ pipeline {
           if (!previousSha || previousSha == 'null') {
             previousSha = env.GIT_PREVIOUS_COMMIT?.trim()
           }
+          if (!previousSha || previousSha == 'null') {
+            def hasPrevious = sh(script: 'git rev-parse --verify HEAD~1 >/dev/null 2>&1', returnStatus: true) == 0
+            if (hasPrevious) {
+              previousSha = sh(script: 'git rev-parse HEAD~1', returnStdout: true).trim()
+            }
+          }
 
           def changedFiles = [] as List<String>
           def changeSetText = ''
@@ -98,6 +107,12 @@ pipeline {
             echo 'No previous commit metadata found. Using repository file list for initial change detection.'
           }
 
+          // Safety net: never silently no-op when SCM metadata is unavailable.
+          if (!changedFiles || changedFiles.isEmpty()) {
+            echo 'Change detection returned no files; forcing application services to build to avoid false-success no-op.'
+            changedFiles = ['frontend/', 'admin/', 'backend/']
+          }
+
           // Keep env payload small and safe for logging.
           env.CHANGESET = changedFiles ? changedFiles.take(100).join('\n') : ''
 
@@ -109,7 +124,7 @@ pipeline {
           env.BUILD_ADMIN = adminChanged.toString()
           env.BUILD_BACKEND = backendChanged.toString()
 
-          echo "Repository root: ${env.REPO_ROOT}"
+          echo "Repository root: ${resolvedRepoRoot}"
           echo "Changed files (first 100):\n${env.CHANGESET ?: '<none>'}"
           echo "Frontend build required: ${env.BUILD_FRONTEND}"
           echo "Admin build required: ${env.BUILD_ADMIN}"
