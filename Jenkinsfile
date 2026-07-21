@@ -34,6 +34,8 @@ pipeline {
     string(name: 'AWS_ACCOUNT_ID', defaultValue: '495013583028', description: 'AWS account ID owning ECR')
     string(name: 'AWS_CREDENTIALS_ID', defaultValue: 'awsId', description: 'Jenkins AWS credentials ID')
     string(name: 'ECR_REPO_PREFIX', defaultValue: 'shopnow', description: 'ECR repository prefix')
+    choice(name: 'ECR_REPOSITORY_STRATEGY', choices: ['service-repos', 'single-repo'], description: 'Use service repositories (<prefix>/frontend) or one shared repository (<repo>:frontend-<tag>)')
+    string(name: 'SINGLE_ECR_REPOSITORY', defaultValue: '', description: 'Shared ECR repository name for single-repo mode, for example shopnow-ecr-21-07-2027')
     string(name: 'USER_NAME', defaultValue: 'harish', description: 'Frontend and admin build arg used for public path customization')
     string(name: 'INFRA_JOB_NAME', defaultValue: 'shopnow-infra', description: 'Downstream Jenkins job name for infra deployment orchestration')
     booleanParam(name: 'TRIGGER_INFRA_DEPLOYMENT', defaultValue: true, description: 'Trigger the infra job after images are pushed')
@@ -51,6 +53,8 @@ pipeline {
     AWS_REGION = "${params.AWS_REGION}"
     AWS_ACCOUNT_ID = "${params.AWS_ACCOUNT_ID}"
     ECR_REPO_PREFIX = "${params.ECR_REPO_PREFIX}"
+    ECR_REPOSITORY_STRATEGY = "${params.ECR_REPOSITORY_STRATEGY}"
+    SINGLE_ECR_REPOSITORY = "${params.SINGLE_ECR_REPOSITORY}"
     USER_NAME = "${params.USER_NAME}"
     IMAGE_TAG = ''
     REPO_ROOT = ''
@@ -137,12 +141,17 @@ pipeline {
           if (env.BUILD_FRONTEND == 'true') {
             buildTasks.frontend = {
               dir(serviceDir(env.REPO_ROOT, 'frontend')) {
-                sh '''
+                def repoBase = "${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
+                def frontendImage = (params.ECR_REPOSITORY_STRATEGY == 'single-repo' || params.SINGLE_ECR_REPOSITORY?.trim()) ?
+                  "${repoBase}/${params.SINGLE_ECR_REPOSITORY ?: params.ECR_REPO_PREFIX}:frontend-${env.IMAGE_TAG}" :
+                  "${repoBase}/${params.ECR_REPO_PREFIX}/frontend:${env.IMAGE_TAG}"
+                env.FRONTEND_IMAGE_URI = frontendImage
+                sh """
                   docker build \
-                    --tag shopnow-frontend:${IMAGE_TAG} \
-                    --tag ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_PREFIX}/frontend:${IMAGE_TAG} \
-                    --build-arg USER_NAME=${USER_NAME} .
-                '''
+                    --tag shopnow-frontend:${env.IMAGE_TAG} \
+                    --tag ${frontendImage} \
+                    --build-arg USER_NAME=${env.USER_NAME} .
+                """
               }
             }
           }
@@ -150,12 +159,17 @@ pipeline {
           if (env.BUILD_ADMIN == 'true') {
             buildTasks.admin = {
               dir(serviceDir(env.REPO_ROOT, 'admin')) {
-                sh '''
+                def repoBase = "${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
+                def adminImage = (params.ECR_REPOSITORY_STRATEGY == 'single-repo' || params.SINGLE_ECR_REPOSITORY?.trim()) ?
+                  "${repoBase}/${params.SINGLE_ECR_REPOSITORY ?: params.ECR_REPO_PREFIX}:admin-${env.IMAGE_TAG}" :
+                  "${repoBase}/${params.ECR_REPO_PREFIX}/admin:${env.IMAGE_TAG}"
+                env.ADMIN_IMAGE_URI = adminImage
+                sh """
                   docker build \
-                    --tag shopnow-admin:${IMAGE_TAG} \
-                    --tag ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_PREFIX}/admin:${IMAGE_TAG} \
-                    --build-arg USER_NAME=${USER_NAME} .
-                '''
+                    --tag shopnow-admin:${env.IMAGE_TAG} \
+                    --tag ${adminImage} \
+                    --build-arg USER_NAME=${env.USER_NAME} .
+                """
               }
             }
           }
@@ -163,11 +177,16 @@ pipeline {
           if (env.BUILD_BACKEND == 'true') {
             buildTasks.backend = {
               dir(serviceDir(env.REPO_ROOT, 'backend')) {
-                sh '''
+                def repoBase = "${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
+                def backendImage = (params.ECR_REPOSITORY_STRATEGY == 'single-repo' || params.SINGLE_ECR_REPOSITORY?.trim()) ?
+                  "${repoBase}/${params.SINGLE_ECR_REPOSITORY ?: params.ECR_REPO_PREFIX}:backend-${env.IMAGE_TAG}" :
+                  "${repoBase}/${params.ECR_REPO_PREFIX}/backend:${env.IMAGE_TAG}"
+                env.BACKEND_IMAGE_URI = backendImage
+                sh """
                   docker build \
-                    --tag shopnow-backend:${IMAGE_TAG} \
-                    --tag ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_PREFIX}/backend:${IMAGE_TAG} .
-                '''
+                    --tag shopnow-backend:${env.IMAGE_TAG} \
+                    --tag ${backendImage} .
+                """
               }
             }
           }
@@ -195,19 +214,19 @@ pipeline {
 
           if (env.BUILD_FRONTEND == 'true') {
             pushTasks.frontend = {
-              sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_PREFIX}/frontend:${IMAGE_TAG}'
+              sh 'docker push ${FRONTEND_IMAGE_URI}'
             }
           }
 
           if (env.BUILD_ADMIN == 'true') {
             pushTasks.admin = {
-              sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_PREFIX}/admin:${IMAGE_TAG}'
+              sh 'docker push ${ADMIN_IMAGE_URI}'
             }
           }
 
           if (env.BUILD_BACKEND == 'true') {
             pushTasks.backend = {
-              sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_PREFIX}/backend:${IMAGE_TAG}'
+              sh 'docker push ${BACKEND_IMAGE_URI}'
             }
           }
 
@@ -236,6 +255,8 @@ pipeline {
               string(name: 'AWS_REGION', value: env.AWS_REGION),
               string(name: 'AWS_ACCOUNT_ID', value: env.AWS_ACCOUNT_ID),
               string(name: 'ECR_REPO_PREFIX', value: env.ECR_REPO_PREFIX),
+              string(name: 'ECR_REPOSITORY_STRATEGY', value: env.ECR_REPOSITORY_STRATEGY),
+              string(name: 'SINGLE_ECR_REPOSITORY', value: env.SINGLE_ECR_REPOSITORY ?: ''),
               string(name: 'IMAGE_TAG', value: env.IMAGE_TAG),
               string(name: 'DEPLOY_FRONTEND', value: env.BUILD_FRONTEND),
               string(name: 'DEPLOY_ADMIN', value: env.BUILD_ADMIN),
