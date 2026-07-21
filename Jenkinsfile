@@ -39,6 +39,7 @@ pipeline {
     string(name: 'USER_NAME', defaultValue: 'harish', description: 'Frontend and admin build arg used for public path customization')
     string(name: 'INFRA_JOB_NAME', defaultValue: 'shopnow-infra', description: 'Downstream Jenkins job name for infra deployment orchestration')
     booleanParam(name: 'TRIGGER_INFRA_DEPLOYMENT', defaultValue: true, description: 'Trigger the infra job after images are pushed')
+    booleanParam(name: 'FORCE_BUILD', defaultValue: false, description: 'Force building and pushing all services regardless of detected changes')
   }
 
   options {
@@ -114,7 +115,10 @@ pipeline {
             }
           }
 
-          if (!changedFiles || changedFiles.isEmpty()) {
+          if (params.FORCE_BUILD) {
+            echo 'FORCE_BUILD parameter set; forcing all services to build.'
+            changedFiles = ['frontend/', 'admin/', 'backend/']
+          } else if (!changedFiles || changedFiles.isEmpty()) {
             echo 'Change detection returned no files; forcing all services to build.'
             changedFiles = ['frontend/', 'admin/', 'backend/']
           }
@@ -257,6 +261,9 @@ pipeline {
               string(name: 'ECR_REPO_PREFIX', value: env.ECR_REPO_PREFIX),
               string(name: 'ECR_REPOSITORY_STRATEGY', value: env.ECR_REPOSITORY_STRATEGY),
               string(name: 'SINGLE_ECR_REPOSITORY', value: env.SINGLE_ECR_REPOSITORY ?: ''),
+              string(name: 'FRONTEND_IMAGE_URI', value: env.FRONTEND_IMAGE_URI ?: ''),
+              string(name: 'ADMIN_IMAGE_URI', value: env.ADMIN_IMAGE_URI ?: ''),
+              string(name: 'BACKEND_IMAGE_URI', value: env.BACKEND_IMAGE_URI ?: ''),
               string(name: 'IMAGE_TAG', value: env.IMAGE_TAG),
               string(name: 'DEPLOY_FRONTEND', value: env.BUILD_FRONTEND),
               string(name: 'DEPLOY_ADMIN', value: env.BUILD_ADMIN),
