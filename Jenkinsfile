@@ -70,8 +70,11 @@ pipeline {
     stage('Initialize') {
       steps {
         script {
-          env.REPO_ROOT = repoRoot(this)
-          env.IMAGE_TAG = "${env.BUILD_NUMBER}-${sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()}"
+          def resolvedRepoRoot = repoRoot(this)
+          env.REPO_ROOT = resolvedRepoRoot
+
+          def resolvedImageTag = "${env.BUILD_NUMBER}-${sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()}"
+          env.IMAGE_TAG = resolvedImageTag
 
           def currentSha = env.GIT_COMMIT?.trim()
           if (!currentSha || currentSha == 'null') {
@@ -84,15 +87,19 @@ pipeline {
           }
 
           def changedFiles = [] as List<String>
+          def changeSetText = ''
           if (previousSha && previousSha != 'null') {
-            env.CHANGESET = sh(script: "git diff --name-only ${previousSha} ${currentSha}", returnStdout: true).trim()
-            changedFiles = env.CHANGESET ? env.CHANGESET.split('\n') as List<String> : []
+            changeSetText = sh(script: "git diff --name-only ${previousSha} ${currentSha}", returnStdout: true).trim()
+            changedFiles = changeSetText ? changeSetText.split('\n') as List<String> : []
           } else {
             // First build or no previous commit metadata: treat repository files as changed.
-            env.CHANGESET = sh(script: "git ls-tree --name-only -r ${currentSha}", returnStdout: true).trim()
-            changedFiles = env.CHANGESET ? env.CHANGESET.split('\n') as List<String> : []
+            changeSetText = sh(script: "git ls-tree --name-only -r ${currentSha}", returnStdout: true).trim()
+            changedFiles = changeSetText ? changeSetText.split('\n') as List<String> : []
             echo 'No previous commit metadata found. Using repository file list for initial change detection.'
           }
+
+          // Keep env payload small and safe for logging.
+          env.CHANGESET = changedFiles ? changedFiles.take(100).join('\n') : ''
 
           def frontendChanged = changeMatches(changedFiles, ['frontend/'])
           def adminChanged = changeMatches(changedFiles, ['admin/'])
@@ -103,7 +110,7 @@ pipeline {
           env.BUILD_BACKEND = backendChanged.toString()
 
           echo "Repository root: ${env.REPO_ROOT}"
-          echo "Changed files:\n${env.CHANGESET ?: '<none>'}"
+          echo "Changed files (first 100):\n${env.CHANGESET ?: '<none>'}"
           echo "Frontend build required: ${env.BUILD_FRONTEND}"
           echo "Admin build required: ${env.BUILD_ADMIN}"
           echo "Backend build required: ${env.BUILD_BACKEND}"
@@ -183,23 +190,34 @@ pipeline {
 
     stage('Hand Off to Infra') {
       when {
-        expression { return params.TRIGGER_INFRA_DEPLOYMENT && params.INFRA_JOB_NAME?.trim() }
+        expression {
+          return params.TRIGGER_INFRA_DEPLOYMENT &&
+            params.INFRA_JOB_NAME?.trim() &&
+            (env.BUILD_FRONTEND == 'true' || env.BUILD_ADMIN == 'true' || env.BUILD_BACKEND == 'true')
+        }
       }
       steps {
         script {
           echo "Triggering infra job ${params.INFRA_JOB_NAME} with image tag ${env.IMAGE_TAG}."
-          build job: params.INFRA_JOB_NAME, wait: true, propagate: true, parameters: [
-            string(name: 'AWS_REGION', value: env.AWS_REGION),
-            string(name: 'AWS_ACCOUNT_ID', value: env.AWS_ACCOUNT_ID),
-            string(name: 'ECR_REPO_PREFIX', value: env.ECR_REPO_PREFIX),
-            string(name: 'IMAGE_TAG', value: env.IMAGE_TAG),
-            string(name: 'DEPLOY_FRONTEND', value: env.BUILD_FRONTEND),
-            string(name: 'DEPLOY_ADMIN', value: env.BUILD_ADMIN),
-            string(name: 'DEPLOY_BACKEND', value: env.BUILD_BACKEND),
-            booleanParam(name: 'RUN_TERRAFORM', value: false),
-            booleanParam(name: 'RUN_ANSIBLE_AFTER_APPLY', value: false),
-            booleanParam(name: 'RUN_DEPLOYMENT', value: true)
-          ]
+          try {
+            build job: params.INFRA_JOB_NAME, wait: true, propagate: true, parameters: [
+              string(name: 'AWS_REGION', value: env.AWS_REGION),
+              string(name: 'AWS_ACCOUNT_ID', value: env.AWS_ACCOUNT_ID),
+              string(name: 'ECR_REPO_PREFIX', value: env.ECR_REPO_PREFIX),
+              string(name: 'IMAGE_TAG', value: env.IMAGE_TAG),
+              string(name: 'DEPLOY_FRONTEND', value: env.BUILD_FRONTEND),
+              string(name: 'DEPLOY_ADMIN', value: env.BUILD_ADMIN),
+              string(name: 'DEPLOY_BACKEND', value: env.BUILD_BACKEND),
+              booleanParam(name: 'RUN_TERRAFORM', value: false),
+              booleanParam(name: 'RUN_ANSIBLE_AFTER_APPLY', value: false),
+              booleanParam(name: 'RUN_DEPLOYMENT', value: true)
+            ]
+          } catch (err) {
+            if (err.toString().contains('No item named')) {
+              error("Infra handoff failed: Jenkins job '${params.INFRA_JOB_NAME}' was not found. Create a Pipeline job that points to herovired-infra/Jenkinsfile, or update INFRA_JOB_NAME.")
+            }
+            throw err
+          }
         }
       }
     }
