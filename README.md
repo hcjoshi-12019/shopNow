@@ -41,6 +41,26 @@ shopNow/
 
 ---
 
+## 🚀 Quick Start and Deployment Flow
+
+This service is the application layer. It builds and publishes the Docker images for frontend, admin, and backend, then hands the deployment to the infrastructure layer.
+
+End-to-end flow:
+
+1. Developer updates code in the relevant app service.
+2. Jenkins detects the changed service and builds a Docker image.
+3. The image is tagged and pushed to Amazon ECR.
+4. The infra job receives the image tag and deploys the workload to EKS.
+5. Kubernetes rolls out the new pods and the developer validates health, logs, and endpoints.
+
+Key references:
+
+- [../STARTUP-CHECKLIST.md](../STARTUP-CHECKLIST.md) for setup and environment checks
+- [../DEPLOYMENT-CHECKLIST.md](../DEPLOYMENT-CHECKLIST.md) for end-to-end deployment and monitoring
+- [../SERVICE-DEPENDENCY-REALTIME-ROLES.md](../SERVICE-DEPENDENCY-REALTIME-ROLES.md) for app vs infra responsibilities
+
+---
+
 ## 🚀 Learning Journey
 
 ### Container & Kubernetes Basics
