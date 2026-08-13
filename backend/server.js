@@ -1,11 +1,17 @@
 // server.js
+const fs = require('fs');
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
+const { MongoMemoryServer } = require('mongodb-memory-server');
 
-// Load environment variables
+// Load environment variables from the app and shared infra defaults
+const infraEnvPath = path.resolve(__dirname, '../../herovired-infra/config/common.env');
+if (fs.existsSync(infraEnvPath)) {
+  dotenv.config({ path: infraEnvPath });
+}
 dotenv.config();
 
 const app = express();
@@ -22,13 +28,38 @@ app.use(cors({
 app.use(express.json());
 app.use(express.static('public'));
 
-// MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/shopnow', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('MongoDB connected successfully'))
-.catch(err => console.error('MongoDB connection error:', err));
+// MongoDB Connection with local fallback for development
+let mongoMemoryServer;
+
+async function connectDatabase() {
+  const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/shopnow';
+
+  try {
+    await mongoose.connect(mongoUri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('MongoDB connected successfully');
+  } catch (error) {
+    console.warn('MongoDB connection failed at:', mongoUri);
+    console.warn('Starting temporary in-memory MongoDB for local development...');
+
+    try {
+      mongoMemoryServer = await MongoMemoryServer.create();
+      const memoryUri = mongoMemoryServer.getUri();
+      await mongoose.connect(memoryUri, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      });
+      console.log('Temporary in-memory MongoDB connected successfully');
+    } catch (memoryError) {
+      console.error('MongoDB startup failed:', memoryError.message);
+      console.warn('The server will continue in degraded mode, but database-backed APIs may not work until MongoDB is available.');
+    }
+  }
+}
+
+connectDatabase();
 
 
 // MongoDB Schemas

@@ -16,10 +16,12 @@ RUN npm ci --no-audit --prefer-offline
 # Copy source and build
 COPY . .
 
-# Build argument for dynamic user path
-ARG USER_NAME=aryan
-ENV PUBLIC_URL=/${USER_NAME}
-ENV REACT_APP_API_BASE_URL=/${USER_NAME}/api
+# Build argument for dynamic user path or local compose/dev mode
+ARG USER_NAME=harish
+ARG PUBLIC_URL=/
+ARG REACT_APP_API_BASE_URL=http://localhost:5000/api
+ENV PUBLIC_URL=${PUBLIC_URL}
+ENV REACT_APP_API_BASE_URL=${REACT_APP_API_BASE_URL}
 RUN npm run build
 
 ############################

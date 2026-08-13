@@ -16,9 +16,8 @@ const ShopNowApp = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
 
-  // API base URL - replace with your backend URL
-  // API base URL - from environment variable with fallback
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'api';
+  // API base URL - prefer env override, but default to the local backend for dev
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000/api';
   // Removed top-level await fetch; products are fetched in fetchProducts()
 
   // Fetch products from backend

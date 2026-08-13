@@ -11,9 +11,8 @@ const AdminDashboard = () => {
   const [analytics, setAnalytics] = useState({});
   const [loading, setLoading] = useState(true);
 
-  // API base URL - replace with your backend URL
-  // API base URL - from environment variable with fallback
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'api';
+  // API base URL - prefer env override, but default to the local backend for dev
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000/api';
 
   // Fetch orders from backend
   const fetchOrders = async () => {
