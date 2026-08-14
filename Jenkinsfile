@@ -127,9 +127,15 @@ pipeline {
           }
 
           env.CHANGESET = changedFiles.take(100).join('\n')
-          env.BUILD_FRONTEND = changeMatches(changedFiles, ['frontend/']).toString()
-          env.BUILD_ADMIN = changeMatches(changedFiles, ['admin/']).toString()
-          env.BUILD_BACKEND = changeMatches(changedFiles, ['backend/']).toString()
+          env.BUILD_FRONTEND = 'true'
+          env.BUILD_ADMIN = 'true'
+          env.BUILD_BACKEND = 'true'
+
+          if (changedFiles && !changedFiles.isEmpty() && !changedFiles.every { it == null || it.trim().isEmpty() }) {
+            env.BUILD_FRONTEND = changeMatches(changedFiles, ['frontend/']).toString()
+            env.BUILD_ADMIN = changeMatches(changedFiles, ['admin/']).toString()
+            env.BUILD_BACKEND = changeMatches(changedFiles, ['backend/']).toString()
+          }
 
           echo "Repository root: ${resolvedRepoRoot}"
           echo "Changed files (first 100):\n${env.CHANGESET ?: '<none>'}"
