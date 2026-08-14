@@ -118,8 +118,8 @@ pipeline {
           if (params.FORCE_BUILD) {
             echo 'FORCE_BUILD parameter set; forcing all services to build.'
             changedFiles = ['frontend/', 'admin/', 'backend/']
-          } else if (!changedFiles || changedFiles.isEmpty()) {
-            echo 'Change detection returned no files; forcing all services to build.'
+          } else if (!previousSha || previousSha == 'null' || !changedFiles || changedFiles.isEmpty() || changedFiles.every { it == null || it.trim().isEmpty() }) {
+            echo 'No previous commit change set or first build detected; forcing all services to build.'
             changedFiles = ['frontend/', 'admin/', 'backend/']
           }
 
