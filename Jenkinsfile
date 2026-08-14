@@ -121,6 +121,9 @@ pipeline {
           } else if (!previousSha || previousSha == 'null' || !changedFiles || changedFiles.isEmpty() || changedFiles.every { it == null || it.trim().isEmpty() }) {
             echo 'No previous commit change set or first build detected; forcing all services to build.'
             changedFiles = ['frontend/', 'admin/', 'backend/']
+          } else if (changedFiles.any { file -> file == 'Jenkinsfile' || file == 'README.md' || file.startsWith('.github/') || file.startsWith('docker/') || file.startsWith('scripts/') }) {
+            echo 'Pipeline or repo-level configuration changed; forcing all services to build.'
+            changedFiles = ['frontend/', 'admin/', 'backend/']
           }
 
           env.CHANGESET = changedFiles.take(100).join('\n')
