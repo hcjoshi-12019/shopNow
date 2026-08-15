@@ -1,0 +1,1092 @@
+validate	Set up job	﻿2026-08-13T18:28:31.2836396Z Current runner version: '2.336.0'
+validate	Set up job	2026-08-13T18:28:31.2862596Z ##[group]Runner Image Provisioner
+validate	Set up job	2026-08-13T18:28:31.2863536Z Hosted Compute Agent
+validate	Set up job	2026-08-13T18:28:31.2864156Z Version: 20260707.563
+validate	Set up job	2026-08-13T18:28:31.2864784Z Commit: 02667638d2b423fbc733a8e32a88b44996a3ba6e
+validate	Set up job	2026-08-13T18:28:31.2865553Z Build Date: 2026-07-07T19:33:50Z
+validate	Set up job	2026-08-13T18:28:31.2866282Z Worker ID: {bfc534f7-addf-447b-810a-3a37f336ccbf}
+validate	Set up job	2026-08-13T18:28:31.2866988Z Azure Region: westus2
+validate	Set up job	2026-08-13T18:28:31.2867624Z ##[endgroup]
+validate	Set up job	2026-08-13T18:28:31.2869046Z ##[group]Operating System
+validate	Set up job	2026-08-13T18:28:31.2870015Z Ubuntu
+validate	Set up job	2026-08-13T18:28:31.2870631Z 24.04.4
+validate	Set up job	2026-08-13T18:28:31.2871148Z LTS
+validate	Set up job	2026-08-13T18:28:31.2871707Z ##[endgroup]
+validate	Set up job	2026-08-13T18:28:31.2872268Z ##[group]Runner Image
+validate	Set up job	2026-08-13T18:28:31.2872856Z Image: ubuntu-24.04
+validate	Set up job	2026-08-13T18:28:31.2873513Z Version: 20260720.247.2
+validate	Set up job	2026-08-13T18:28:31.2874824Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260720.247/images/ubuntu/Ubuntu2404-Readme.md
+validate	Set up job	2026-08-13T18:28:31.2876892Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260720.247
+validate	Set up job	2026-08-13T18:28:31.2877842Z ##[endgroup]
+validate	Set up job	2026-08-13T18:28:31.2879126Z ##[group]GITHUB_TOKEN Permissions
+validate	Set up job	2026-08-13T18:28:31.2881331Z Contents: read
+validate	Set up job	2026-08-13T18:28:31.2882065Z Metadata: read
+validate	Set up job	2026-08-13T18:28:31.2882639Z Packages: read
+validate	Set up job	2026-08-13T18:28:31.2883591Z ##[endgroup]
+validate	Set up job	2026-08-13T18:28:31.2885677Z Secret source: Actions
+validate	Set up job	2026-08-13T18:28:31.2886771Z Prepare workflow directory
+validate	Set up job	2026-08-13T18:28:31.3209464Z Prepare all required actions
+validate	Set up job	2026-08-13T18:28:31.3264509Z Getting action download info
+validate	Set up job	2026-08-13T18:28:31.7026380Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+validate	Set up job	2026-08-13T18:28:32.0006586Z Download action repository 'actions/setup-python@v4' (SHA:7f4fc3e22c37d6ff65e88745f38bd3157c663f7c)
+validate	Set up job	2026-08-13T18:28:32.1274745Z Download action repository 'hashicorp/setup-terraform@v2' (SHA:633666f66e0061ca3b725c73b2ec20cd13a8fdd1)
+validate	Set up job	2026-08-13T18:28:32.3011775Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+validate	Set up job	2026-08-13T18:28:32.5236899Z Complete job name: validate
+validate	Checkout	﻿2026-08-13T18:28:32.6067189Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate	Checkout	2026-08-13T18:28:32.6076901Z ##[group]Run actions/checkout@v4
+validate	Checkout	2026-08-13T18:28:32.6077748Z with:
+validate	Checkout	2026-08-13T18:28:32.6078268Z   repository: harishmsgit/herovired-infra
+validate	Checkout	2026-08-13T18:28:32.6082965Z   token: ***
+validate	Checkout	2026-08-13T18:28:32.6083448Z   ssh-strict: true
+validate	Checkout	2026-08-13T18:28:32.6083929Z   ssh-user: git
+validate	Checkout	2026-08-13T18:28:32.6084413Z   persist-credentials: true
+validate	Checkout	2026-08-13T18:28:32.6084960Z   clean: true
+validate	Checkout	2026-08-13T18:28:32.6085448Z   sparse-checkout-cone-mode: true
+validate	Checkout	2026-08-13T18:28:32.6086038Z   fetch-depth: 1
+validate	Checkout	2026-08-13T18:28:32.6086631Z   fetch-tags: false
+validate	Checkout	2026-08-13T18:28:32.6087319Z   show-progress: true
+validate	Checkout	2026-08-13T18:28:32.6087820Z   lfs: false
+validate	Checkout	2026-08-13T18:28:32.6088284Z   submodules: false
+validate	Checkout	2026-08-13T18:28:32.6088815Z   set-safe-directory: true
+validate	Checkout	2026-08-13T18:28:32.6089368Z   allow-unsafe-pr-checkout: false
+validate	Checkout	2026-08-13T18:28:32.6090414Z ##[endgroup]
+validate	Checkout	2026-08-13T18:28:32.7097999Z Syncing repository: harishmsgit/herovired-infra
+validate	Checkout	2026-08-13T18:28:32.7100628Z ##[group]Getting Git version info
+validate	Checkout	2026-08-13T18:28:32.7101607Z Working directory is '/home/runner/work/herovired-infra/herovired-infra'
+validate	Checkout	2026-08-13T18:28:32.7103262Z [command]/usr/bin/git version
+validate	Checkout	2026-08-13T18:28:32.7190857Z git version 2.54.0
+validate	Checkout	2026-08-13T18:28:32.7218337Z ##[endgroup]
+validate	Checkout	2026-08-13T18:28:32.7234856Z Temporarily overriding HOME='/home/runner/work/_temp/68ac2db8-fcc0-45ac-be49-88831798f4e5' before making global git config changes
+validate	Checkout	2026-08-13T18:28:32.7237109Z Adding repository directory to the temporary git global config as a safe directory
+validate	Checkout	2026-08-13T18:28:32.7240068Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/herovired-infra/herovired-infra
+validate	Checkout	2026-08-13T18:28:32.7289464Z Deleting the contents of '/home/runner/work/herovired-infra/herovired-infra'
+validate	Checkout	2026-08-13T18:28:32.7294848Z ##[group]Initializing the repository
+validate	Checkout	2026-08-13T18:28:32.7302445Z [command]/usr/bin/git init /home/runner/work/herovired-infra/herovired-infra
+validate	Checkout	2026-08-13T18:28:32.7426913Z hint: Using 'master' as the name for the initial branch. This default branch name
+validate	Checkout	2026-08-13T18:28:32.7428592Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+validate	Checkout	2026-08-13T18:28:32.7429909Z hint: to use in all of your new repositories, which will suppress this warning,
+validate	Checkout	2026-08-13T18:28:32.7431162Z hint: call:
+validate	Checkout	2026-08-13T18:28:32.7432020Z hint:
+validate	Checkout	2026-08-13T18:28:32.7432999Z hint: 	git config --global init.defaultBranch <name>
+validate	Checkout	2026-08-13T18:28:32.7433770Z hint:
+validate	Checkout	2026-08-13T18:28:32.7434467Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+validate	Checkout	2026-08-13T18:28:32.7435971Z hint: 'development'. The just-created branch can be renamed via this command:
+validate	Checkout	2026-08-13T18:28:32.7437511Z hint:
+validate	Checkout	2026-08-13T18:28:32.7438145Z hint: 	git branch -m <name>
+validate	Checkout	2026-08-13T18:28:32.7439151Z hint:
+validate	Checkout	2026-08-13T18:28:32.7440139Z hint: Disable this message with "git config set advice.defaultBranchName false"
+validate	Checkout	2026-08-13T18:28:32.7441978Z Initialized empty Git repository in /home/runner/work/herovired-infra/herovired-infra/.git/
+validate	Checkout	2026-08-13T18:28:32.7448339Z [command]/usr/bin/git remote add origin https://github.com/harishmsgit/herovired-infra
+validate	Checkout	2026-08-13T18:28:32.7511774Z ##[endgroup]
+validate	Checkout	2026-08-13T18:28:32.7513475Z ##[group]Disabling automatic garbage collection
+validate	Checkout	2026-08-13T18:28:32.7515130Z [command]/usr/bin/git config --local gc.auto 0
+validate	Checkout	2026-08-13T18:28:32.7546330Z ##[endgroup]
+validate	Checkout	2026-08-13T18:28:32.7547844Z ##[group]Setting up auth
+validate	Checkout	2026-08-13T18:28:32.7556896Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+validate	Checkout	2026-08-13T18:28:32.7594625Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+validate	Checkout	2026-08-13T18:28:32.7982752Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+validate	Checkout	2026-08-13T18:28:32.8025032Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+validate	Checkout	2026-08-13T18:28:32.8247390Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+validate	Checkout	2026-08-13T18:28:32.8285199Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+validate	Checkout	2026-08-13T18:28:32.8508720Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+validate	Checkout	2026-08-13T18:28:32.8547545Z ##[endgroup]
+validate	Checkout	2026-08-13T18:28:32.8548537Z ##[group]Fetching the repository
+validate	Checkout	2026-08-13T18:28:32.8557808Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +bd3529c9a2014f9586dfdac1b8fc5d0f90849acc:refs/remotes/origin/main
+validate	Checkout	2026-08-13T18:28:33.6212311Z From https://github.com/harishmsgit/herovired-infra
+validate	Checkout	2026-08-13T18:28:33.6215117Z  * [new ref]         bd3529c9a2014f9586dfdac1b8fc5d0f90849acc -> origin/main
+validate	Checkout	2026-08-13T18:28:33.6249101Z ##[endgroup]
+validate	Checkout	2026-08-13T18:28:33.6251327Z ##[group]Determining the checkout info
+validate	Checkout	2026-08-13T18:28:33.6253048Z ##[endgroup]
+validate	Checkout	2026-08-13T18:28:33.6257274Z [command]/usr/bin/git sparse-checkout disable
+validate	Checkout	2026-08-13T18:28:33.6307604Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+validate	Checkout	2026-08-13T18:28:33.6340135Z ##[group]Checking out the ref
+validate	Checkout	2026-08-13T18:28:33.6343364Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+validate	Checkout	2026-08-13T18:28:33.6445128Z Switched to a new branch 'main'
+validate	Checkout	2026-08-13T18:28:33.6447992Z branch 'main' set up to track 'origin/main'.
+validate	Checkout	2026-08-13T18:28:33.6456241Z ##[endgroup]
+validate	Checkout	2026-08-13T18:28:33.6497893Z [command]/usr/bin/git log -1 --format=%H
+validate	Checkout	2026-08-13T18:28:33.6526235Z bd3529c9a2014f9586dfdac1b8fc5d0f90849acc
+validate	Setup Python	﻿2026-08-13T18:28:33.6969309Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate	Setup Python	2026-08-13T18:28:33.6975372Z ##[group]Run actions/setup-python@v4
+validate	Setup Python	2026-08-13T18:28:33.6976524Z with:
+validate	Setup Python	2026-08-13T18:28:33.6977358Z   python-version: 3.11
+validate	Setup Python	2026-08-13T18:28:33.6978357Z   check-latest: false
+validate	Setup Python	2026-08-13T18:28:33.6988201Z   token: ***
+validate	Setup Python	2026-08-13T18:28:33.6989639Z   update-environment: true
+validate	Setup Python	2026-08-13T18:28:33.6991146Z   allow-prereleases: false
+validate	Setup Python	2026-08-13T18:28:33.6992175Z ##[endgroup]
+validate	Setup Python	2026-08-13T18:28:33.8375710Z ##[group]Installed versions
+validate	Setup Python	2026-08-13T18:28:33.8475695Z (node:2224) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+validate	Setup Python	2026-08-13T18:28:33.8480329Z (Use `node --trace-deprecation ...` to show where the warning was created)
+validate	Setup Python	2026-08-13T18:28:33.8483178Z Successfully set up CPython (3.11.15)
+validate	Setup Python	2026-08-13T18:28:33.8485826Z ##[endgroup]
+validate	Install ansible-lint and yamllint	﻿2026-08-13T18:28:33.8680015Z ##[group]Run python -m pip install --upgrade pip
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:33.8681575Z ^[[36;1mpython -m pip install --upgrade pip^[[0m
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:33.8682951Z ^[[36;1mpip install ansible-lint yamllint^[[0m
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:33.8767419Z shell: /usr/bin/bash -e {0}
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:33.8769154Z env:
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:33.8771116Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:33.8774105Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:33.8777039Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:33.8778977Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:33.8781497Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:33.8784138Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:33.8786352Z ##[endgroup]
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:34.5547831Z Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages (26.1.2)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:34.6570367Z Collecting pip
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:34.7247319Z   Downloading pip-26.2.1-py3-none-any.whl.metadata (4.6 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:34.7361632Z Downloading pip-26.2.1-py3-none-any.whl (1.8 MB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:34.8651987Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 16.6 MB/s  0:00:00
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:34.8932899Z Installing collected packages: pip
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:34.8934821Z   Attempting uninstall: pip
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:34.8948617Z     Found existing installation: pip 26.1.2
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:34.9404467Z     Uninstalling pip-26.1.2:
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:34.9462344Z       Successfully uninstalled pip-26.1.2
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:35.7644217Z Successfully installed pip-26.2.1
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:36.2186825Z Collecting ansible-lint
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:36.2768859Z   Downloading ansible_lint-26.8.0-py3-none-any.whl.metadata (6.2 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:36.3002375Z Collecting yamllint
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:36.3088366Z   Downloading yamllint-1.38.0-py3-none-any.whl.metadata (4.2 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:36.3306175Z Collecting ansible-compat>=26.3.0 (from ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:36.3409399Z   Downloading ansible_compat-26.8.0-py3-none-any.whl.metadata (3.5 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:36.3969921Z Collecting ansible-core!=2.17.*,>=2.16.19 (from ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:36.4063549Z   Downloading ansible_core-2.19.12-py3-none-any.whl.metadata (7.7 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:36.4602704Z Collecting black>=24.3.0 (from ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:36.4809536Z   Downloading black-26.5.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (95 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:36.6053083Z Collecting cffi>=1.15.1 (from ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:36.6156168Z   Downloading cffi-2.1.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.5 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:36.7871580Z Collecting cryptography>=37 (from ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:36.7950400Z   Downloading cryptography-50.0.0-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (4.3 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:36.8094443Z Collecting distro>=1.9.0 (from ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:36.8171638Z   Downloading distro-1.9.0-py3-none-any.whl.metadata (6.8 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:36.8399660Z Collecting filelock>=3.8.2 (from ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:36.8479075Z   Downloading filelock-3.32.3-py3-none-any.whl.metadata (2.0 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:36.8707271Z Collecting jsonschema>=4.10.0 (from ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:36.8787881Z   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:36.8979380Z Collecting packaging>=22.0 (from ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:36.9054306Z   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:36.9219708Z Collecting pathspec<1.2.0,>=1.0.3 (from ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:36.9299889Z   Downloading pathspec-1.1.1-py3-none-any.whl.metadata (14 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:36.9727390Z Collecting pyyaml>=6.0.1 (from ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:36.9802789Z   Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.0020945Z Collecting referencing>=0.36.2 (from ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.0092958Z   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.1314097Z Collecting ruamel-yaml>=0.18.11 (from ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.1392528Z   Downloading ruamel_yaml-0.19.1-py3-none-any.whl.metadata (16 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.1758464Z Collecting ruamel-yaml-clib>=0.2.12 (from ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.1868358Z   Downloading ruamel_yaml_clib-0.2.15-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (3.5 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.2021313Z Collecting subprocess-tee>=0.4.1 (from ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.2092843Z   Downloading subprocess_tee-0.4.2-py3-none-any.whl.metadata (3.3 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.2300167Z Collecting wcmatch>=8.1.2 (from ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.2387486Z   Downloading wcmatch-11.0-py3-none-any.whl.metadata (4.8 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.2605457Z Collecting jinja2>=3.1.0 (from ansible-core!=2.17.*,>=2.16.19->ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.2678622Z   Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.2858601Z Collecting resolvelib<2.0.0,>=0.5.3 (from ansible-core!=2.17.*,>=2.16.19->ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.2966151Z   Downloading resolvelib-1.2.1-py3-none-any.whl.metadata (3.7 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.3165919Z Collecting click>=8.0.0 (from black>=24.3.0->ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.3240149Z   Downloading click-8.4.2-py3-none-any.whl.metadata (2.6 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.3373545Z Collecting mypy-extensions>=0.4.3 (from black>=24.3.0->ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.3456361Z   Downloading mypy_extensions-1.1.0-py3-none-any.whl.metadata (1.1 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.3660843Z Collecting platformdirs>=2 (from black>=24.3.0->ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.3735631Z   Downloading platformdirs-4.11.2-py3-none-any.whl.metadata (5.5 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.3913425Z Collecting pytokens~=0.4.0 (from black>=24.3.0->ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.3999031Z   Downloading pytokens-0.4.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (3.8 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.4155288Z Collecting pycparser (from cffi>=1.15.1->ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.4229109Z   Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.4730928Z Collecting MarkupSafe>=2.0 (from jinja2>=3.1.0->ansible-core!=2.17.*,>=2.16.19->ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.4806365Z   Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.4969907Z Collecting attrs>=22.2.0 (from jsonschema>=4.10.0->ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.5045674Z   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.5239295Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema>=4.10.0->ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.5346363Z   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.7935986Z Collecting rpds-py>=0.25.0 (from jsonschema>=4.10.0->ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.8013738Z   Downloading rpds_py-2026.6.3-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.8246692Z Collecting typing-extensions>=4.4.0 (from referencing>=0.36.2->ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.8319134Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.8485789Z Collecting bracex>=3.0 (from wcmatch>=8.1.2->ansible-lint)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.8558284Z   Downloading bracex-3.0.1-py3-none-any.whl.metadata (3.3 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.8692969Z Downloading ansible_lint-26.8.0-py3-none-any.whl (334 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.8999581Z Downloading pathspec-1.1.1-py3-none-any.whl (57 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.9112204Z Downloading yamllint-1.38.0-py3-none-any.whl (68 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.9222828Z Downloading ansible_compat-26.8.0-py3-none-any.whl (28 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:37.9333376Z Downloading ansible_core-2.19.12-py3-none-any.whl (2.4 MB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.0322900Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.4/2.4 MB 26.2 MB/s  0:00:00
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.0396591Z Downloading resolvelib-1.2.1-py3-none-any.whl (18 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.0489986Z Downloading black-26.5.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (1.8 MB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.0942592Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 42.1 MB/s  0:00:00
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.1017768Z Downloading pytokens-0.4.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (260 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.1142777Z Downloading cffi-2.1.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (217 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.1259705Z Downloading click-8.4.2-py3-none-any.whl (119 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.1360224Z Downloading cryptography-50.0.0-cp311-abi3-manylinux_2_34_x86_64.whl (4.7 MB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.2084941Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 65.8 MB/s  0:00:00
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.2164845Z Downloading distro-1.9.0-py3-none-any.whl (20 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.2263057Z Downloading filelock-3.32.3-py3-none-any.whl (98 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.2364516Z Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.2465694Z Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.2573301Z Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.2670217Z Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.2764157Z Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (22 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.2859113Z Downloading mypy_extensions-1.1.0-py3-none-any.whl (5.0 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.2958992Z Downloading packaging-26.3-py3-none-any.whl (129 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.3066578Z Downloading platformdirs-4.11.2-py3-none-any.whl (23 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.3161005Z Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (806 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.3291240Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 806.6/806.6 kB 70.2 MB/s  0:00:00
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.3367282Z Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.3460501Z Downloading rpds_py-2026.6.3-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (371 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.3575038Z Downloading ruamel_yaml-0.19.1-py3-none-any.whl (118 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.3674803Z Downloading ruamel_yaml_clib-0.2.15-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (777 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.3785030Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 777.6/777.6 kB 70.3 MB/s  0:00:00
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.3859253Z Downloading subprocess_tee-0.4.2-py3-none-any.whl (5.2 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.3949181Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.4047170Z Downloading wcmatch-11.0-py3-none-any.whl (42 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.4140643Z Downloading bracex-3.0.1-py3-none-any.whl (11 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.4234168Z Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:38.5488808Z Installing collected packages: typing-extensions, subprocess-tee, ruamel-yaml-clib, ruamel-yaml, rpds-py, resolvelib, pyyaml, pytokens, pycparser, platformdirs, pathspec, packaging, mypy-extensions, MarkupSafe, filelock, distro, click, bracex, attrs, yamllint, wcmatch, referencing, jinja2, cffi, black, jsonschema-specifications, cryptography, jsonschema, ansible-core, ansible-compat, ansible-lint
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:41.9314619Z 
+validate	Install ansible-lint and yamllint	2026-08-13T18:28:41.9335351Z Successfully installed MarkupSafe-3.0.3 ansible-compat-26.8.0 ansible-core-2.19.12 ansible-lint-26.8.0 attrs-26.1.0 black-26.5.1 bracex-3.0.1 cffi-2.1.1 click-8.4.2 cryptography-50.0.0 distro-1.9.0 filelock-3.32.3 jinja2-3.1.6 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 mypy-extensions-1.1.0 packaging-26.3 pathspec-1.1.1 platformdirs-4.11.2 pycparser-3.0 pytokens-0.4.1 pyyaml-6.0.3 referencing-0.37.0 resolvelib-1.2.1 rpds-py-2026.6.3 ruamel-yaml-0.19.1 ruamel-yaml-clib-0.2.15 subprocess-tee-0.4.2 typing-extensions-4.16.0 wcmatch-11.0 yamllint-1.38.0
+validate	Run ansible-lint	﻿2026-08-13T18:28:42.0169162Z ##[group]Run if [ -d "ansible" ]; then
+validate	Run ansible-lint	2026-08-13T18:28:42.0169536Z ^[[36;1mif [ -d "ansible" ]; then^[[0m
+validate	Run ansible-lint	2026-08-13T18:28:42.0170169Z ^[[36;1m  ansible-lint ansible || true^[[0m
+validate	Run ansible-lint	2026-08-13T18:28:42.0170465Z ^[[36;1melse^[[0m
+validate	Run ansible-lint	2026-08-13T18:28:42.0170743Z ^[[36;1m  echo "No ansible directory, skipping ansible-lint"^[[0m
+validate	Run ansible-lint	2026-08-13T18:28:42.0171060Z ^[[36;1mfi^[[0m
+validate	Run ansible-lint	2026-08-13T18:28:42.0215621Z shell: /usr/bin/bash -e {0}
+validate	Run ansible-lint	2026-08-13T18:28:42.0215878Z env:
+validate	Run ansible-lint	2026-08-13T18:28:42.0216143Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Run ansible-lint	2026-08-13T18:28:42.0216588Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+validate	Run ansible-lint	2026-08-13T18:28:42.0217008Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Run ansible-lint	2026-08-13T18:28:42.0217383Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Run ansible-lint	2026-08-13T18:28:42.0217757Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Run ansible-lint	2026-08-13T18:28:42.0218130Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+validate	Run ansible-lint	2026-08-13T18:28:42.0218441Z ##[endgroup]
+validate	Run ansible-lint	2026-08-13T18:28:45.6007739Z WARNING  Listing 5 violation(s) that are fatal
+validate	Run ansible-lint	2026-08-13T18:28:45.6035022Z ##[error]Wrong indentation: expected at least 3
+validate	Run ansible-lint	2026-08-13T18:28:45.6043412Z ##[error]Wrong indentation: expected 8 but found 6
+validate	Run ansible-lint	2026-08-13T18:28:45.6044802Z ##[error]Wrong indentation: expected 8 but found 6
+validate	Run ansible-lint	2026-08-13T18:28:45.6045974Z ##[error]Wrong indentation: expected at least 3
+validate	Run ansible-lint	2026-08-13T18:28:45.6047160Z ##[error]Wrong indentation: expected 8 but found 6
+validate	Run ansible-lint	2026-08-13T18:28:45.6048063Z Read documentation for instructions on how to ignore specific rule violations.
+validate	Run ansible-lint	2026-08-13T18:28:45.6048413Z 
+validate	Run ansible-lint	2026-08-13T18:28:45.6048518Z # Rule Violation Summary
+validate	Run ansible-lint	2026-08-13T18:28:45.6048665Z 
+validate	Run ansible-lint	2026-08-13T18:28:45.6048787Z   5 yaml profile:basic tags:formatting,yaml
+validate	Run ansible-lint	2026-08-13T18:28:45.6048993Z 
+validate	Run ansible-lint	2026-08-13T18:28:45.6827103Z Failed: 5 failure(s), 0 warning(s) in 2 files processed of 6 encountered. Last profile that met the validation criteria was 'min'.
+validate	Run ansible-lint	2026-08-13T18:28:45.6828132Z yaml[indentation]: Wrong indentation: expected at least 3
+validate	Run ansible-lint	2026-08-13T18:28:45.6828676Z ansible/playbooks/configure-management.yml:8
+validate	Run ansible-lint	2026-08-13T18:28:45.6828972Z 
+validate	Run ansible-lint	2026-08-13T18:28:45.6829197Z yaml[indentation]: Wrong indentation: expected 8 but found 6
+validate	Run ansible-lint	2026-08-13T18:28:45.6830059Z ansible/playbooks/configure-management.yml:11
+validate	Run ansible-lint	2026-08-13T18:28:45.6830509Z 
+validate	Run ansible-lint	2026-08-13T18:28:45.6830746Z yaml[indentation]: Wrong indentation: expected 8 but found 6
+validate	Run ansible-lint	2026-08-13T18:28:45.6831274Z ansible/playbooks/configure-management.yml:22
+validate	Run ansible-lint	2026-08-13T18:28:45.6831869Z 
+validate	Run ansible-lint	2026-08-13T18:28:45.6832077Z yaml[indentation]: Wrong indentation: expected at least 3
+validate	Run ansible-lint	2026-08-13T18:28:45.6832566Z ansible/playbooks/validate-management.yml:8
+validate	Run ansible-lint	2026-08-13T18:28:45.6832847Z 
+validate	Run ansible-lint	2026-08-13T18:28:45.6833066Z yaml[indentation]: Wrong indentation: expected 8 but found 6
+validate	Run ansible-lint	2026-08-13T18:28:45.6833584Z ansible/playbooks/validate-management.yml:26
+validate	Run ansible-lint	2026-08-13T18:28:45.6833866Z 
+validate	Run yamllint for k8s manifests	﻿2026-08-13T18:28:45.7699283Z ##[group]Run if [ -d "kubernetes/k8s-manifests" ]; then
+validate	Run yamllint for k8s manifests	2026-08-13T18:28:45.7700043Z ^[[36;1mif [ -d "kubernetes/k8s-manifests" ]; then^[[0m
+validate	Run yamllint for k8s manifests	2026-08-13T18:28:45.7700436Z ^[[36;1m  yamllint -c /dev/null kubernetes/k8s-manifests || true^[[0m
+validate	Run yamllint for k8s manifests	2026-08-13T18:28:45.7700771Z ^[[36;1melse^[[0m
+validate	Run yamllint for k8s manifests	2026-08-13T18:28:45.7701017Z ^[[36;1m  echo "No k8s-manifests dir, skipping yamllint"^[[0m
+validate	Run yamllint for k8s manifests	2026-08-13T18:28:45.7701314Z ^[[36;1mfi^[[0m
+validate	Run yamllint for k8s manifests	2026-08-13T18:28:45.7744906Z shell: /usr/bin/bash -e {0}
+validate	Run yamllint for k8s manifests	2026-08-13T18:28:45.7745157Z env:
+validate	Run yamllint for k8s manifests	2026-08-13T18:28:45.7745424Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Run yamllint for k8s manifests	2026-08-13T18:28:45.7745887Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+validate	Run yamllint for k8s manifests	2026-08-13T18:28:45.7746332Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Run yamllint for k8s manifests	2026-08-13T18:28:45.7746710Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Run yamllint for k8s manifests	2026-08-13T18:28:45.7747082Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Run yamllint for k8s manifests	2026-08-13T18:28:45.7747455Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+validate	Run yamllint for k8s manifests	2026-08-13T18:28:45.7747801Z ##[endgroup]
+validate	Run yamllint for k8s manifests	2026-08-13T18:28:45.8491166Z invalid config: not a mapping
+validate	Setup Terraform	﻿2026-08-13T18:28:45.8622082Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate	Setup Terraform	2026-08-13T18:28:45.8623381Z ##[group]Run hashicorp/setup-terraform@v2
+validate	Setup Terraform	2026-08-13T18:28:45.8623646Z with:
+validate	Setup Terraform	2026-08-13T18:28:45.8623852Z   terraform_version: 1.5.7
+validate	Setup Terraform	2026-08-13T18:28:45.8624127Z   cli_config_credentials_hostname: app.terraform.io
+validate	Setup Terraform	2026-08-13T18:28:45.8624432Z   terraform_wrapper: true
+validate	Setup Terraform	2026-08-13T18:28:45.8624646Z env:
+validate	Setup Terraform	2026-08-13T18:28:45.8624887Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Setup Terraform	2026-08-13T18:28:45.8625312Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+validate	Setup Terraform	2026-08-13T18:28:45.8625727Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Setup Terraform	2026-08-13T18:28:45.8626100Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Setup Terraform	2026-08-13T18:28:45.8626514Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Setup Terraform	2026-08-13T18:28:45.8626892Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+validate	Setup Terraform	2026-08-13T18:28:45.8627209Z ##[endgroup]
+validate	Setup Terraform	2026-08-13T18:28:45.9561178Z (node:2317) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+validate	Setup Terraform	2026-08-13T18:28:45.9563196Z (Use `node --trace-deprecation ...` to show where the warning was created)
+validate	Setup Terraform	2026-08-13T18:28:46.3255856Z [command]/usr/bin/unzip -o -q /home/runner/work/_temp/b6a9a66c-5612-4eb5-be94-236edb7c7369
+validate	Terraform validate	﻿2026-08-13T18:28:46.7691673Z ##[group]Run if [ -d "terraform" ]; then
+validate	Terraform validate	2026-08-13T18:28:46.7692040Z ^[[36;1mif [ -d "terraform" ]; then^[[0m
+validate	Terraform validate	2026-08-13T18:28:46.7692304Z ^[[36;1m  cd terraform^[[0m
+validate	Terraform validate	2026-08-13T18:28:46.7692544Z ^[[36;1m  terraform init -backend=false^[[0m
+validate	Terraform validate	2026-08-13T18:28:46.7692814Z ^[[36;1m  terraform validate^[[0m
+validate	Terraform validate	2026-08-13T18:28:46.7693042Z ^[[36;1melse^[[0m
+validate	Terraform validate	2026-08-13T18:28:46.7693318Z ^[[36;1m  echo "No terraform dir, skipping terraform validate"^[[0m
+validate	Terraform validate	2026-08-13T18:28:46.7693654Z ^[[36;1mfi^[[0m
+validate	Terraform validate	2026-08-13T18:28:46.7737576Z shell: /usr/bin/bash -e {0}
+validate	Terraform validate	2026-08-13T18:28:46.7737832Z env:
+validate	Terraform validate	2026-08-13T18:28:46.7738099Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Terraform validate	2026-08-13T18:28:46.7738550Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+validate	Terraform validate	2026-08-13T18:28:46.7739159Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Terraform validate	2026-08-13T18:28:46.7739543Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Terraform validate	2026-08-13T18:28:46.7740170Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Terraform validate	2026-08-13T18:28:46.7740595Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+validate	Terraform validate	2026-08-13T18:28:46.7741053Z   TERRAFORM_CLI_PATH: /home/runner/work/_temp/0b603c2e-ead6-45c2-b9c4-ad317d4013c9
+validate	Terraform validate	2026-08-13T18:28:46.7741453Z ##[endgroup]
+validate	Terraform validate	2026-08-13T18:28:48.5388636Z [command]/home/runner/work/_temp/0b603c2e-ead6-45c2-b9c4-ad317d4013c9/terraform-bin init -backend=false
+validate	Terraform validate	2026-08-13T18:28:48.5691147Z 
+validate	Terraform validate	2026-08-13T18:28:48.5691998Z ^[[0m^[[1mInitializing provider plugins...^[[0m
+validate	Terraform validate	2026-08-13T18:28:48.5694822Z - Finding hashicorp/kubernetes versions matching "~> 2.20"...
+validate	Terraform validate	2026-08-13T18:28:48.6726293Z - Finding hashicorp/helm versions matching "~> 2.10"...
+validate	Terraform validate	2026-08-13T18:28:48.7090785Z - Finding hashicorp/aws versions matching "~> 5.0"...
+validate	Terraform validate	2026-08-13T18:28:48.8671839Z - Installing hashicorp/kubernetes v2.38.0...
+validate	Terraform validate	2026-08-13T18:28:49.5952504Z - Installed hashicorp/kubernetes v2.38.0 (signed by HashiCorp)
+validate	Terraform validate	2026-08-13T18:28:49.7373350Z - Installing hashicorp/helm v2.17.0...
+validate	Terraform validate	2026-08-13T18:28:50.4390056Z - Installed hashicorp/helm v2.17.0 (signed by HashiCorp)
+validate	Terraform validate	2026-08-13T18:28:50.5723934Z - Installing hashicorp/aws v5.100.0...
+validate	Terraform validate	2026-08-13T18:28:55.8975336Z - Installed hashicorp/aws v5.100.0 (signed by HashiCorp)
+validate	Terraform validate	2026-08-13T18:28:55.8975895Z 
+validate	Terraform validate	2026-08-13T18:28:55.8976898Z Terraform has created a lock file ^[[1m.terraform.lock.hcl^[[0m to record the provider
+validate	Terraform validate	2026-08-13T18:28:55.8977872Z selections it made above. Include this file in your version control repository
+validate	Terraform validate	2026-08-13T18:28:55.8978731Z so that Terraform can guarantee to make the same selections by default when
+validate	Terraform validate	2026-08-13T18:28:55.8979291Z you run "terraform init" in the future.^[[0m
+validate	Terraform validate	2026-08-13T18:28:55.8979898Z 
+validate	Terraform validate	2026-08-13T18:28:55.8980335Z ^[[0m^[[1m^[[32mTerraform has been successfully initialized!^[[0m^[[32m^[[0m
+validate	Terraform validate	2026-08-13T18:28:55.8981008Z ^[[0m^[[32m
+validate	Terraform validate	2026-08-13T18:28:55.8981553Z You may now begin working with Terraform. Try running "terraform plan" to see
+validate	Terraform validate	2026-08-13T18:28:55.8982444Z any changes that are required for your infrastructure. All Terraform commands
+validate	Terraform validate	2026-08-13T18:28:55.8983126Z should now work.
+validate	Terraform validate	2026-08-13T18:28:55.8983333Z 
+validate	Terraform validate	2026-08-13T18:28:55.8983654Z If you ever set or change modules or backend configuration for Terraform,
+validate	Terraform validate	2026-08-13T18:28:55.8984439Z rerun this command to reinitialize your working directory. If you forget, other
+validate	Terraform validate	2026-08-13T18:28:55.8985037Z commands will detect it and remind you to do so if necessary.^[[0m
+validate	Terraform validate	2026-08-13T18:28:55.9504195Z [command]/home/runner/work/_temp/0b603c2e-ead6-45c2-b9c4-ad317d4013c9/terraform-bin validate
+validate	Terraform validate	2026-08-13T18:29:00.0504897Z ^[[32m^[[1mSuccess!^[[0m The configuration is valid.
+validate	Terraform validate	2026-08-13T18:29:00.0505393Z ^[[0m
+validate	Install kubeval	﻿2026-08-13T18:29:00.0685735Z ##[group]Run KUV_VER=$(curl -s https://api.github.com/repos/instrumenta/kubeval/releases/latest | jq -r .tag_name)
+validate	Install kubeval	2026-08-13T18:29:00.0686581Z ^[[36;1mKUV_VER=$(curl -s https://api.github.com/repos/instrumenta/kubeval/releases/latest | jq -r .tag_name)^[[0m
+validate	Install kubeval	2026-08-13T18:29:00.0687489Z ^[[36;1mcurl -sL "https://github.com/instrumenta/kubeval/releases/download/${KUV_VER}/kubeval-linux-amd64.tar.gz" -o /tmp/kubeval.tar.gz^[[0m
+validate	Install kubeval	2026-08-13T18:29:00.0688182Z ^[[36;1msudo tar -C /usr/local/bin -xzf /tmp/kubeval.tar.gz kubeval^[[0m
+validate	Install kubeval	2026-08-13T18:29:00.0688538Z ^[[36;1mkubeval --version || true^[[0m
+validate	Install kubeval	2026-08-13T18:29:00.0733134Z shell: /usr/bin/bash -e {0}
+validate	Install kubeval	2026-08-13T18:29:00.0733382Z env:
+validate	Install kubeval	2026-08-13T18:29:00.0733650Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Install kubeval	2026-08-13T18:29:00.0734094Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+validate	Install kubeval	2026-08-13T18:29:00.0734519Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Install kubeval	2026-08-13T18:29:00.0734890Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Install kubeval	2026-08-13T18:29:00.0735307Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Install kubeval	2026-08-13T18:29:00.0735850Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+validate	Install kubeval	2026-08-13T18:29:00.0736300Z   TERRAFORM_CLI_PATH: /home/runner/work/_temp/0b603c2e-ead6-45c2-b9c4-ad317d4013c9
+validate	Install kubeval	2026-08-13T18:29:00.0736699Z   KUBEVERSION: latest
+validate	Install kubeval	2026-08-13T18:29:00.0736908Z ##[endgroup]
+validate	Install kubeval	2026-08-13T18:29:00.5413774Z Version: 0.16.1
+validate	Install kubeval	2026-08-13T18:29:00.5414604Z Commit: f5dba6b486fa18b9179b91e15eb6f2b0f7a5a69e
+validate	Install kubeval	2026-08-13T18:29:00.5415184Z Date: 2021-03-30T15:17:06Z
+validate	Run kubeval on manifests	﻿2026-08-13T18:29:00.5447580Z ##[group]Run if [ -d "kubernetes/k8s-manifests" ]; then
+validate	Run kubeval on manifests	2026-08-13T18:29:00.5447997Z ^[[36;1mif [ -d "kubernetes/k8s-manifests" ]; then^[[0m
+validate	Run kubeval on manifests	2026-08-13T18:29:00.5448470Z ^[[36;1m  find kubernetes/k8s-manifests -name '*.yaml' -print0 | xargs -0 -n1 kubeval || true^[[0m
+validate	Run kubeval on manifests	2026-08-13T18:29:00.5448921Z ^[[36;1melse^[[0m
+validate	Run kubeval on manifests	2026-08-13T18:29:00.5449184Z ^[[36;1m  echo "No k8s manifests directory, skipping kubeval"^[[0m
+validate	Run kubeval on manifests	2026-08-13T18:29:00.5449490Z ^[[36;1mfi^[[0m
+validate	Run kubeval on manifests	2026-08-13T18:29:00.5493815Z shell: /usr/bin/bash -e {0}
+validate	Run kubeval on manifests	2026-08-13T18:29:00.5494069Z env:
+validate	Run kubeval on manifests	2026-08-13T18:29:00.5494332Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Run kubeval on manifests	2026-08-13T18:29:00.5494762Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+validate	Run kubeval on manifests	2026-08-13T18:29:00.5495171Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Run kubeval on manifests	2026-08-13T18:29:00.5495555Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Run kubeval on manifests	2026-08-13T18:29:00.5495930Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Run kubeval on manifests	2026-08-13T18:29:00.5496309Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+validate	Run kubeval on manifests	2026-08-13T18:29:00.5496799Z   TERRAFORM_CLI_PATH: /home/runner/work/_temp/0b603c2e-ead6-45c2-b9c4-ad317d4013c9
+validate	Run kubeval on manifests	2026-08-13T18:29:00.5497189Z ##[endgroup]
+validate	Run kubeval on manifests	2026-08-13T18:29:00.9856570Z ERR  - kubernetes/k8s-manifests/admin/deployment.yaml: Failed initializing schema https://kubernetesjsonschema.dev/master-standalone/deployment-apps-v1.json: Get "https://kubernetesjsonschema.dev/master-standalone/deployment-apps-v1.json": x509: certificate is valid for *.netlify.app, netlify.app, not kubernetesjsonschema.dev
+validate	Run kubeval on manifests	2026-08-13T18:29:01.1102248Z ERR  - kubernetes/k8s-manifests/admin/service.yaml: Failed initializing schema https://kubernetesjsonschema.dev/master-standalone/service-v1.json: Get "https://kubernetesjsonschema.dev/master-standalone/service-v1.json": x509: certificate is valid for *.netlify.app, netlify.app, not kubernetesjsonschema.dev
+validate	Run kubeval on manifests	2026-08-13T18:29:01.2850780Z ERR  - kubernetes/k8s-manifests/frontend/deployment.yaml: Failed initializing schema https://kubernetesjsonschema.dev/master-standalone/deployment-apps-v1.json: Get "https://kubernetesjsonschema.dev/master-standalone/deployment-apps-v1.json": x509: certificate is valid for *.netlify.app, netlify.app, not kubernetesjsonschema.dev
+validate	Run kubeval on manifests	2026-08-13T18:29:01.3929130Z ERR  - kubernetes/k8s-manifests/frontend/service.yaml: Failed initializing schema https://kubernetesjsonschema.dev/master-standalone/service-v1.json: Get "https://kubernetesjsonschema.dev/master-standalone/service-v1.json": x509: certificate is valid for *.netlify.app, netlify.app, not kubernetesjsonschema.dev
+validate	Run kubeval on manifests	2026-08-13T18:29:01.4786970Z ERR  - kubernetes/k8s-manifests/daemonsets-example/README.yaml: Failed initializing schema https://kubernetesjsonschema.dev/master-standalone/configmap-v1.json: Get "https://kubernetesjsonschema.dev/master-standalone/configmap-v1.json": x509: certificate is valid for *.netlify.app, netlify.app, not kubernetesjsonschema.dev
+validate	Run kubeval on manifests	2026-08-13T18:29:01.5536395Z ERR  - kubernetes/k8s-manifests/namespace/namespace.yaml: Failed initializing schema https://kubernetesjsonschema.dev/master-standalone/namespace-v1.json: Get "https://kubernetesjsonschema.dev/master-standalone/namespace-v1.json": x509: certificate is valid for *.netlify.app, netlify.app, not kubernetesjsonschema.dev
+validate	Run kubeval on manifests	2026-08-13T18:29:01.6877993Z ERR  - kubernetes/k8s-manifests/database/mongo-deployment.yaml: Failed initializing schema https://kubernetesjsonschema.dev/master-standalone/deployment-apps-v1.json: Get "https://kubernetesjsonschema.dev/master-standalone/deployment-apps-v1.json": x509: certificate is valid for *.netlify.app, netlify.app, not kubernetesjsonschema.dev
+validate	Run kubeval on manifests	2026-08-13T18:29:01.7654719Z ERR  - kubernetes/k8s-manifests/database/aws-secretstore.yaml: Failed initializing schema https://kubernetesjsonschema.dev/master-standalone/secretstore-external-secrets-v1beta1.json: Get "https://kubernetesjsonschema.dev/master-standalone/secretstore-external-secrets-v1beta1.json": x509: certificate is valid for *.netlify.app, netlify.app, not kubernetesjsonschema.dev
+validate	Run kubeval on manifests	2026-08-13T18:29:01.8921140Z ERR  - kubernetes/k8s-manifests/database/mongo-service.yaml: Failed initializing schema https://kubernetesjsonschema.dev/master-standalone/service-v1.json: Get "https://kubernetesjsonschema.dev/master-standalone/service-v1.json": x509: certificate is valid for *.netlify.app, netlify.app, not kubernetesjsonschema.dev
+validate	Run kubeval on manifests	2026-08-13T18:29:02.1011943Z ERR  - kubernetes/k8s-manifests/database/mongo-secret-externalsecret.yaml: Failed initializing schema https://kubernetesjsonschema.dev/master-standalone/externalsecret-external-secrets-v1beta1.json: Get "https://kubernetesjsonschema.dev/master-standalone/externalsecret-external-secrets-v1beta1.json": x509: certificate is valid for *.netlify.app, netlify.app, not kubernetesjsonschema.dev
+validate	Run kubeval on manifests	2026-08-13T18:29:02.2398685Z ERR  - kubernetes/k8s-manifests/ingress/ingress-shopnow.yaml: Failed initializing schema https://kubernetesjsonschema.dev/master-standalone/ingress-networking-v1.json: Get "https://kubernetesjsonschema.dev/master-standalone/ingress-networking-v1.json": x509: certificate is valid for *.netlify.app, netlify.app, not kubernetesjsonschema.dev
+validate	Run kubeval on manifests	2026-08-13T18:29:02.3152388Z ERR  - kubernetes/k8s-manifests/backend/deployment.yaml: Failed initializing schema https://kubernetesjsonschema.dev/master-standalone/deployment-apps-v1.json: Get "https://kubernetesjsonschema.dev/master-standalone/deployment-apps-v1.json": x509: certificate is valid for *.netlify.app, netlify.app, not kubernetesjsonschema.dev
+validate	Run kubeval on manifests	2026-08-13T18:29:02.4526158Z ERR  - kubernetes/k8s-manifests/backend/service.yaml: Failed initializing schema https://kubernetesjsonschema.dev/master-standalone/service-v1.json: Get "https://kubernetesjsonschema.dev/master-standalone/service-v1.json": x509: certificate is valid for *.netlify.app, netlify.app, not kubernetesjsonschema.dev
+validate	Install ShellCheck	﻿2026-08-13T18:29:02.4565842Z ##[group]Run sudo apt-get update -y
+validate	Install ShellCheck	2026-08-13T18:29:02.4566179Z ^[[36;1msudo apt-get update -y^[[0m
+validate	Install ShellCheck	2026-08-13T18:29:02.4566458Z ^[[36;1msudo apt-get install -y shellcheck^[[0m
+validate	Install ShellCheck	2026-08-13T18:29:02.4610377Z shell: /usr/bin/bash -e {0}
+validate	Install ShellCheck	2026-08-13T18:29:02.4610624Z env:
+validate	Install ShellCheck	2026-08-13T18:29:02.4610883Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Install ShellCheck	2026-08-13T18:29:02.4611319Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+validate	Install ShellCheck	2026-08-13T18:29:02.4611747Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Install ShellCheck	2026-08-13T18:29:02.4612135Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Install ShellCheck	2026-08-13T18:29:02.4612507Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Install ShellCheck	2026-08-13T18:29:02.4612893Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+validate	Install ShellCheck	2026-08-13T18:29:02.4613352Z   TERRAFORM_CLI_PATH: /home/runner/work/_temp/0b603c2e-ead6-45c2-b9c4-ad317d4013c9
+validate	Install ShellCheck	2026-08-13T18:29:02.4613741Z ##[endgroup]
+validate	Install ShellCheck	2026-08-13T18:29:02.5797900Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+validate	Install ShellCheck	2026-08-13T18:29:02.5958484Z Get:6 https://packages.microsoft.com/repos/azure-cli noble InRelease [3564 B]
+validate	Install ShellCheck	2026-08-13T18:29:02.6218869Z Hit:2 http://azure.archive.ubuntu.com/ubuntu noble InRelease
+validate	Install ShellCheck	2026-08-13T18:29:02.6220796Z Get:7 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+validate	Install ShellCheck	2026-08-13T18:29:02.6235041Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+validate	Install ShellCheck	2026-08-13T18:29:02.6280718Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+validate	Install ShellCheck	2026-08-13T18:29:02.6310600Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+validate	Install ShellCheck	2026-08-13T18:29:02.6570596Z Get:8 https://dl.google.com/linux/chrome-stable/deb stable InRelease [2548 B]
+validate	Install ShellCheck	2026-08-13T18:29:02.7173485Z Get:9 https://packages.microsoft.com/repos/azure-cli noble/main amd64 Packages [2452 B]
+validate	Install ShellCheck	2026-08-13T18:29:02.8227541Z Get:10 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [280 kB]
+validate	Install ShellCheck	2026-08-13T18:29:02.8294267Z Get:11 https://packages.microsoft.com/ubuntu/24.04/prod noble/main all Packages [643 B]
+validate	Install ShellCheck	2026-08-13T18:29:02.8314985Z Get:12 https://packages.microsoft.com/ubuntu/24.04/prod noble/main armhf Packages [12.3 kB]
+validate	Install ShellCheck	2026-08-13T18:29:02.8341112Z Get:13 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [321 kB]
+validate	Install ShellCheck	2026-08-13T18:29:02.8682137Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1191 kB]
+validate	Install ShellCheck	2026-08-13T18:29:02.8760757Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [282 kB]
+validate	Install ShellCheck	2026-08-13T18:29:02.8771256Z Get:16 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Components [180 kB]
+validate	Install ShellCheck	2026-08-13T18:29:02.8786499Z Get:17 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1683 kB]
+validate	Install ShellCheck	2026-08-13T18:29:02.8892956Z Get:18 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [335 kB]
+validate	Install ShellCheck	2026-08-13T18:29:02.8916997Z Get:19 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Components [388 kB]
+validate	Install ShellCheck	2026-08-13T18:29:02.8948269Z Get:20 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1424 kB]
+validate	Install ShellCheck	2026-08-13T18:29:02.9045946Z Get:21 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [323 kB]
+validate	Install ShellCheck	2026-08-13T18:29:02.9060815Z Get:22 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [45.4 kB]
+validate	Install ShellCheck	2026-08-13T18:29:02.9066102Z Get:23 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse Translation-en [12.6 kB]
+validate	Install ShellCheck	2026-08-13T18:29:02.9564472Z Get:24 http://azure.archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Components [940 B]
+validate	Install ShellCheck	2026-08-13T18:29:02.9601865Z Get:25 http://azure.archive.ubuntu.com/ubuntu noble-backports/main amd64 Components [5776 B]
+validate	Install ShellCheck	2026-08-13T18:29:02.9615430Z Get:26 http://azure.archive.ubuntu.com/ubuntu noble-backports/universe amd64 Packages [31.0 kB]
+validate	Install ShellCheck	2026-08-13T18:29:02.9643064Z Get:27 http://azure.archive.ubuntu.com/ubuntu noble-backports/universe amd64 Components [12.6 kB]
+validate	Install ShellCheck	2026-08-13T18:29:02.9742228Z Get:28 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [934 kB]
+validate	Install ShellCheck	2026-08-13T18:29:02.9801471Z Get:29 http://azure.archive.ubuntu.com/ubuntu noble-security/main Translation-en [202 kB]
+validate	Install ShellCheck	2026-08-13T18:29:02.9817269Z Get:30 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Components [46.4 kB]
+validate	Install ShellCheck	2026-08-13T18:29:02.9830749Z Get:31 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1201 kB]
+validate	Install ShellCheck	2026-08-13T18:29:02.9914603Z Get:32 http://azure.archive.ubuntu.com/ubuntu noble-security/universe Translation-en [240 kB]
+validate	Install ShellCheck	2026-08-13T18:29:02.9927507Z Get:33 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Components [76.2 kB]
+validate	Install ShellCheck	2026-08-13T18:29:02.9942263Z Get:34 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1329 kB]
+validate	Install ShellCheck	2026-08-13T18:29:03.0020982Z Get:35 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted Translation-en [304 kB]
+validate	Install ShellCheck	2026-08-13T18:29:03.0043196Z Get:36 http://azure.archive.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [40.3 kB]
+validate	Install ShellCheck	2026-08-13T18:29:03.0053350Z Get:37 http://azure.archive.ubuntu.com/ubuntu noble-security/multiverse Translation-en [10.9 kB]
+validate	Install ShellCheck	2026-08-13T18:29:03.0410778Z Get:38 https://dl.google.com/linux/chrome-stable/deb stable/main amd64 Packages [1414 B]
+validate	Install ShellCheck	2026-08-13T18:29:07.2703359Z Fetched 11.3 MB in 1s (8321 kB/s)
+validate	Install ShellCheck	2026-08-13T18:29:07.9663595Z Reading package lists...
+validate	Install ShellCheck	2026-08-13T18:29:07.9967570Z Reading package lists...
+validate	Install ShellCheck	2026-08-13T18:29:08.1461654Z Building dependency tree...
+validate	Install ShellCheck	2026-08-13T18:29:08.1469333Z Reading state information...
+validate	Install ShellCheck	2026-08-13T18:29:08.3010681Z shellcheck is already the newest version (0.9.0-1).
+validate	Install ShellCheck	2026-08-13T18:29:08.3011834Z 0 upgraded, 0 newly installed, 0 to remove and 97 not upgraded.
+validate	Run ShellCheck on scripts	﻿2026-08-13T18:29:08.3057152Z ##[group]Run if [ -d "scripts" ]; then
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.3057496Z ^[[36;1mif [ -d "scripts" ]; then^[[0m
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.3057884Z ^[[36;1m  find scripts -type f -name '*.sh' -print0 | xargs -0 shellcheck || true^[[0m
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.3058266Z ^[[36;1melse^[[0m
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.3058505Z ^[[36;1m  echo "No scripts dir, skipping shellcheck"^[[0m
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.3058793Z ^[[36;1mfi^[[0m
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.3102619Z shell: /usr/bin/bash -e {0}
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.3102863Z env:
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.3103123Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.3103580Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.3104036Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.3104427Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.3104833Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.3105234Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.3105742Z   TERRAFORM_CLI_PATH: /home/runner/work/_temp/0b603c2e-ead6-45c2-b9c4-ad317d4013c9
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.3106157Z ##[endgroup]
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7084347Z 
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7085039Z In scripts/build-and-push.sh line 51:
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7085692Z       ${build_arg} \
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7086374Z       ^----------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7086803Z 
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7086906Z Did you mean: 
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7087157Z       "${build_arg}" \
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7087326Z 
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7087332Z 
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7087468Z In scripts/set_github_secrets.sh line 29:
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7087960Z gh secret set AWS_ACCESS_KEY_ID $REPO_ARG --body "$AWS_ACCESS_KEY_ID_VAL"
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7088639Z                                 ^-------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7089096Z 
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7089200Z Did you mean: 
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7089602Z gh secret set AWS_ACCESS_KEY_ID "$REPO_ARG" --body "$AWS_ACCESS_KEY_ID_VAL"
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7090447Z 
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7090460Z 
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7090706Z In scripts/set_github_secrets.sh line 30:
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7091504Z gh secret set AWS_SECRET_ACCESS_KEY $REPO_ARG --body "$AWS_SECRET_ACCESS_KEY_VAL"
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7092489Z                                     ^-------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7093078Z 
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7093211Z Did you mean: 
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7093770Z gh secret set AWS_SECRET_ACCESS_KEY "$REPO_ARG" --body "$AWS_SECRET_ACCESS_KEY_VAL"
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7094135Z 
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7094147Z 
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7094265Z In scripts/set_github_secrets.sh line 31:
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7094639Z gh secret set AWS_REGION $REPO_ARG --body "$AWS_REGION_VAL"
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7095169Z                          ^-------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7095614Z 
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7095749Z Did you mean: 
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7096181Z gh secret set AWS_REGION "$REPO_ARG" --body "$AWS_REGION_VAL"
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7096654Z 
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7096661Z 
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7096835Z In scripts/set_github_secrets.sh line 32:
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7097446Z gh secret set AWS_ACCOUNT_ID $REPO_ARG --body "$AWS_ACCOUNT_ID_VAL"
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7098186Z                              ^-------^ SC2086 (info): Double quote to prevent globbing and word splitting.
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7098553Z 
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7098638Z Did you mean: 
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7098944Z gh secret set AWS_ACCOUNT_ID "$REPO_ARG" --body "$AWS_ACCOUNT_ID_VAL"
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7099250Z 
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7099345Z For more information:
+validate	Run ShellCheck on scripts	2026-08-13T18:29:08.7100023Z   https://www.shellcheck.net/wiki/SC2086 -- Double quote to prevent globbing ...
+validate	Jenkinsfile lint guidance	﻿2026-08-13T18:29:08.7138085Z ##[group]Run if [ -f Jenkinsfile ]; then
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:08.7138670Z ^[[36;1mif [ -f Jenkinsfile ]; then^[[0m
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:08.7139337Z ^[[36;1m  echo "Building custom jenkinsfile-runner image with plugins..."^[[0m
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:08.7140846Z ^[[36;1m  docker build --pull --no-cache -t local/jfr:latest -f docker/jenkinsfile-runner/Dockerfile docker/jenkinsfile-runner^[[0m
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:08.7142101Z ^[[36;1m  echo "Running jenkinsfile-runner to validate Jenkinsfile (timeout 20m)..."^[[0m
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:08.7143175Z ^[[36;1m  # Run lint with timeout and capture output to a log file so the job cannot hang indefinitely^[[0m
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:08.7144527Z ^[[36;1m  /usr/bin/timeout 20m docker run --rm -v "$PWD":/workspace -w /workspace local/jfr:latest lint > jenkinsfile-lint.log 2>&1 || {^[[0m
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:08.7145957Z ^[[36;1m    echo "jenkinsfile-runner reported issues or timed out; lint output saved to jenkinsfile-lint.log";^[[0m
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:08.7146845Z ^[[36;1m  }^[[0m
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:08.7147364Z ^[[36;1m  echo "Jenkinsfile lint finished (logs saved)."^[[0m
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:08.7147945Z ^[[36;1melse^[[0m
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:08.7148458Z ^[[36;1m  echo "No Jenkinsfile found in repo; skipping Jenkinsfile lint"^[[0m
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:08.7149099Z ^[[36;1mfi^[[0m
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:08.7214016Z shell: /usr/bin/bash -e {0}
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:08.7214616Z env:
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:08.7215186Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:08.7216182Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:08.7217145Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:08.7217955Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:08.7218908Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:08.7220053Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:08.7221179Z   TERRAFORM_CLI_PATH: /home/runner/work/_temp/0b603c2e-ead6-45c2-b9c4-ad317d4013c9
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:08.7222108Z ##[endgroup]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:08.7303242Z Building custom jenkinsfile-runner image with plugins...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:09.2553855Z #0 building with "default" instance using docker driver
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:09.2554315Z 
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:09.2554542Z #1 [internal] load build definition from Dockerfile
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:09.2555051Z #1 transferring dockerfile: 2.15kB done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:09.2555472Z #1 DONE 0.0s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:09.2555656Z 
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:09.2555972Z #2 [internal] load metadata for docker.io/jenkins/jenkinsfile-runner:latest
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:09.4912088Z #2 ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:09.4912369Z 
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:09.4912729Z #3 [auth] jenkins/jenkinsfile-runner:pull token for registry-1.docker.io
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:09.4913195Z #3 DONE 0.0s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:09.6414370Z 
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:09.6414930Z #2 [internal] load metadata for docker.io/jenkins/jenkinsfile-runner:latest
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:09.9109090Z #2 DONE 0.8s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.0274327Z 
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.0274978Z #4 [internal] load .dockerignore
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.0275707Z #4 transferring context: 2B done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.0276167Z #4 DONE 0.0s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.0276377Z 
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.0276516Z #5 [internal] load build context
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.0276804Z #5 transferring context: 227B done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.0277078Z #5 DONE 0.0s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.0277197Z 
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.0277851Z #6 [1/5] FROM docker.io/jenkins/jenkinsfile-runner:latest@sha256:1510739cb658772e733899a56e7ababb44cc113ee7fa22ec915c5fd0e7bff7a2
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.0278875Z #6 resolve docker.io/jenkins/jenkinsfile-runner:latest@sha256:1510739cb658772e733899a56e7ababb44cc113ee7fa22ec915c5fd0e7bff7a2 done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.0280373Z #6 sha256:1510739cb658772e733899a56e7ababb44cc113ee7fa22ec915c5fd0e7bff7a2 2.63kB / 2.63kB done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.0281137Z #6 sha256:0d66d0030d0d1bba3bd701bea03ba77908b689ad7429c0cd509ab46e430597ed 15.60kB / 15.60kB done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.0281865Z #6 sha256:171857c49d0f5e2ebf623e6cb36a8bcad585ed0c2aa99c87a055df034c1e5848 0B / 26.70MB 0.1s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.0283730Z #6 sha256:419640447d267f068d2f84a093cb13a56ce77e130877f5b8bdb4294f4a90a84f 0B / 852B 0.1s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.0284731Z #6 sha256:61e52f862619ab016d3bcfbd78e5c7aaaa1989b4c295e6dbcacddd2d7b93e1f5 0B / 162B 0.1s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.1279141Z #6 sha256:171857c49d0f5e2ebf623e6cb36a8bcad585ed0c2aa99c87a055df034c1e5848 15.73MB / 26.70MB 0.2s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.1280723Z #6 sha256:419640447d267f068d2f84a093cb13a56ce77e130877f5b8bdb4294f4a90a84f 852B / 852B 0.2s done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.1282055Z #6 sha256:dd4d4e9526b1adecc10515315b09e75d88526e75fba0552b3fbb933f40d293e9 0B / 13.88MB 0.2s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.2607835Z #6 sha256:171857c49d0f5e2ebf623e6cb36a8bcad585ed0c2aa99c87a055df034c1e5848 26.70MB / 26.70MB 0.2s done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.2609240Z #6 sha256:61e52f862619ab016d3bcfbd78e5c7aaaa1989b4c295e6dbcacddd2d7b93e1f5 162B / 162B 0.2s done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.2610743Z #6 sha256:dd4d4e9526b1adecc10515315b09e75d88526e75fba0552b3fbb933f40d293e9 3.15MB / 13.88MB 0.3s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.2611933Z #6 extracting sha256:171857c49d0f5e2ebf623e6cb36a8bcad585ed0c2aa99c87a055df034c1e5848 0.1s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.2613120Z #6 sha256:5fd64184f89da823f6f234f2af27f3c923b283401e9e92355ec927f301e25829 0B / 638.71kB 0.3s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.2614310Z #6 sha256:7172a906d0a8cdea66ee503eb5fdd42d72a02b9be671e4d704fc6aaab4bbb728 0B / 103.74MB 0.3s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.3629460Z #6 sha256:dd4d4e9526b1adecc10515315b09e75d88526e75fba0552b3fbb933f40d293e9 13.88MB / 13.88MB 0.4s done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.3632165Z #6 sha256:5fd64184f89da823f6f234f2af27f3c923b283401e9e92355ec927f301e25829 638.71kB / 638.71kB 0.4s done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.3633560Z #6 sha256:b229ee682f4b38fc20bb10634770b36a36a58c0798b75592b13c2f56aa6c5f1b 0B / 5.46MB 0.4s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.3634700Z #6 sha256:fdb873fcd2b0484087453758a9d0a865ef73e8ad8b7894013dc045916b033b9c 0B / 48.50MB 0.4s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.4647592Z #6 sha256:7172a906d0a8cdea66ee503eb5fdd42d72a02b9be671e4d704fc6aaab4bbb728 6.29MB / 103.74MB 0.5s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.4648918Z #6 sha256:b229ee682f4b38fc20bb10634770b36a36a58c0798b75592b13c2f56aa6c5f1b 2.10MB / 5.46MB 0.5s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.4650314Z #6 sha256:fdb873fcd2b0484087453758a9d0a865ef73e8ad8b7894013dc045916b033b9c 3.15MB / 48.50MB 0.5s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.5764936Z #6 sha256:7172a906d0a8cdea66ee503eb5fdd42d72a02b9be671e4d704fc6aaab4bbb728 30.41MB / 103.74MB 0.6s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.5766272Z #6 sha256:b229ee682f4b38fc20bb10634770b36a36a58c0798b75592b13c2f56aa6c5f1b 5.46MB / 5.46MB 0.5s done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.5767450Z #6 sha256:fdb873fcd2b0484087453758a9d0a865ef73e8ad8b7894013dc045916b033b9c 22.02MB / 48.50MB 0.6s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.5768629Z #6 sha256:edc5ca3f69e3ee9ceebe7fd054c1db7a7d086674fb12fc14d7d6b65bf87dd8fd 0B / 1.33MB 0.6s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.6765184Z #6 sha256:7172a906d0a8cdea66ee503eb5fdd42d72a02b9be671e4d704fc6aaab4bbb728 57.67MB / 103.74MB 0.7s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.6766644Z #6 sha256:fdb873fcd2b0484087453758a9d0a865ef73e8ad8b7894013dc045916b033b9c 48.50MB / 48.50MB 0.7s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.6768785Z #6 sha256:edc5ca3f69e3ee9ceebe7fd054c1db7a7d086674fb12fc14d7d6b65bf87dd8fd 1.33MB / 1.33MB 0.6s done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.6774328Z #6 sha256:9d5dfef6880db44f6a18004c4669e813df6c0eeb470aaf4bd9ff94e81e9816d4 0B / 73.57MB 0.7s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.7815435Z #6 sha256:7172a906d0a8cdea66ee503eb5fdd42d72a02b9be671e4d704fc6aaab4bbb728 87.03MB / 103.74MB 0.8s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.7816555Z #6 sha256:fdb873fcd2b0484087453758a9d0a865ef73e8ad8b7894013dc045916b033b9c 48.50MB / 48.50MB 0.7s done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.7817605Z #6 sha256:9d5dfef6880db44f6a18004c4669e813df6c0eeb470aaf4bd9ff94e81e9816d4 19.92MB / 73.57MB 0.8s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.9132654Z #6 sha256:7172a906d0a8cdea66ee503eb5fdd42d72a02b9be671e4d704fc6aaab4bbb728 103.74MB / 103.74MB 0.9s done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.9134009Z #6 sha256:9d5dfef6880db44f6a18004c4669e813df6c0eeb470aaf4bd9ff94e81e9816d4 53.48MB / 73.57MB 0.9s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:10.9134831Z #6 sha256:b8e17d6fb269d5d05844f8932740d480235b7c117107add2bed85ac2abebfd6e 532B / 532B 0.8s done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:11.0214175Z #6 sha256:9d5dfef6880db44f6a18004c4669e813df6c0eeb470aaf4bd9ff94e81e9816d4 73.57MB / 73.57MB 1.0s done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:11.1764509Z #6 extracting sha256:171857c49d0f5e2ebf623e6cb36a8bcad585ed0c2aa99c87a055df034c1e5848 1.0s done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:11.3746113Z #6 extracting sha256:419640447d267f068d2f84a093cb13a56ce77e130877f5b8bdb4294f4a90a84f done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:13.4409333Z #6 extracting sha256:61e52f862619ab016d3bcfbd78e5c7aaaa1989b4c295e6dbcacddd2d7b93e1f5
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:13.5531524Z #6 extracting sha256:61e52f862619ab016d3bcfbd78e5c7aaaa1989b4c295e6dbcacddd2d7b93e1f5 done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:13.5532902Z #6 extracting sha256:dd4d4e9526b1adecc10515315b09e75d88526e75fba0552b3fbb933f40d293e9 0.1s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:14.3180913Z #6 extracting sha256:dd4d4e9526b1adecc10515315b09e75d88526e75fba0552b3fbb933f40d293e9 0.8s done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:14.3182259Z #6 extracting sha256:7172a906d0a8cdea66ee503eb5fdd42d72a02b9be671e4d704fc6aaab4bbb728
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:15.3807561Z #6 extracting sha256:7172a906d0a8cdea66ee503eb5fdd42d72a02b9be671e4d704fc6aaab4bbb728 0.9s done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:15.4888532Z #6 extracting sha256:5fd64184f89da823f6f234f2af27f3c923b283401e9e92355ec927f301e25829
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:15.5936483Z #6 extracting sha256:5fd64184f89da823f6f234f2af27f3c923b283401e9e92355ec927f301e25829 0.0s done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:15.5937676Z #6 extracting sha256:b229ee682f4b38fc20bb10634770b36a36a58c0798b75592b13c2f56aa6c5f1b 0.0s done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:15.5944885Z #6 extracting sha256:fdb873fcd2b0484087453758a9d0a865ef73e8ad8b7894013dc045916b033b9c
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:15.9162626Z #6 extracting sha256:fdb873fcd2b0484087453758a9d0a865ef73e8ad8b7894013dc045916b033b9c 0.2s done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:15.9163558Z #6 extracting sha256:edc5ca3f69e3ee9ceebe7fd054c1db7a7d086674fb12fc14d7d6b65bf87dd8fd 0.0s done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:15.9164354Z #6 extracting sha256:9d5dfef6880db44f6a18004c4669e813df6c0eeb470aaf4bd9ff94e81e9816d4
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:16.8647637Z #6 extracting sha256:9d5dfef6880db44f6a18004c4669e813df6c0eeb470aaf4bd9ff94e81e9816d4 0.8s done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:16.8648633Z #6 extracting sha256:b8e17d6fb269d5d05844f8932740d480235b7c117107add2bed85ac2abebfd6e done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:16.8649467Z #6 DONE 6.9s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:17.0168025Z 
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:17.0170883Z #7 [2/5] RUN if [ -x "$(command -v apt-get)" ]; then 			apt-get update && apt-get install -y --no-install-recommends ca-certificates ca-certificates-java openjdk-11-jre-headless && 			rm -rf /var/lib/apt/lists/* ; 		elif [ -x "$(command -v apk)" ]; then 			apk add --no-cache ca-certificates openjdk11-jre ; 		fi && 		update-ca-certificates || true && 		if [ -f /etc/ssl/certs/java/cacerts ] && [ -d /opt/java/openjdk/jre/lib/security ]; then 			cp /etc/ssl/certs/java/cacerts /opt/java/openjdk/jre/lib/security/cacerts || true ; 		fi
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:17.3266530Z #7 0.461 Get:1 http://security.ubuntu.com/ubuntu bionic-security InRelease [102 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:17.4982748Z #7 0.482 Get:2 http://archive.ubuntu.com/ubuntu bionic InRelease [242 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:18.0389087Z #7 1.173 Get:3 http://security.ubuntu.com/ubuntu bionic-security/restricted amd64 Packages [1,658 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:18.2515499Z #7 1.386 Get:4 http://archive.ubuntu.com/ubuntu bionic-updates InRelease [102 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:18.7864525Z #7 1.920 Get:5 http://archive.ubuntu.com/ubuntu bionic-backports InRelease [102 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:19.1477587Z #7 2.282 Get:6 http://security.ubuntu.com/ubuntu bionic-security/universe amd64 Packages [1,622 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:19.3762252Z #7 2.510 Get:7 http://security.ubuntu.com/ubuntu bionic-security/main amd64 Packages [3,328 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:19.6142859Z #7 2.598 Get:8 http://archive.ubuntu.com/ubuntu bionic/main amd64 Packages [1,344 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:19.6989771Z #7 2.833 Get:9 http://security.ubuntu.com/ubuntu bionic-security/multiverse amd64 Packages [23.5 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:20.5267549Z #7 3.661 Get:10 http://archive.ubuntu.com/ubuntu bionic/restricted amd64 Packages [13.5 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:20.6906289Z #7 3.825 Get:11 http://archive.ubuntu.com/ubuntu bionic/universe amd64 Packages [11.3 MB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:21.9661599Z #7 5.100 Get:12 http://archive.ubuntu.com/ubuntu bionic/multiverse amd64 Packages [186 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:22.1323442Z #7 5.266 Get:13 http://archive.ubuntu.com/ubuntu bionic-updates/multiverse amd64 Packages [30.5 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:22.2959529Z #7 5.430 Get:14 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 Packages [3,735 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:22.5297219Z #7 5.664 Get:15 http://archive.ubuntu.com/ubuntu bionic-updates/restricted amd64 Packages [1,697 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:22.7246919Z #7 5.859 Get:16 http://archive.ubuntu.com/ubuntu bionic-updates/universe amd64 Packages [2,389 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:22.9324706Z #7 6.067 Get:17 http://archive.ubuntu.com/ubuntu bionic-backports/main amd64 Packages [63.4 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:23.0967964Z #7 6.231 Get:18 http://archive.ubuntu.com/ubuntu bionic-backports/universe amd64 Packages [20.5 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:23.2597506Z #7 6.243 Fetched 28.0 MB in 6s (4,605 kB/s)
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:23.9194368Z #7 6.243 Reading package lists...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:24.8490869Z #7 7.134 Reading package lists...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:25.0180305Z #7 8.017 Building dependency tree...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:25.0181115Z #7 8.152 Reading state information...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:25.1198317Z #7 8.253 The following additional packages will be installed:
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:25.1200009Z #7 8.253   java-common libasound2 libasound2-data libavahi-client3 libavahi-common-data
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:25.1201005Z #7 8.253   libavahi-common3 libcups2 libdbus-1-3 libglib2.0-0 libgraphite2-3
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:25.3231408Z #7 8.254   libharfbuzz0b libjpeg-turbo8 libjpeg8 liblcms2-2 libnspr4 libnss3
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:25.3232142Z #7 8.254   libpcsclite1 multiarch-support
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:25.3232453Z #7 8.254 Suggested packages:
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:25.3232867Z #7 8.254   default-jre libasound2-plugins alsa-utils cups-common liblcms2-utils pcscd
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:25.3233491Z #7 8.254   libnss-mdns fonts-dejavu-extra fonts-ipafont-gothic fonts-ipafont-mincho
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:25.3233997Z #7 8.254   fonts-wqy-microhei | fonts-wqy-zenhei fonts-indic
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:25.3234384Z #7 8.254 Recommended packages:
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:25.3234697Z #7 8.254   dbus libglib2.0-data shared-mime-info xdg-user-dirs
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:25.3235092Z #7 8.305 The following NEW packages will be installed:
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:25.3235563Z #7 8.306   ca-certificates-java java-common libasound2 libasound2-data libavahi-client3
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:25.3236149Z #7 8.306   libavahi-common-data libavahi-common3 libcups2 libdbus-1-3 libglib2.0-0
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:25.3236710Z #7 8.306   libgraphite2-3 libharfbuzz0b libjpeg-turbo8 libjpeg8 liblcms2-2 libnspr4
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:25.3237247Z #7 8.306   libnss3 libpcsclite1 multiarch-support openjdk-11-jre-headless
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:25.3237684Z #7 8.306 The following packages will be upgraded:
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:25.3237994Z #7 8.307   ca-certificates
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:25.4734388Z #7 8.607 1 upgraded, 20 newly installed, 0 to remove and 71 not upgraded.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:25.4735190Z #7 8.607 Need to get 42.3 MB of archives.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:25.4735643Z #7 8.607 After this operation, 189 MB of additional disk space will be used.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:25.4736367Z #7 8.607 Get:1 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 multiarch-support amd64 2.27-3ubuntu1.6 [6,960 B]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:25.6157291Z #7 8.750 Get:2 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libjpeg-turbo8 amd64 1.5.2-0ubuntu5.18.04.6 [111 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:25.9868571Z #7 9.121 Get:3 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 ca-certificates all 20230311ubuntu0.18.04.1 [151 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:26.2152091Z #7 9.349 Get:4 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libdbus-1-3 amd64 1.12.2-1ubuntu1.4 [175 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:26.3624891Z #7 9.497 Get:5 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libglib2.0-0 amd64 2.56.4-0ubuntu0.18.04.9 [1,169 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:26.8203389Z #7 9.954 Get:6 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 java-common all 0.68ubuntu1~18.04.1 [14.5 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:26.9297306Z #7 9.956 Get:7 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libavahi-common-data amd64 0.7-3.1ubuntu1.3 [22.2 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:26.9298533Z #7 9.958 Get:8 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libavahi-common3 amd64 0.7-3.1ubuntu1.3 [21.6 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:26.9300493Z #7 9.962 Get:9 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libavahi-client3 amd64 0.7-3.1ubuntu1.3 [25.2 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:26.9302103Z #7 9.965 Get:10 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libcups2 amd64 2.2.7-1ubuntu2.10 [211 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:26.9302886Z #7 10.05 Get:11 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 liblcms2-2 amd64 2.9-1ubuntu0.1 [139 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:26.9303585Z #7 10.06 Get:12 http://archive.ubuntu.com/ubuntu bionic/main amd64 libjpeg8 amd64 8c-2ubuntu8 [2,194 B]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:27.0930335Z #7 10.06 Get:13 http://archive.ubuntu.com/ubuntu bionic/main amd64 libnspr4 amd64 2:4.18-1ubuntu1 [112 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:27.0931444Z #7 10.08 Get:14 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libnss3 amd64 2:3.35-2ubuntu2.16 [1,220 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:27.1075574Z #7 10.24 Get:15 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libasound2-data all 1.1.3-5ubuntu0.6 [38.5 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:27.2084035Z #7 10.24 Get:16 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 libasound2 amd64 1.1.3-5ubuntu0.6 [360 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:27.2085073Z #7 10.27 Get:17 http://archive.ubuntu.com/ubuntu bionic/main amd64 libgraphite2-3 amd64 1.3.11-2 [78.7 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:27.2086176Z #7 10.33 Get:18 http://archive.ubuntu.com/ubuntu bionic/main amd64 libharfbuzz0b amd64 1.7.2-1ubuntu1 [232 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:27.2086958Z #7 10.34 Get:19 http://archive.ubuntu.com/ubuntu bionic/main amd64 libpcsclite1 amd64 1.8.23-1 [21.3 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:27.2088042Z #7 10.34 Get:20 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 openjdk-11-jre-headless amd64 11.0.19+7~us1-0ubuntu1~18.04.1 [38.1 MB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.1599525Z #7 11.29 Get:21 http://archive.ubuntu.com/ubuntu bionic-updates/main amd64 ca-certificates-java all 20180516ubuntu1~18.04.2 [12.5 kB]
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.2721060Z #7 11.38 debconf: delaying package configuration, since apt-utils is not installed
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.2721891Z #7 11.39 Fetched 42.3 MB in 3s (14.2 MB/s)
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.2722515Z #7 11.41 Selecting previously unselected package multiarch-support.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4542785Z #7 11.41 (Reading database ... 
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4543333Z (Reading database ... 5%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4543700Z (Reading database ... 10%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4544052Z (Reading database ... 15%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4544422Z (Reading database ... 20%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4544785Z (Reading database ... 25%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4545173Z (Reading database ... 30%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4545528Z (Reading database ... 35%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4545888Z (Reading database ... 40%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4546248Z (Reading database ... 45%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4546604Z (Reading database ... 50%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4547009Z (Reading database ... 55%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4547381Z (Reading database ... 60%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4547740Z (Reading database ... 65%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4548105Z (Reading database ... 70%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4548457Z (Reading database ... 75%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4548796Z (Reading database ... 80%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4549168Z (Reading database ... 85%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4549555Z (Reading database ... 90%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4551975Z (Reading database ... 95%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4552779Z (Reading database ... 100%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4553761Z (Reading database ... 7249 files and directories currently installed.)
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4554862Z #7 11.41 Preparing to unpack .../multiarch-support_2.27-3ubuntu1.6_amd64.deb ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4555663Z #7 11.41 Unpacking multiarch-support (2.27-3ubuntu1.6) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4556333Z #7 11.43 Setting up multiarch-support (2.27-3ubuntu1.6) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4557219Z #7 11.45 Selecting previously unselected package libjpeg-turbo8:amd64.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4558574Z #7 11.45 (Reading database ... 
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4559009Z (Reading database ... 5%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4559393Z (Reading database ... 10%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4560011Z (Reading database ... 15%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4560398Z (Reading database ... 20%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4561173Z (Reading database ... 25%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4561704Z (Reading database ... 30%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4562594Z (Reading database ... 35%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4563197Z (Reading database ... 40%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4563602Z (Reading database ... 45%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4563989Z (Reading database ... 50%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4564571Z (Reading database ... 55%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4564961Z (Reading database ... 60%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4565346Z (Reading database ... 65%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4565726Z (Reading database ... 70%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4566117Z (Reading database ... 75%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4566541Z (Reading database ... 80%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4566943Z (Reading database ... 85%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4567367Z (Reading database ... 90%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4567603Z (Reading database ... 95%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4567832Z (Reading database ... 100%
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4568156Z (Reading database ... 7252 files and directories currently installed.)
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4568711Z #7 11.45 Preparing to unpack .../00-libjpeg-turbo8_1.5.2-0ubuntu5.18.04.6_amd64.deb ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4569203Z #7 11.45 Unpacking libjpeg-turbo8:amd64 (1.5.2-0ubuntu5.18.04.6) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4570311Z #7 11.48 Preparing to unpack .../01-ca-certificates_20230311ubuntu0.18.04.1_all.deb ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4570896Z #7 11.48 Unpacking ca-certificates (20230311ubuntu0.18.04.1) over (20190110~18.04.1) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.4571389Z #7 11.59 Selecting previously unselected package libdbus-1-3:amd64.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.5681747Z #7 11.59 Preparing to unpack .../02-libdbus-1-3_1.12.2-1ubuntu1.4_amd64.deb ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.5682854Z #7 11.59 Unpacking libdbus-1-3:amd64 (1.12.2-1ubuntu1.4) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.5683716Z #7 11.62 Selecting previously unselected package libglib2.0-0:amd64.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.5684256Z #7 11.62 Preparing to unpack .../03-libglib2.0-0_2.56.4-0ubuntu0.18.04.9_amd64.deb ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.5684745Z #7 11.62 Unpacking libglib2.0-0:amd64 (2.56.4-0ubuntu0.18.04.9) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.5685152Z #7 11.70 Selecting previously unselected package java-common.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.6840691Z #7 11.70 Preparing to unpack .../04-java-common_0.68ubuntu1~18.04.1_all.deb ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.6841514Z #7 11.70 Unpacking java-common (0.68ubuntu1~18.04.1) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.6842393Z #7 11.72 Selecting previously unselected package libavahi-common-data:amd64.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.6843067Z #7 11.72 Preparing to unpack .../05-libavahi-common-data_0.7-3.1ubuntu1.3_amd64.deb ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.6843813Z #7 11.72 Unpacking libavahi-common-data:amd64 (0.7-3.1ubuntu1.3) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.6844908Z #7 11.73 Selecting previously unselected package libavahi-common3:amd64.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.6846263Z #7 11.74 Preparing to unpack .../06-libavahi-common3_0.7-3.1ubuntu1.3_amd64.deb ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.6847429Z #7 11.74 Unpacking libavahi-common3:amd64 (0.7-3.1ubuntu1.3) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.6848200Z #7 11.75 Selecting previously unselected package libavahi-client3:amd64.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.6849386Z #7 11.75 Preparing to unpack .../07-libavahi-client3_0.7-3.1ubuntu1.3_amd64.deb ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.6850552Z #7 11.75 Unpacking libavahi-client3:amd64 (0.7-3.1ubuntu1.3) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.6851264Z #7 11.77 Selecting previously unselected package libcups2:amd64.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.6851705Z #7 11.77 Preparing to unpack .../08-libcups2_2.2.7-1ubuntu2.10_amd64.deb ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.6852237Z #7 11.77 Unpacking libcups2:amd64 (2.2.7-1ubuntu2.10) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.6852614Z #7 11.80 Selecting previously unselected package liblcms2-2:amd64.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.6853319Z #7 11.80 Preparing to unpack .../09-liblcms2-2_2.9-1ubuntu0.1_amd64.deb ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.6854397Z #7 11.80 Unpacking liblcms2-2:amd64 (2.9-1ubuntu0.1) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.6855402Z #7 11.82 Selecting previously unselected package libjpeg8:amd64.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.8114402Z #7 11.82 Preparing to unpack .../10-libjpeg8_8c-2ubuntu8_amd64.deb ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.8115099Z #7 11.82 Unpacking libjpeg8:amd64 (8c-2ubuntu8) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.8115671Z #7 11.83 Selecting previously unselected package libnspr4:amd64.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.8116344Z #7 11.83 Preparing to unpack .../11-libnspr4_2%3a4.18-1ubuntu1_amd64.deb ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.8116974Z #7 11.83 Unpacking libnspr4:amd64 (2:4.18-1ubuntu1) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.8117537Z #7 11.86 Selecting previously unselected package libnss3:amd64.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.8118211Z #7 11.86 Preparing to unpack .../12-libnss3_2%3a3.35-2ubuntu2.16_amd64.deb ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.8118858Z #7 11.86 Unpacking libnss3:amd64 (2:3.35-2ubuntu2.16) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.8119456Z #7 11.95 Selecting previously unselected package libasound2-data.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.9233874Z #7 11.95 Preparing to unpack .../13-libasound2-data_1.1.3-5ubuntu0.6_all.deb ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.9235617Z #7 11.95 Unpacking libasound2-data (1.1.3-5ubuntu0.6) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.9236624Z #7 12.00 Selecting previously unselected package libasound2:amd64.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.9237780Z #7 12.00 Preparing to unpack .../14-libasound2_1.1.3-5ubuntu0.6_amd64.deb ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.9238685Z #7 12.00 Unpacking libasound2:amd64 (1.1.3-5ubuntu0.6) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.9240559Z #7 12.04 Selecting previously unselected package libgraphite2-3:amd64.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.9242294Z #7 12.04 Preparing to unpack .../15-libgraphite2-3_1.3.11-2_amd64.deb ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.9243316Z #7 12.04 Unpacking libgraphite2-3:amd64 (1.3.11-2) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:28.9244165Z #7 12.06 Selecting previously unselected package libharfbuzz0b:amd64.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:29.1244162Z #7 12.06 Preparing to unpack .../16-libharfbuzz0b_1.7.2-1ubuntu1_amd64.deb ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:29.1244779Z #7 12.06 Unpacking libharfbuzz0b:amd64 (1.7.2-1ubuntu1) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:29.1245299Z #7 12.09 Selecting previously unselected package libpcsclite1:amd64.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:29.1245995Z #7 12.09 Preparing to unpack .../17-libpcsclite1_1.8.23-1_amd64.deb ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:29.1246457Z #7 12.09 Unpacking libpcsclite1:amd64 (1.8.23-1) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:29.1246952Z #7 12.11 Selecting previously unselected package openjdk-11-jre-headless:amd64.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:29.1247653Z #7 12.11 Preparing to unpack .../18-openjdk-11-jre-headless_11.0.19+7~us1-0ubuntu1~18.04.1_amd64.deb ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:29.1248745Z #7 12.11 Unpacking openjdk-11-jre-headless:amd64 (11.0.19+7~us1-0ubuntu1~18.04.1) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:31.7351667Z #7 14.87 Selecting previously unselected package ca-certificates-java.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:31.8577472Z #7 14.87 Preparing to unpack .../19-ca-certificates-java_20180516ubuntu1~18.04.2_all.deb ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:31.8580275Z #7 14.87 Unpacking ca-certificates-java (20180516ubuntu1~18.04.2) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:31.8581491Z #7 14.89 Setting up liblcms2-2:amd64 (2.9-1ubuntu0.1) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:31.8582183Z #7 14.90 Setting up libpcsclite1:amd64 (1.8.23-1) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:31.8582568Z #7 14.90 Setting up libglib2.0-0:amd64 (2.56.4-0ubuntu0.18.04.9) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:31.8582945Z #7 14.90 No schema files found: doing nothing.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:31.8583286Z #7 14.91 Setting up libasound2-data (1.1.3-5ubuntu0.6) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:31.8583637Z #7 14.91 Setting up java-common (0.68ubuntu1~18.04.1) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:31.8584037Z #7 14.92 Setting up libjpeg-turbo8:amd64 (1.5.2-0ubuntu5.18.04.6) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:31.8584424Z #7 14.92 Setting up libnspr4:amd64 (2:4.18-1ubuntu1) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:31.8584768Z #7 14.92 Setting up libasound2:amd64 (1.1.3-5ubuntu0.6) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:31.8585114Z #7 14.92 Setting up libgraphite2-3:amd64 (1.3.11-2) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:31.8585470Z #7 14.93 Setting up ca-certificates (20230311ubuntu0.18.04.1) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:31.8585834Z #7 14.99 debconf: unable to initialize frontend: Dialog
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:31.8586675Z #7 14.99 debconf: (TERM is not set, so the dialog frontend is not usable.)
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:31.8587095Z #7 14.99 debconf: falling back to frontend: Readline
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:32.0086703Z #7 14.99 debconf: unable to initialize frontend: Readline
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:32.0088801Z #7 14.99 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC contains: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.26.1 /usr/local/share/perl/5.26.1 /usr/lib/x86_64-linux-gnu/perl5/5.26 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl/5.26 /usr/share/perl/5.26 /usr/local/lib/site_perl /usr/lib/x86_64-linux-gnu/perl-base) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 7.)
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:32.0091506Z #7 14.99 debconf: falling back to frontend: Teletype
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:33.0418862Z #7 16.18 Updating certificates in /etc/ssl/certs...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:33.6925315Z #7 16.83 rehash: warning: skipping ca-certificates.crt,it does not contain exactly one certificate or CRL
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:33.9339409Z #7 16.84 47 added, 37 removed; done.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:33.9340614Z #7 16.85 Setting up libdbus-1-3:amd64 (1.12.2-1ubuntu1.4) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:33.9341385Z #7 16.85 Setting up libavahi-common-data:amd64 (0.7-3.1ubuntu1.3) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:33.9342118Z #7 16.85 Setting up libjpeg8:amd64 (8c-2ubuntu8) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:33.9342727Z #7 16.86 Setting up libnss3:amd64 (2:3.35-2ubuntu2.16) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:33.9343366Z #7 16.86 Setting up libharfbuzz0b:amd64 (1.7.2-1ubuntu1) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:33.9344059Z #7 16.86 Setting up libavahi-common3:amd64 (0.7-3.1ubuntu1.3) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:33.9344756Z #7 16.86 Setting up libavahi-client3:amd64 (0.7-3.1ubuntu1.3) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:33.9345424Z #7 16.87 Setting up libcups2:amd64 (2.2.7-1ubuntu2.10) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:33.9346215Z #7 16.87 Setting up openjdk-11-jre-headless:amd64 (11.0.19+7~us1-0ubuntu1~18.04.1) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:33.9347447Z #7 16.90 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/java to provide /usr/bin/java (java) in auto mode
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:33.9348925Z #7 16.91 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/jjs to provide /usr/bin/jjs (jjs) in auto mode
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:33.9350932Z #7 16.91 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/keytool to provide /usr/bin/keytool (keytool) in auto mode
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:33.9352522Z #7 16.91 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/rmid to provide /usr/bin/rmid (rmid) in auto mode
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:33.9354181Z #7 16.91 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/rmiregistry to provide /usr/bin/rmiregistry (rmiregistry) in auto mode
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:33.9355864Z #7 16.91 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/pack200 to provide /usr/bin/pack200 (pack200) in auto mode
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:33.9357512Z #7 16.92 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/bin/unpack200 to provide /usr/bin/unpack200 (unpack200) in auto mode
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:33.9359122Z #7 16.92 update-alternatives: using /usr/lib/jvm/java-11-openjdk-amd64/lib/jexec to provide /usr/bin/jexec (jexec) in auto mode
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.1461986Z #7 17.28 Setting up ca-certificates-java (20180516ubuntu1~18.04.2) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.3094554Z #7 17.29 head: cannot open '/etc/ssl/certs/java/cacerts' for reading: No such file or directory
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.3685567Z #7 17.50 Adding debian:QuoVadis_Root_CA_1_G3.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.4689367Z #7 17.53 Adding debian:SSL.com_EV_Root_Certification_Authority_ECC.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.4694874Z #7 17.53 Adding debian:GDCA_TrustAUTH_R5_ROOT.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.4695438Z #7 17.54 Adding debian:CFCA_EV_ROOT.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.4695946Z #7 17.54 Adding debian:QuoVadis_Root_CA_2.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.4696553Z #7 17.54 Adding debian:COMODO_ECC_Certification_Authority.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.4697239Z #7 17.55 Adding debian:Microsec_e-Szigno_Root_CA_2009.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.4697848Z #7 17.55 Adding debian:Hongkong_Post_Root_CA_1.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.4699969Z #7 17.56 Adding debian:NetLock_Arany_=Class_Gold=_Főtanúsítvány.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.4700740Z #7 17.56 Adding debian:Certum_Trusted_Network_CA_2.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.4701496Z #7 17.56 Adding debian:Hellenic_Academic_and_Research_Institutions_RootCA_2015.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.4702435Z #7 17.57 Adding debian:Hellenic_Academic_and_Research_Institutions_ECC_RootCA_2015.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.4703215Z #7 17.57 Adding debian:TeliaSonera_Root_CA_v1.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.4703769Z #7 17.57 Adding debian:AffirmTrust_Networking.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.4704319Z #7 17.58 Adding debian:DigiCert_Trusted_Root_G4.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.4704923Z #7 17.58 Adding debian:E-Tugra_Certification_Authority.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.4705528Z #7 17.59 Adding debian:SwissSign_Silver_CA_-_G2.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.4706062Z #7 17.59 Adding debian:CA_Disig_Root_R2.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.4706623Z #7 17.60 Adding debian:COMODO_Certification_Authority.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.4707328Z #7 17.60 Adding debian:Entrust_Root_Certification_Authority_-_EC1.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.4707989Z #7 17.60 Adding debian:Amazon_Root_CA_4.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5707142Z #7 17.61 Adding debian:IdenTrust_Commercial_Root_CA_1.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5708612Z #7 17.61 Adding debian:USERTrust_RSA_Certification_Authority.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5709367Z #7 17.61 Adding debian:SSL.com_Root_Certification_Authority_RSA.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5710282Z #7 17.62 Adding debian:D-TRUST_Root_Class_3_CA_2_2009.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5710851Z #7 17.62 Adding debian:SZAFIR_ROOT_CA2.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5711346Z #7 17.62 Adding debian:Amazon_Root_CA_2.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5711863Z #7 17.63 Adding debian:Starfield_Class_2_CA.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5712501Z #7 17.63 Adding debian:SSL.com_Root_Certification_Authority_ECC.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5713264Z #7 17.63 Adding debian:TUBITAK_Kamu_SM_SSL_Kok_Sertifikasi_-_Surum_1.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5713924Z #7 17.64 Adding debian:certSIGN_ROOT_CA.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5714559Z #7 17.64 Adding debian:T-TeleSec_GlobalRoot_Class_3.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5715170Z #7 17.64 Adding debian:DigiCert_Assured_ID_Root_CA.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5715753Z #7 17.64 Adding debian:GlobalSign_ECC_Root_CA_-_R4.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5716330Z #7 17.65 Adding debian:GlobalSign_ECC_Root_CA_-_R5.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5716970Z #7 17.65 Adding debian:Go_Daddy_Root_Certificate_Authority_-_G2.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5717614Z #7 17.65 Adding debian:AffirmTrust_Commercial.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5718156Z #7 17.65 Adding debian:GlobalSign_Root_CA.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5718680Z #7 17.65 Adding debian:SecureSign_RootCA11.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5719252Z #7 17.66 Adding debian:Actalis_Authentication_Root_CA.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5719995Z #7 17.66 Adding debian:GlobalSign_Root_CA_-_R3.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5720565Z #7 17.66 Adding debian:Certum_Trusted_Network_CA.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5721181Z #7 17.67 Adding debian:ePKI_Root_Certification_Authority.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5721761Z #7 17.67 Adding debian:SecureTrust_CA.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5722291Z #7 17.67 Adding debian:DigiCert_Global_Root_CA.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5722838Z #7 17.67 Adding debian:DigiCert_Global_Root_G3.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5723362Z #7 17.68 Adding debian:AC_RAIZ_FNMT-RCM.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5723977Z #7 17.68 Adding debian:Starfield_Root_Certificate_Authority_-_G2.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5724683Z #7 17.68 Adding debian:TWCA_Root_Certification_Authority.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5725299Z #7 17.69 Adding debian:DigiCert_Assured_ID_Root_G3.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5725867Z #7 17.69 Adding debian:AffirmTrust_Premium_ECC.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5726453Z #7 17.69 Adding debian:Baltimore_CyberTrust_Root.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5727058Z #7 17.69 Adding debian:D-TRUST_Root_Class_3_CA_2_EV_2009.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5727671Z #7 17.69 Adding debian:DigiCert_Assured_ID_Root_G2.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5728230Z #7 17.70 Adding debian:QuoVadis_Root_CA_2_G3.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5728857Z #7 17.70 Adding debian:USERTrust_ECC_Certification_Authority.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5730641Z #7 17.70 Adding debian:Secure_Global_CA.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.5731335Z #7 17.70 Adding debian:Starfield_Services_Root_Certificate_Authority_-_G2.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6726313Z #7 17.71 Adding debian:QuoVadis_Root_CA_3.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6727385Z #7 17.71 Adding debian:Comodo_AAA_Services_root.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6728384Z #7 17.71 Adding debian:Amazon_Root_CA_1.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6729219Z #7 17.72 Adding debian:Buypass_Class_2_Root_CA.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6730148Z #7 17.72 Adding debian:Certigna.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6730683Z #7 17.72 Adding debian:T-TeleSec_GlobalRoot_Class_2.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6731360Z #7 17.73 Adding debian:Entrust.net_Premium_2048_Secure_Server_CA.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6732136Z #7 17.73 Adding debian:SSL.com_EV_Root_Certification_Authority_RSA_R2.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6732920Z #7 17.73 Adding debian:Amazon_Root_CA_3.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6733538Z #7 17.74 Adding debian:IdenTrust_Public_Sector_Root_CA_1.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6734197Z #7 17.74 Adding debian:SwissSign_Gold_CA_-_G2.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6734825Z #7 17.74 Adding debian:OISTE_WISeKey_Global_Root_GC_CA.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6735433Z #7 17.74 Adding debian:Go_Daddy_Class_2_CA.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6736060Z #7 17.75 Adding debian:COMODO_RSA_Certification_Authority.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6736663Z #7 17.75 Adding debian:ACCVRAIZ1.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6737219Z #7 17.76 Adding debian:OISTE_WISeKey_Global_Root_GB_CA.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6737868Z #7 17.76 Adding debian:Security_Communication_Root_CA.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6738469Z #7 17.76 Adding debian:AffirmTrust_Premium.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6739023Z #7 17.77 Adding debian:TWCA_Global_Root_CA.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6739586Z #7 17.77 Adding debian:GlobalSign_Root_CA_-_R6.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6742171Z #7 17.77 Adding debian:Izenpe.com.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6742940Z #7 17.78 Adding debian:Autoridad_de_Certificacion_Firmaprofesional_CIF_A62634068.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6743804Z #7 17.78 Adding debian:Security_Communication_RootCA2.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6744578Z #7 17.78 Adding debian:Buypass_Class_3_Root_CA.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6745249Z #7 17.79 Adding debian:DigiCert_High_Assurance_EV_Root_CA.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6745957Z #7 17.79 Adding debian:Entrust_Root_Certification_Authority.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6746625Z #7 17.79 Adding debian:DigiCert_Global_Root_G2.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6747228Z #7 17.80 Adding debian:QuoVadis_Root_CA_3_G3.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6747824Z #7 17.80 Adding debian:XRamp_Global_CA_Root.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6748351Z #7 17.80 Adding debian:ISRG_Root_X1.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6748988Z #7 17.80 Adding debian:Entrust_Root_Certification_Authority_-_G2.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.6749939Z #7 17.81 Adding debian:Atos_TrustedRoot_2011.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7961435Z #7 17.81 Adding debian:ISRG_Root_X2.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7962385Z #7 17.81 Adding debian:E-Tugra_Global_Root_CA_RSA_v3.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7962924Z #7 17.81 Adding debian:Trustwave_Global_ECC_P384_Certification_Authority.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7963407Z #7 17.82 Adding debian:HARICA_TLS_RSA_Root_CA_2021.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7963732Z #7 17.82 Adding debian:Telia_Root_CA_v2.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7964017Z #7 17.82 Adding debian:GTS_Root_R2.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7964305Z #7 17.82 Adding debian:Certum_Trusted_Root_CA.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7964618Z #7 17.83 Adding debian:UCA_Global_G2_Root.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7964915Z #7 17.83 Adding debian:emSign_Root_CA_-_C1.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7965212Z #7 17.83 Adding debian:emSign_Root_CA_-_G1.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7965510Z #7 17.83 Adding debian:e-Szigno_Root_CA_2017.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7965857Z #7 17.83 Adding debian:DigiCert_TLS_ECC_P384_Root_G5.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7966179Z #7 17.84 Adding debian:Certigna_Root_CA.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7966556Z #7 17.84 Adding debian:Trustwave_Global_ECC_P256_Certification_Authority.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7966980Z #7 17.84 Adding debian:UCA_Extended_Validation_Root.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7967299Z #7 17.84 Adding debian:TunTrust_Root_CA.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7967979Z #7 17.84 Adding debian:HARICA_TLS_ECC_Root_CA_2021.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7968297Z #7 17.85 Adding debian:Certainly_Root_R1.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7968653Z #7 17.85 Adding debian:Entrust_Root_Certification_Authority_-_G4.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7969024Z #7 17.85 Adding debian:Certum_EC-384_CA.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7969321Z #7 17.85 Adding debian:GTS_Root_R4.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7969944Z #7 17.86 Adding debian:Trustwave_Global_Certification_Authority.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7970681Z #7 17.86 Adding debian:ANF_Secure_Server_Root_CA.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7971362Z #7 17.86 Adding debian:Microsoft_RSA_Root_Certificate_Authority_2017.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7972104Z #7 17.86 Adding debian:Security_Communication_ECC_RootCA1.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7972709Z #7 17.87 Adding debian:HiPKI_Root_CA_-_G1.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7973360Z #7 17.87 Adding debian:NAVER_Global_Root_Certification_Authority.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7973965Z #7 17.87 Adding debian:vTrus_ECC_Root_CA.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7974274Z #7 17.87 Adding debian:GTS_Root_R1.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7974548Z #7 17.87 Adding debian:GLOBALTRUST_2020.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7975006Z #7 17.88 Adding debian:Hongkong_Post_Root_CA_3.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7975518Z #7 17.88 Adding debian:AC_RAIZ_FNMT-RCM_SERVIDORES_SEGUROS.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7975890Z #7 17.88 Adding debian:E-Tugra_Global_Root_CA_ECC_v3.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7976216Z #7 17.88 Adding debian:GlobalSign_Root_E46.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7976502Z #7 17.88 Adding debian:GTS_Root_R3.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7976782Z #7 17.88 Adding debian:emSign_ECC_Root_CA_-_G3.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7977100Z #7 17.88 Adding debian:D-TRUST_BR_Root_CA_1_2020.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7977430Z #7 17.89 Adding debian:DigiCert_TLS_RSA4096_Root_G5.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7977748Z #7 17.89 Adding debian:Certainly_Root_E1.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7978111Z #7 17.89 Adding debian:Microsoft_ECC_Root_Certificate_Authority_2017.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7978505Z #7 17.89 Adding debian:D-TRUST_EV_Root_CA_1_2020.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7978826Z #7 17.89 Adding debian:emSign_ECC_Root_CA_-_C3.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7979117Z #7 17.90 Adding debian:vTrus_Root_CA.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7979394Z #7 17.90 Adding debian:certSIGN_Root_CA_G2.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7980327Z #7 17.90 Adding debian:Security_Communication_RootCA3.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7980855Z #7 17.90 Adding debian:Autoridad_de_Certificacion_Firmaprofesional_CIF_A62634068_2.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7981482Z #7 17.91 Adding debian:GlobalSign_Root_R46.pem
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.7981827Z #7 17.93 done.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.9654934Z #7 17.93 Processing triggers for libc-bin (2.27-3ubuntu1.2) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.9655478Z #7 17.94 Processing triggers for ca-certificates (20230311ubuntu0.18.04.1) ...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:34.9656061Z #7 17.95 Updating certificates in /etc/ssl/certs...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:35.2507116Z #7 18.38 0 added, 0 removed; done.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:35.2507805Z #7 18.38 Running hooks in /etc/ca-certificates/update.d...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:35.4047319Z #7 18.39 
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:35.4674032Z #7 18.60 done.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:35.6505079Z #7 18.60 done.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:35.6505616Z #7 18.63 Updating certificates in /etc/ssl/certs...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:35.9375026Z #7 19.07 0 added, 0 removed; done.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:35.9375770Z #7 19.07 Running hooks in /etc/ca-certificates/update.d...
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:36.0912959Z #7 19.07 
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:36.1452033Z #7 19.28 done.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:36.2957832Z #7 19.28 done.
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:36.3894320Z #7 DONE 19.5s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:36.5409051Z 
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:36.5411414Z #8 [3/5] RUN mkdir -p /root/.jenkinsfile-runner/war/2.568.2 && 		if command -v curl >/dev/null 2>&1; then 				curl -fsSL "https://get.jenkins.io/war-stable/2.568.2/jenkins.war" -o /root/.jenkinsfile-runner/war/2.568.2/jenkins.war || echo "WARNING: pre-fetch failed, runner will download at runtime"; 		else 			echo "curl not found; skipping pre-fetch (runner will download at runtime)"; 		fi || true
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:37.7067457Z #8 DONE 1.3s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:37.8497644Z 
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:37.8498893Z #9 [4/5] COPY plugins.txt /usr/share/jenkins/plugins.txt
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:37.8500142Z #9 DONE 0.0s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:37.8500374Z 
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:37.8500793Z #10 [5/5] RUN jenkins-plugin-cli --plugin-file /usr/share/jenkins/plugins.txt || true
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:37.8501689Z #10 0.121 /bin/sh: 1: jenkins-plugin-cli: not found
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:38.0066163Z #10 DONE 0.1s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:38.0066491Z 
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:38.0066655Z #11 exporting to image
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:38.0067058Z #11 exporting layers
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:38.8113757Z #11 exporting layers 1.0s done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:38.8286951Z #11 writing image sha256:ca84a581d29d18b0b2f73691f8695be12613d56cbed013ffac86ab517b6cb94c done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:38.8287871Z #11 naming to docker.io/local/jfr:latest done
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:38.8288322Z #11 DONE 1.0s
+validate	Jenkinsfile lint guidance	2026-08-13T18:29:38.8351569Z Running jenkinsfile-runner to validate Jenkinsfile (timeout 20m)...
+validate	Jenkinsfile lint guidance	2026-08-13T18:32:13.8072610Z jenkinsfile-runner reported issues or timed out; lint output saved to jenkinsfile-lint.log
+validate	Jenkinsfile lint guidance	2026-08-13T18:32:13.8073981Z Jenkinsfile lint finished (logs saved).
+validate	Ensure jenkinsfile-lint.log exists	﻿2026-08-13T18:32:13.8105086Z ##[group]Run if [ ! -f jenkinsfile-lint.log ]; then
+validate	Ensure jenkinsfile-lint.log exists	2026-08-13T18:32:13.8105488Z ^[[36;1mif [ ! -f jenkinsfile-lint.log ]; then^[[0m
+validate	Ensure jenkinsfile-lint.log exists	2026-08-13T18:32:13.8106051Z ^[[36;1m  echo "jenkinsfile-runner: no lint output produced (skipped or succeeded without log)" > jenkinsfile-lint.log^[[0m
+validate	Ensure jenkinsfile-lint.log exists	2026-08-13T18:32:13.8106565Z ^[[36;1mfi^[[0m
+validate	Ensure jenkinsfile-lint.log exists	2026-08-13T18:32:13.8150102Z shell: /usr/bin/bash -e {0}
+validate	Ensure jenkinsfile-lint.log exists	2026-08-13T18:32:13.8150364Z env:
+validate	Ensure jenkinsfile-lint.log exists	2026-08-13T18:32:13.8150632Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Ensure jenkinsfile-lint.log exists	2026-08-13T18:32:13.8151105Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+validate	Ensure jenkinsfile-lint.log exists	2026-08-13T18:32:13.8151548Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Ensure jenkinsfile-lint.log exists	2026-08-13T18:32:13.8151949Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Ensure jenkinsfile-lint.log exists	2026-08-13T18:32:13.8152326Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Ensure jenkinsfile-lint.log exists	2026-08-13T18:32:13.8152712Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+validate	Ensure jenkinsfile-lint.log exists	2026-08-13T18:32:13.8153168Z   TERRAFORM_CLI_PATH: /home/runner/work/_temp/0b603c2e-ead6-45c2-b9c4-ad317d4013c9
+validate	Ensure jenkinsfile-lint.log exists	2026-08-13T18:32:13.8153581Z ##[endgroup]
+validate	Upload jenkinsfile lint log	﻿2026-08-13T18:32:13.8270194Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:13.8271514Z ##[group]Run actions/upload-artifact@v4
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:13.8271780Z with:
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:13.8271977Z   name: jenkinsfile-lint-log
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:13.8272227Z   path: jenkinsfile-lint.log
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:13.8272459Z   if-no-files-found: warn
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:13.8272686Z   compression-level: 6
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:13.8272898Z   overwrite: false
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:13.8273102Z   include-hidden-files: false
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:13.8273334Z env:
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:13.8273580Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:13.8274003Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:13.8274419Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:13.8274819Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:13.8275194Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:13.8275567Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:13.8276018Z   TERRAFORM_CLI_PATH: /home/runner/work/_temp/0b603c2e-ead6-45c2-b9c4-ad317d4013c9
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:13.8276405Z ##[endgroup]
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:13.9958542Z (node:10216) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:13.9960036Z (Use `node --trace-deprecation ...` to show where the warning was created)
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:14.0006367Z With the provided path, there will be 1 file uploaded
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:14.0027198Z Artifact name is valid!
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:14.0050766Z Root directory input is valid!
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:14.3571861Z Beginning upload of artifact content to blob storage
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:14.3757978Z (node:10216) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:14.6810495Z Uploaded bytes 936
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:14.7670620Z Finished uploading artifact content to blob storage!
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:14.7671878Z SHA256 digest of uploaded artifact zip is 0341d2819863fe9d6b102d1965f8932c077774f1466a37283ef1962f74c222b4
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:14.7674539Z Finalizing artifact upload
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:15.0112525Z Artifact jenkinsfile-lint-log.zip successfully finalized. Artifact ID 9193295592
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:15.0113631Z Artifact jenkinsfile-lint-log has been successfully uploaded! Final size is 936 bytes. Artifact ID is 9193295592
+validate	Upload jenkinsfile lint log	2026-08-13T18:32:15.0119512Z Artifact download URL: https://github.com/harishmsgit/herovired-infra/actions/runs/31730899204/artifacts/9193295592
+validate	Post Setup Python	﻿2026-08-13T18:32:15.0281911Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate	Post Setup Python	2026-08-13T18:32:15.0283138Z Post job cleanup.
+validate	Post Setup Python	2026-08-13T18:32:15.1463901Z (node:10229) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+validate	Post Setup Python	2026-08-13T18:32:15.1464821Z (Use `node --trace-deprecation ...` to show where the warning was created)
+validate	Post Checkout	﻿2026-08-13T18:32:15.1633061Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate	Post Checkout	2026-08-13T18:32:15.1634540Z Post job cleanup.
+validate	Post Checkout	2026-08-13T18:32:15.2663415Z [command]/usr/bin/git version
+validate	Post Checkout	2026-08-13T18:32:15.2727937Z git version 2.54.0
+validate	Post Checkout	2026-08-13T18:32:15.2783386Z Temporarily overriding HOME='/home/runner/work/_temp/d60fd4c0-03ae-4467-89af-266493e01fdd' before making global git config changes
+validate	Post Checkout	2026-08-13T18:32:15.2789533Z Adding repository directory to the temporary git global config as a safe directory
+validate	Post Checkout	2026-08-13T18:32:15.2791079Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/herovired-infra/herovired-infra
+validate	Post Checkout	2026-08-13T18:32:15.2845268Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+validate	Post Checkout	2026-08-13T18:32:15.2894263Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+validate	Post Checkout	2026-08-13T18:32:15.3238627Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+validate	Post Checkout	2026-08-13T18:32:15.3273700Z http.https://github.com/.extraheader
+validate	Post Checkout	2026-08-13T18:32:15.3291350Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+validate	Post Checkout	2026-08-13T18:32:15.3334633Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+validate	Post Checkout	2026-08-13T18:32:15.3649454Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+validate	Post Checkout	2026-08-13T18:32:15.3694603Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+validate	Complete job	﻿2026-08-13T18:32:15.4085944Z Cleaning up orphan processes
+validate	Complete job	2026-08-13T18:32:15.5940591Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v4, actions/upload-artifact@v4, hashicorp/setup-terraform@v2. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
