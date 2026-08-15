@@ -37,7 +37,7 @@ pipeline {
     choice(name: 'ECR_REPOSITORY_STRATEGY', choices: ['service-repos', 'single-repo'], description: 'Use service repositories (<prefix>/frontend) or one shared repository (<repo>:frontend-<tag>)')
     string(name: 'SINGLE_ECR_REPOSITORY', defaultValue: '', description: 'Shared ECR repository name for single-repo mode, for example shopnow-ecr-21-07-2027')
     string(name: 'USER_NAME', defaultValue: 'harish', description: 'Frontend and admin build arg used for public path customization')
-    string(name: 'INFRA_JOB_NAME', defaultValue: 'shopnow-infra', description: 'Downstream Jenkins job name for infra deployment orchestration')
+    string(name: 'INFRA_JOB_NAME', defaultValue: 'herovired-infra', description: 'Downstream Jenkins job name for infra deployment orchestration')
     booleanParam(name: 'TRIGGER_INFRA_DEPLOYMENT', defaultValue: true, description: 'Trigger the infra job after images are pushed')
     booleanParam(name: 'FORCE_BUILD', defaultValue: false, description: 'Force building and pushing all services regardless of detected changes')
   }
@@ -115,23 +115,33 @@ pipeline {
             }
           }
 
-          if (params.FORCE_BUILD) {
+          // Determine if this is a forced build (FORCE_BUILD param, first build, or pipeline config changed)
+          def isForcedBuild = params.FORCE_BUILD
+          def isFirstBuild = !previousSha || previousSha == 'null'
+          def isConfigChanged = changedFiles.any { file -> file == 'Jenkinsfile' || file == 'README.md' || file.startsWith('.github/') || file.startsWith('docker/') || file.startsWith('scripts/') }
+          def noChangesDetected = !changedFiles || changedFiles.isEmpty() || changedFiles.every { it == null || it.trim().isEmpty() }
+
+          if (isForcedBuild) {
             echo 'FORCE_BUILD parameter set; forcing all services to build.'
-            changedFiles = ['frontend/', 'admin/', 'backend/']
-          } else if (!previousSha || previousSha == 'null' || !changedFiles || changedFiles.isEmpty() || changedFiles.every { it == null || it.trim().isEmpty() }) {
-            echo 'No previous commit change set or first build detected; forcing all services to build.'
-            changedFiles = ['frontend/', 'admin/', 'backend/']
-          } else if (changedFiles.any { file -> file == 'Jenkinsfile' || file == 'README.md' || file.startsWith('.github/') || file.startsWith('docker/') || file.startsWith('scripts/') }) {
+            env.BUILD_FRONTEND = 'true'
+            env.BUILD_ADMIN = 'true'
+            env.BUILD_BACKEND = 'true'
+            env.CHANGESET = 'frontend/\nadmin/\nbackend/'
+          } else if (isFirstBuild || noChangesDetected) {
+            echo 'First build or no changes detected; forcing all services to build.'
+            env.BUILD_FRONTEND = 'true'
+            env.BUILD_ADMIN = 'true'
+            env.BUILD_BACKEND = 'true'
+            env.CHANGESET = 'frontend/\nadmin/\nbackend/'
+          } else if (isConfigChanged) {
             echo 'Pipeline or repo-level configuration changed; forcing all services to build.'
-            changedFiles = ['frontend/', 'admin/', 'backend/']
-          }
-
-          env.CHANGESET = changedFiles.take(100).join('\n')
-          env.BUILD_FRONTEND = 'true'
-          env.BUILD_ADMIN = 'true'
-          env.BUILD_BACKEND = 'true'
-
-          if (changedFiles && !changedFiles.isEmpty() && !changedFiles.every { it == null || it.trim().isEmpty() }) {
+            env.BUILD_FRONTEND = 'true'
+            env.BUILD_ADMIN = 'true'
+            env.BUILD_BACKEND = 'true'
+            env.CHANGESET = 'frontend/\nadmin/\nbackend/'
+          } else {
+            echo 'Detecting service changes from git diff.'
+            env.CHANGESET = changedFiles.take(100).join('\n')
             env.BUILD_FRONTEND = changeMatches(changedFiles, ['frontend/']).toString()
             env.BUILD_ADMIN = changeMatches(changedFiles, ['admin/']).toString()
             env.BUILD_BACKEND = changeMatches(changedFiles, ['backend/']).toString()
