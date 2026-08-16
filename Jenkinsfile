@@ -213,18 +213,11 @@ pipeline {
     }
 
     stage('Push to ECR') {
-      when {
-        expression {
-          return (env.BUILD_FRONTEND ?: 'true') == 'true' ||
-                 (env.BUILD_ADMIN ?: 'true') == 'true' ||
-                 (env.BUILD_BACKEND ?: 'true') == 'true'
-        }
-      }
       steps {
         script {
-          def buildFrontend = (env.BUILD_FRONTEND ?: 'true') == 'true'
-          def buildAdmin = (env.BUILD_ADMIN ?: 'true') == 'true'
-          def buildBackend = (env.BUILD_BACKEND ?: 'true') == 'true'
+          def buildFrontend = true
+          def buildAdmin = true
+          def buildBackend = true
 
           ensureAwsCredentials(this, env.AWS_CREDENTIALS_ID) {
             sh """
@@ -263,22 +256,11 @@ pipeline {
     }
 
     stage('Deployment Orchestration') {
-      when {
-        expression {
-          def buildFrontend = (env.BUILD_FRONTEND ?: 'true') == 'true'
-          def buildAdmin = (env.BUILD_ADMIN ?: 'true') == 'true'
-          def buildBackend = (env.BUILD_BACKEND ?: 'true') == 'true'
-
-          return env.TRIGGER_INFRA_DEPLOYMENT == 'true' &&
-            env.INFRA_JOB_NAME?.trim() &&
-            (buildFrontend || buildAdmin || buildBackend)
-        }
-      }
       steps {
         script {
-          def buildFrontend = (env.BUILD_FRONTEND ?: 'true') == 'true'
-          def buildAdmin = (env.BUILD_ADMIN ?: 'true') == 'true'
-          def buildBackend = (env.BUILD_BACKEND ?: 'true') == 'true'
+          def buildFrontend = true
+          def buildAdmin = true
+          def buildBackend = true
 
           echo "This app pipeline creates the dev ECR images and pushes them to ${env.ECR_REPO_PREFIX}. The deployment orchestrator will consume the built image URIs only."
           echo "Triggering deployment job ${env.INFRA_JOB_NAME} with image tag ${env.IMAGE_TAG}."
