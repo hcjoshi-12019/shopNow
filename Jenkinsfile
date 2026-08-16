@@ -1,5 +1,15 @@
 def changeMatches(List<String> changedFiles, List<String> prefixes) {
-  return changedFiles.any { file -> prefixes.any { prefix -> file == prefix || file.startsWith(prefix) } }
+  return changedFiles.any { file ->
+    def normalized = file?.trim() ?: ''
+    prefixes.any { prefix -> normalized == prefix || normalized.startsWith(prefix) }
+  }
+}
+
+def normalizeChangedFiles(List<String> changedFiles) {
+  return changedFiles
+    .findAll { it != null }
+    .collect { it.trim() }
+    .findAll { !it.isEmpty() }
 }
 
 def repoRoot(script) {
@@ -106,46 +116,55 @@ pipeline {
           } else {
             def allFiles = sh(script: "git ls-tree --name-only -r ${currentSha}", returnStdout: true).trim()
             changedFiles = allFiles ? allFiles.split('\n') as List<String> : []
-            echo 'No previous commit metadata found. Using repository file list for initial change detection.'
+            echo 'No previous commit metadata found. Falling back to current repository tree.'
           }
 
           if (env.REPO_ROOT != '.') {
             changedFiles = changedFiles.collect { file ->
-              file.startsWith("${env.REPO_ROOT}/") ? file.substring(env.REPO_ROOT.length() + 1) : file
+              def normalized = file?.trim() ?: ''
+              normalized.startsWith("${env.REPO_ROOT}/") ? normalized.substring(env.REPO_ROOT.length() + 1) : normalized
             }
           }
 
-          // Determine if this is a forced build (FORCE_BUILD param, first build, or pipeline config changed)
-          def isForcedBuild = params.FORCE_BUILD
+          def normalizedChangedFiles = normalizeChangedFiles(changedFiles)
+          def isForcedBuild = params.FORCE_BUILD == true
           def isFirstBuild = !previousSha || previousSha == 'null'
-          def isConfigChanged = changedFiles.any { file -> file == 'Jenkinsfile' || file == 'README.md' || file.startsWith('.github/') || file.startsWith('docker/') || file.startsWith('scripts/') }
-          def noChangesDetected = !changedFiles || changedFiles.isEmpty() || changedFiles.every { it == null || it.trim().isEmpty() }
+          def isConfigChanged = normalizedChangedFiles.any { file ->
+            file == 'Jenkinsfile' ||
+            file == 'README.md' ||
+            file == 'docker-compose.yml' ||
+            file.startsWith('.github/') ||
+            file.startsWith('docker/') ||
+            file.startsWith('scripts/')
+          }
+
+          boolean buildFrontend = false
+          boolean buildAdmin = false
+          boolean buildBackend = false
 
           if (isForcedBuild) {
+            buildFrontend = true
+            buildAdmin = true
+            buildBackend = true
+            env.CHANGESET = 'frontend/\nadmin/\nbackend/'
             echo 'FORCE_BUILD parameter set; forcing all services to build.'
-            env.BUILD_FRONTEND = 'true'
-            env.BUILD_ADMIN = 'true'
-            env.BUILD_BACKEND = 'true'
+          } else if (isFirstBuild || isConfigChanged) {
+            buildFrontend = true
+            buildAdmin = true
+            buildBackend = true
             env.CHANGESET = 'frontend/\nadmin/\nbackend/'
-          } else if (isFirstBuild || noChangesDetected) {
-            echo 'First build or no changes detected; forcing all services to build.'
-            env.BUILD_FRONTEND = 'true'
-            env.BUILD_ADMIN = 'true'
-            env.BUILD_BACKEND = 'true'
-            env.CHANGESET = 'frontend/\nadmin/\nbackend/'
-          } else if (isConfigChanged) {
-            echo 'Pipeline or repo-level configuration changed; forcing all services to build.'
-            env.BUILD_FRONTEND = 'true'
-            env.BUILD_ADMIN = 'true'
-            env.BUILD_BACKEND = 'true'
-            env.CHANGESET = 'frontend/\nadmin/\nbackend/'
+            echo 'First build or pipeline config changed; forcing all services to build.'
           } else {
+            env.CHANGESET = normalizedChangedFiles.take(100).join('\n')
+            buildFrontend = changeMatches(normalizedChangedFiles, ['frontend/'])
+            buildAdmin = changeMatches(normalizedChangedFiles, ['admin/'])
+            buildBackend = changeMatches(normalizedChangedFiles, ['backend/'])
             echo 'Detecting service changes from git diff.'
-            env.CHANGESET = changedFiles.take(100).join('\n')
-            env.BUILD_FRONTEND = changeMatches(changedFiles, ['frontend/']).toString()
-            env.BUILD_ADMIN = changeMatches(changedFiles, ['admin/']).toString()
-            env.BUILD_BACKEND = changeMatches(changedFiles, ['backend/']).toString()
           }
+
+          env.BUILD_FRONTEND = buildFrontend.toString()
+          env.BUILD_ADMIN = buildAdmin.toString()
+          env.BUILD_BACKEND = buildBackend.toString()
 
           echo "Repository root: ${resolvedRepoRoot}"
           echo "Changed files (first 100):\n${env.CHANGESET ?: '<none>'}"
