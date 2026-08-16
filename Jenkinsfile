@@ -146,12 +146,13 @@ pipeline {
           def buildFrontend = true
           def buildAdmin = true
           def buildBackend = true
+          def workspaceRoot = (env.REPO_ROOT?.trim() && env.REPO_ROOT != 'null') ? env.REPO_ROOT.trim() : '.'
 
           def buildTasks = [:]
 
           if (buildFrontend) {
             buildTasks.frontend = {
-              dir(serviceDir(env.REPO_ROOT, 'frontend')) {
+              dir(serviceDir(workspaceRoot, 'frontend')) {
                 def repoBase = "${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
                 def frontendImage = (env.ECR_REPOSITORY_STRATEGY == 'single-repo' || env.SINGLE_ECR_REPOSITORY?.trim()) ?
                   "${repoBase}/${env.SINGLE_ECR_REPOSITORY ?: env.ECR_REPO_PREFIX}:frontend-${env.IMAGE_TAG}" :
@@ -169,7 +170,7 @@ pipeline {
 
           if (buildAdmin) {
             buildTasks.admin = {
-              dir(serviceDir(env.REPO_ROOT, 'admin')) {
+              dir(serviceDir(workspaceRoot, 'admin')) {
                 def repoBase = "${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
                 def adminImage = (env.ECR_REPOSITORY_STRATEGY == 'single-repo' || env.SINGLE_ECR_REPOSITORY?.trim()) ?
                   "${repoBase}/${env.SINGLE_ECR_REPOSITORY ?: env.ECR_REPO_PREFIX}:admin-${env.IMAGE_TAG}" :
@@ -187,7 +188,7 @@ pipeline {
 
           if (buildBackend) {
             buildTasks.backend = {
-              dir(serviceDir(env.REPO_ROOT, 'backend')) {
+              dir(serviceDir(workspaceRoot, 'backend')) {
                 def repoBase = "${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
                 def backendImage = (env.ECR_REPOSITORY_STRATEGY == 'single-repo' || env.SINGLE_ECR_REPOSITORY?.trim()) ?
                   "${repoBase}/${env.SINGLE_ECR_REPOSITORY ?: env.ECR_REPO_PREFIX}:backend-${env.IMAGE_TAG}" :
