@@ -26,6 +26,34 @@ def serviceDir(String root, String serviceName) {
   return root == '.' ? serviceName : "${root}/${serviceName}"
 }
 
+def safeImageTag(script, String fallbackPrefix = 'manual') {
+  def buildNumber = script.env.BUILD_NUMBER?.trim()
+  if (!buildNumber || buildNumber == 'null') {
+    buildNumber = fallbackPrefix
+  }
+
+  def shortSha = script.sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+  if (!shortSha || shortSha == 'null') {
+    shortSha = new Date().format('yyyyMMddHHmmss')
+  }
+
+  def tag = "${buildNumber}-${shortSha}".replaceAll(/[^A-Za-z0-9_.-]+/, '-')
+  if (!tag || tag == 'null') {
+    tag = "${fallbackPrefix}-${new Date().format('yyyyMMddHHmmss')}"
+  }
+
+  return tag
+}
+
+def resolvedImageTag(script) {
+  def tag = script.env.IMAGE_TAG?.trim()
+  if (!tag || tag == 'null') {
+    tag = safeImageTag(script)
+    script.env.IMAGE_TAG = tag
+  }
+  return tag
+}
+
 def ensureAwsCredentials(script, String credentialsId, Closure body) {
   if (credentialsId?.trim()) {
     script.withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: credentialsId.trim()]]) {
@@ -81,8 +109,7 @@ pipeline {
             resolvedRepoRoot = '.'
           }
           env.REPO_ROOT = resolvedRepoRoot
-
-          env.IMAGE_TAG = "${env.BUILD_NUMBER}-${sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()}"
+          env.IMAGE_TAG = resolvedImageTag(this)
 
           def currentSha = env.GIT_COMMIT?.trim()
           if (!currentSha || currentSha == 'null') {
@@ -147,6 +174,8 @@ pipeline {
           def buildAdmin = true
           def buildBackend = true
           def workspaceRoot = (env.REPO_ROOT?.trim() && env.REPO_ROOT != 'null') ? env.REPO_ROOT.trim() : '.'
+          def imageTag = resolvedImageTag(this)
+          env.IMAGE_TAG = imageTag
 
           def buildTasks = [:]
 
@@ -155,12 +184,12 @@ pipeline {
               dir(serviceDir(workspaceRoot, 'frontend')) {
                 def repoBase = "${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
                 def frontendImage = (env.ECR_REPOSITORY_STRATEGY == 'single-repo' || env.SINGLE_ECR_REPOSITORY?.trim()) ?
-                  "${repoBase}/${env.SINGLE_ECR_REPOSITORY ?: env.ECR_REPO_PREFIX}:frontend-${env.IMAGE_TAG}" :
-                  "${repoBase}/${env.ECR_REPO_PREFIX}/frontend:${env.IMAGE_TAG}"
+                  "${repoBase}/${env.SINGLE_ECR_REPOSITORY ?: env.ECR_REPO_PREFIX}:frontend-${imageTag}" :
+                  "${repoBase}/${env.ECR_REPO_PREFIX}/frontend:${imageTag}"
                 env.FRONTEND_IMAGE_URI = frontendImage
                 sh """
                   docker build \
-                    --tag shopnow-frontend:${env.IMAGE_TAG} \
+                    --tag shopnow-frontend:${imageTag} \
                     --tag ${frontendImage} \
                     --build-arg USER_NAME=${env.USER_NAME} .
                 """
@@ -173,12 +202,12 @@ pipeline {
               dir(serviceDir(workspaceRoot, 'admin')) {
                 def repoBase = "${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
                 def adminImage = (env.ECR_REPOSITORY_STRATEGY == 'single-repo' || env.SINGLE_ECR_REPOSITORY?.trim()) ?
-                  "${repoBase}/${env.SINGLE_ECR_REPOSITORY ?: env.ECR_REPO_PREFIX}:admin-${env.IMAGE_TAG}" :
-                  "${repoBase}/${env.ECR_REPO_PREFIX}/admin:${env.IMAGE_TAG}"
+                  "${repoBase}/${env.SINGLE_ECR_REPOSITORY ?: env.ECR_REPO_PREFIX}:admin-${imageTag}" :
+                  "${repoBase}/${env.ECR_REPO_PREFIX}/admin:${imageTag}"
                 env.ADMIN_IMAGE_URI = adminImage
                 sh """
                   docker build \
-                    --tag shopnow-admin:${env.IMAGE_TAG} \
+                    --tag shopnow-admin:${imageTag} \
                     --tag ${adminImage} \
                     --build-arg USER_NAME=${env.USER_NAME} .
                 """
@@ -191,12 +220,12 @@ pipeline {
               dir(serviceDir(workspaceRoot, 'backend')) {
                 def repoBase = "${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
                 def backendImage = (env.ECR_REPOSITORY_STRATEGY == 'single-repo' || env.SINGLE_ECR_REPOSITORY?.trim()) ?
-                  "${repoBase}/${env.SINGLE_ECR_REPOSITORY ?: env.ECR_REPO_PREFIX}:backend-${env.IMAGE_TAG}" :
-                  "${repoBase}/${env.ECR_REPO_PREFIX}/backend:${env.IMAGE_TAG}"
+                  "${repoBase}/${env.SINGLE_ECR_REPOSITORY ?: env.ECR_REPO_PREFIX}:backend-${imageTag}" :
+                  "${repoBase}/${env.ECR_REPO_PREFIX}/backend:${imageTag}"
                 env.BACKEND_IMAGE_URI = backendImage
                 sh """
                   docker build \
-                    --tag shopnow-backend:${env.IMAGE_TAG} \
+                    --tag shopnow-backend:${imageTag} \
                     --tag ${backendImage} .
                 """
               }
