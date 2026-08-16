@@ -220,7 +220,7 @@ pipeline {
           def buildBackend = true
 
           ensureAwsCredentials(this, env.AWS_CREDENTIALS_ID) {
-            sh """
+            sh '''
               for repo in "${ECR_REPO_PREFIX}/frontend" "${ECR_REPO_PREFIX}/admin" "${ECR_REPO_PREFIX}/backend"; do
                 aws ecr describe-repositories --repository-names "$repo" --region "${AWS_REGION}" >/dev/null 2>&1 || \
                 aws ecr create-repository --repository-name "$repo" --region "${AWS_REGION}" --image-scanning-configuration scanOnPush=true --image-tag-mutability MUTABLE >/dev/null
@@ -228,7 +228,7 @@ pipeline {
 
               aws ecr get-login-password --region "${AWS_REGION}" | \
               docker login --username AWS --password-stdin "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
-            """
+            '''
           }
 
           def pushTasks = [:]
