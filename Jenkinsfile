@@ -47,8 +47,8 @@ pipeline {
     choice(name: 'ECR_REPOSITORY_STRATEGY', choices: ['service-repos', 'single-repo'], description: 'Use service repositories (<prefix>/frontend) or one shared repository (<repo>:frontend-<tag>)')
     string(name: 'SINGLE_ECR_REPOSITORY', defaultValue: '', description: 'Shared ECR repository name for single-repo mode, for example shopnow-ecr-21-07-2027')
     string(name: 'USER_NAME', defaultValue: 'harish', description: 'Frontend and admin build arg used for public path customization')
-    string(name: 'INFRA_JOB_NAME', defaultValue: 'herovired-infra', description: 'Downstream Jenkins job name for infra deployment orchestration')
-    booleanParam(name: 'TRIGGER_INFRA_DEPLOYMENT', defaultValue: true, description: 'Trigger the infra job after images are pushed')
+    string(name: 'INFRA_JOB_NAME', defaultValue: 'herovired-infra', description: 'Deployment orchestrator only; it does not build images. This app pipeline creates the Dev ECR images.')
+    booleanParam(name: 'TRIGGER_INFRA_DEPLOYMENT', defaultValue: true, description: 'Trigger deployment orchestration after dev images are pushed to ECR')
     booleanParam(name: 'FORCE_BUILD', defaultValue: false, description: 'Force building and pushing all services regardless of detected changes')
   }
 
@@ -281,7 +281,7 @@ pipeline {
       }
     }
 
-    stage('Hand Off to Infra') {
+    stage('Deployment Orchestration') {
       when {
         expression {
           return params.TRIGGER_INFRA_DEPLOYMENT &&
@@ -291,7 +291,8 @@ pipeline {
       }
       steps {
         script {
-          echo "Triggering infra job ${params.INFRA_JOB_NAME} with image tag ${env.IMAGE_TAG}."
+          echo "This app pipeline creates the dev ECR images and pushes them to ${env.ECR_REPO_PREFIX}. The deployment orchestrator will consume the built image URIs only."
+          echo "Triggering deployment job ${params.INFRA_JOB_NAME} with image tag ${env.IMAGE_TAG}."
           try {
             build job: params.INFRA_JOB_NAME, wait: true, propagate: true, parameters: [
               string(name: 'AWS_REGION', value: env.AWS_REGION),
@@ -312,7 +313,7 @@ pipeline {
             ]
           } catch (err) {
             if (err.toString().contains('No item named')) {
-              error("Infra handoff failed: Jenkins job '${params.INFRA_JOB_NAME}' was not found. Create a Pipeline job that points to herovired-infra/Jenkinsfile, or update INFRA_JOB_NAME.")
+              error("Deployment orchestration failed: Jenkins job '${params.INFRA_JOB_NAME}' was not found. Create the deployment job or update INFRA_JOB_NAME.")
             }
             throw err
           }
@@ -322,7 +323,7 @@ pipeline {
 
     stage('Summary') {
       steps {
-        echo 'App pipeline finished after pushing images. Deployment orchestration is owned by the infra job.'
+        echo 'This app pipeline created the dev ECR images. Production promotion should read the final image from ECR instead of rebuilding it.'
       }
     }
   }
