@@ -79,7 +79,8 @@ pipeline {
     AWS_REGION = 'ap-south-1'
     AWS_ACCOUNT_ID = '559272000457'
     AWS_CREDENTIALS_ID = 'awsId'
-    ECR_REPO_PREFIX = 'shopnow'
+    DEPLOYMENT_ENVIRONMENT = 'dev'
+    ECR_REPO_PREFIX = 'shopnow-dev'
     ECR_REPOSITORY_STRATEGY = 'service-repos'
     SINGLE_ECR_REPOSITORY = ''
     USER_NAME = 'harish'
@@ -109,6 +110,8 @@ pipeline {
             resolvedRepoRoot = '.'
           }
           env.REPO_ROOT = resolvedRepoRoot
+          env.DEPLOYMENT_ENVIRONMENT = (env.DEPLOYMENT_ENVIRONMENT?.trim() && env.DEPLOYMENT_ENVIRONMENT != 'null') ? env.DEPLOYMENT_ENVIRONMENT.trim().toLowerCase() : 'dev'
+          env.ECR_REPO_PREFIX = (env.DEPLOYMENT_ENVIRONMENT == 'prod') ? 'shopnow-prod' : 'shopnow-dev'
           env.IMAGE_TAG = resolvedImageTag(this)
 
           def currentSha = env.GIT_COMMIT?.trim()
