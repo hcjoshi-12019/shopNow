@@ -39,19 +39,6 @@ def ensureAwsCredentials(script, String credentialsId, Closure body) {
 pipeline {
   agent any
 
-  parameters {
-    string(name: 'AWS_REGION', defaultValue: 'ap-south-1', description: 'AWS region')
-    string(name: 'AWS_ACCOUNT_ID', defaultValue: '559272000457', description: 'AWS account ID owning ECR')
-    string(name: 'AWS_CREDENTIALS_ID', defaultValue: 'awsId', description: 'Jenkins AWS credentials ID')
-    string(name: 'ECR_REPO_PREFIX', defaultValue: 'shopnow-dev', description: 'ECR repository prefix for the current environment (dev/prod)')
-    choice(name: 'ECR_REPOSITORY_STRATEGY', choices: ['service-repos', 'single-repo'], description: 'Use service repositories (<prefix>/frontend) or one shared repository (<repo>:frontend-<tag>)')
-    string(name: 'SINGLE_ECR_REPOSITORY', defaultValue: '', description: 'Shared ECR repository name for single-repo mode, for example shopnow-ecr-21-07-2027')
-    string(name: 'USER_NAME', defaultValue: 'harish', description: 'Frontend and admin build arg used for public path customization')
-    string(name: 'INFRA_JOB_NAME', defaultValue: 'herovired-infra', description: 'Deployment orchestrator only; it does not build images. This app pipeline creates the Dev ECR images.')
-    booleanParam(name: 'TRIGGER_INFRA_DEPLOYMENT', defaultValue: true, description: 'Trigger deployment orchestration after dev images are pushed to ECR')
-    booleanParam(name: 'FORCE_BUILD', defaultValue: false, description: 'Force building and pushing all services regardless of detected changes')
-  }
-
   options {
     skipDefaultCheckout()
     timestamps()
@@ -61,12 +48,16 @@ pipeline {
   }
 
   environment {
-    AWS_REGION = "${params.AWS_REGION}"
-    AWS_ACCOUNT_ID = "${params.AWS_ACCOUNT_ID}"
-    ECR_REPO_PREFIX = "${params.ECR_REPO_PREFIX}"
-    ECR_REPOSITORY_STRATEGY = "${params.ECR_REPOSITORY_STRATEGY}"
-    SINGLE_ECR_REPOSITORY = "${params.SINGLE_ECR_REPOSITORY}"
-    USER_NAME = "${params.USER_NAME}"
+    AWS_REGION = 'ap-south-1'
+    AWS_ACCOUNT_ID = '559272000457'
+    AWS_CREDENTIALS_ID = 'awsId'
+    ECR_REPO_PREFIX = 'shopnow-dev'
+    ECR_REPOSITORY_STRATEGY = 'service-repos'
+    SINGLE_ECR_REPOSITORY = ''
+    USER_NAME = 'harish'
+    INFRA_JOB_NAME = 'herovired-infra'
+    TRIGGER_INFRA_DEPLOYMENT = 'true'
+    FORCE_BUILD = 'false'
     IMAGE_TAG = ''
     REPO_ROOT = ''
     CHANGESET = ''
@@ -157,9 +148,9 @@ pipeline {
             buildTasks.frontend = {
               dir(serviceDir(env.REPO_ROOT, 'frontend')) {
                 def repoBase = "${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
-                def frontendImage = (params.ECR_REPOSITORY_STRATEGY == 'single-repo' || params.SINGLE_ECR_REPOSITORY?.trim()) ?
-                  "${repoBase}/${params.SINGLE_ECR_REPOSITORY ?: params.ECR_REPO_PREFIX}:frontend-${env.IMAGE_TAG}" :
-                  "${repoBase}/${params.ECR_REPO_PREFIX}/frontend:${env.IMAGE_TAG}"
+                def frontendImage = (env.ECR_REPOSITORY_STRATEGY == 'single-repo' || env.SINGLE_ECR_REPOSITORY?.trim()) ?
+                  "${repoBase}/${env.SINGLE_ECR_REPOSITORY ?: env.ECR_REPO_PREFIX}:frontend-${env.IMAGE_TAG}" :
+                  "${repoBase}/${env.ECR_REPO_PREFIX}/frontend:${env.IMAGE_TAG}"
                 env.FRONTEND_IMAGE_URI = frontendImage
                 sh """
                   docker build \
@@ -175,9 +166,9 @@ pipeline {
             buildTasks.admin = {
               dir(serviceDir(env.REPO_ROOT, 'admin')) {
                 def repoBase = "${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
-                def adminImage = (params.ECR_REPOSITORY_STRATEGY == 'single-repo' || params.SINGLE_ECR_REPOSITORY?.trim()) ?
-                  "${repoBase}/${params.SINGLE_ECR_REPOSITORY ?: params.ECR_REPO_PREFIX}:admin-${env.IMAGE_TAG}" :
-                  "${repoBase}/${params.ECR_REPO_PREFIX}/admin:${env.IMAGE_TAG}"
+                def adminImage = (env.ECR_REPOSITORY_STRATEGY == 'single-repo' || env.SINGLE_ECR_REPOSITORY?.trim()) ?
+                  "${repoBase}/${env.SINGLE_ECR_REPOSITORY ?: env.ECR_REPO_PREFIX}:admin-${env.IMAGE_TAG}" :
+                  "${repoBase}/${env.ECR_REPO_PREFIX}/admin:${env.IMAGE_TAG}"
                 env.ADMIN_IMAGE_URI = adminImage
                 sh """
                   docker build \
@@ -193,9 +184,9 @@ pipeline {
             buildTasks.backend = {
               dir(serviceDir(env.REPO_ROOT, 'backend')) {
                 def repoBase = "${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
-                def backendImage = (params.ECR_REPOSITORY_STRATEGY == 'single-repo' || params.SINGLE_ECR_REPOSITORY?.trim()) ?
-                  "${repoBase}/${params.SINGLE_ECR_REPOSITORY ?: params.ECR_REPO_PREFIX}:backend-${env.IMAGE_TAG}" :
-                  "${repoBase}/${params.ECR_REPO_PREFIX}/backend:${env.IMAGE_TAG}"
+                def backendImage = (env.ECR_REPOSITORY_STRATEGY == 'single-repo' || env.SINGLE_ECR_REPOSITORY?.trim()) ?
+                  "${repoBase}/${env.SINGLE_ECR_REPOSITORY ?: env.ECR_REPO_PREFIX}:backend-${env.IMAGE_TAG}" :
+                  "${repoBase}/${env.ECR_REPO_PREFIX}/backend:${env.IMAGE_TAG}"
                 env.BACKEND_IMAGE_URI = backendImage
                 sh """
                   docker build \
@@ -221,7 +212,7 @@ pipeline {
       }
       steps {
         script {
-          ensureAwsCredentials(this, params.AWS_CREDENTIALS_ID) {
+          ensureAwsCredentials(this, env.AWS_CREDENTIALS_ID) {
             sh """
               aws ecr get-login-password --region "${AWS_REGION}" | \
               docker login --username AWS --password-stdin "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
@@ -260,17 +251,17 @@ pipeline {
     stage('Deployment Orchestration') {
       when {
         expression {
-          return params.TRIGGER_INFRA_DEPLOYMENT &&
-            params.INFRA_JOB_NAME?.trim() &&
+          return env.TRIGGER_INFRA_DEPLOYMENT == 'true' &&
+            env.INFRA_JOB_NAME?.trim() &&
             (env.BUILD_FRONTEND == 'true' || env.BUILD_ADMIN == 'true' || env.BUILD_BACKEND == 'true')
         }
       }
       steps {
         script {
           echo "This app pipeline creates the dev ECR images and pushes them to ${env.ECR_REPO_PREFIX}. The deployment orchestrator will consume the built image URIs only."
-          echo "Triggering deployment job ${params.INFRA_JOB_NAME} with image tag ${env.IMAGE_TAG}."
+          echo "Triggering deployment job ${env.INFRA_JOB_NAME} with image tag ${env.IMAGE_TAG}."
           try {
-            build job: params.INFRA_JOB_NAME, wait: true, propagate: true, parameters: [
+            build job: env.INFRA_JOB_NAME, wait: true, propagate: true, parameters: [
               string(name: 'AWS_REGION', value: env.AWS_REGION),
               string(name: 'AWS_ACCOUNT_ID', value: env.AWS_ACCOUNT_ID),
               string(name: 'ECR_REPO_PREFIX', value: env.ECR_REPO_PREFIX),
@@ -289,7 +280,7 @@ pipeline {
             ]
           } catch (err) {
             if (err.toString().contains('No item named')) {
-              error("Deployment orchestration failed: Jenkins job '${params.INFRA_JOB_NAME}' was not found. Create the deployment job or update INFRA_JOB_NAME.")
+              error("Deployment orchestration failed: Jenkins job '${env.INFRA_JOB_NAME}' was not found. Create the deployment job or update INFRA_JOB_NAME.")
             }
             throw err
           }
