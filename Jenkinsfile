@@ -137,23 +137,26 @@ pipeline {
             file.startsWith('docker/') ||
             file.startsWith('scripts/')
           }
+          def noChangesDetected = normalizedChangedFiles.isEmpty()
 
           boolean buildFrontend = false
           boolean buildAdmin = false
           boolean buildBackend = false
 
-          if (isForcedBuild) {
+          if (isForcedBuild || isFirstBuild || isConfigChanged || noChangesDetected) {
             buildFrontend = true
             buildAdmin = true
             buildBackend = true
             env.CHANGESET = 'frontend/\nadmin/\nbackend/'
-            echo 'FORCE_BUILD parameter set; forcing all services to build.'
-          } else if (isFirstBuild || isConfigChanged) {
-            buildFrontend = true
-            buildAdmin = true
-            buildBackend = true
-            env.CHANGESET = 'frontend/\nadmin/\nbackend/'
-            echo 'First build or pipeline config changed; forcing all services to build.'
+            if (noChangesDetected) {
+              echo 'No changed files detected; forcing all services to build.'
+            } else if (isForcedBuild) {
+              echo 'FORCE_BUILD parameter set; forcing all services to build.'
+            } else if (isFirstBuild) {
+              echo 'First build detected; forcing all services to build.'
+            } else {
+              echo 'Pipeline config changed; forcing all services to build.'
+            }
           } else {
             env.CHANGESET = normalizedChangedFiles.take(100).join('\n')
             buildFrontend = changeMatches(normalizedChangedFiles, ['frontend/'])
@@ -249,26 +252,29 @@ pipeline {
       steps {
         script {
           ensureAwsCredentials(this, params.AWS_CREDENTIALS_ID) {
-            sh 'aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com'
+            sh """
+              aws ecr get-login-password --region "${AWS_REGION}" | \
+              docker login --username AWS --password-stdin "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
+            """
           }
 
           def pushTasks = [:]
 
           if (env.BUILD_FRONTEND == 'true') {
             pushTasks.frontend = {
-              sh 'docker push ${FRONTEND_IMAGE_URI}'
+              sh "docker push \"${FRONTEND_IMAGE_URI}\""
             }
           }
 
           if (env.BUILD_ADMIN == 'true') {
             pushTasks.admin = {
-              sh 'docker push ${ADMIN_IMAGE_URI}'
+              sh "docker push \"${ADMIN_IMAGE_URI}\""
             }
           }
 
           if (env.BUILD_BACKEND == 'true') {
             pushTasks.backend = {
-              sh 'docker push ${BACKEND_IMAGE_URI}'
+              sh "docker push \"${BACKEND_IMAGE_URI}\""
             }
           }
 
