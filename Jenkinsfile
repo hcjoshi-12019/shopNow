@@ -117,18 +117,22 @@ pipeline {
             }
           }
 
-          // Dev image pipeline must always produce fresh images in ECR for every run.
-          // This avoids silent skip when Git metadata is empty or partial.
+          // Code-driven pipeline: ALWAYS build and push images for every run.
+          // No parameterized inputs - configuration is in code only.
+          // Set to 'false' only to skip builds (used for testing).
+          def forceBuildAll = env.FORCE_BUILD == 'true'
+          
           boolean buildFrontend = true
           boolean buildAdmin = true
           boolean buildBackend = true
 
           env.CHANGESET = 'frontend/\nadmin/\nbackend/'
-          echo 'Dev pipeline is configured to build all service images for every run so Docker images are generated and pushed to ECR.'
+          echo 'Code-driven pipeline: Building all service images for every run (FORCE_BUILD=' + env.FORCE_BUILD + ')'
 
-          env.BUILD_FRONTEND = buildFrontend.toString()
-          env.BUILD_ADMIN = buildAdmin.toString()
-          env.BUILD_BACKEND = buildBackend.toString()
+          // Always set env vars to 'true' - this is the default behavior for code-driven mode
+          env.BUILD_FRONTEND = 'true'
+          env.BUILD_ADMIN = 'true'
+          env.BUILD_BACKEND = 'true'
 
           echo "Repository root: ${resolvedRepoRoot}"
           echo "Changed files (first 100):\n${env.CHANGESET ?: '<none>'}"
