@@ -119,9 +119,7 @@ pipeline {
 
           // Code-driven pipeline: ALWAYS build and push images for every run.
           // No parameterized inputs - configuration is in code only.
-          // Set to 'false' only to skip builds (used for testing).
-          def forceBuildAll = env.FORCE_BUILD == 'true'
-          
+          // This must not depend on stale env values from previous job runs.
           boolean buildFrontend = true
           boolean buildAdmin = true
           boolean buildBackend = true
@@ -129,10 +127,9 @@ pipeline {
           env.CHANGESET = 'frontend/\nadmin/\nbackend/'
           echo 'Code-driven pipeline: Building all service images for every run (FORCE_BUILD=' + env.FORCE_BUILD + ')'
 
-          // Always set env vars to 'true' - this is the default behavior for code-driven mode
-          env.BUILD_FRONTEND = 'true'
-          env.BUILD_ADMIN = 'true'
-          env.BUILD_BACKEND = 'true'
+          env.BUILD_FRONTEND = buildFrontend ? 'true' : 'false'
+          env.BUILD_ADMIN = buildAdmin ? 'true' : 'false'
+          env.BUILD_BACKEND = buildBackend ? 'true' : 'false'
 
           echo "Repository root: ${resolvedRepoRoot}"
           echo "Changed files (first 100):\n${env.CHANGESET ?: '<none>'}"
@@ -146,9 +143,13 @@ pipeline {
     stage('Build in Parallel') {
       steps {
         script {
+          def buildFrontend = true
+          def buildAdmin = true
+          def buildBackend = true
+
           def buildTasks = [:]
 
-          if (env.BUILD_FRONTEND == 'true') {
+          if (buildFrontend) {
             buildTasks.frontend = {
               dir(serviceDir(env.REPO_ROOT, 'frontend')) {
                 def repoBase = "${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
@@ -166,7 +167,7 @@ pipeline {
             }
           }
 
-          if (env.BUILD_ADMIN == 'true') {
+          if (buildAdmin) {
             buildTasks.admin = {
               dir(serviceDir(env.REPO_ROOT, 'admin')) {
                 def repoBase = "${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
@@ -184,7 +185,7 @@ pipeline {
             }
           }
 
-          if (env.BUILD_BACKEND == 'true') {
+          if (buildBackend) {
             buildTasks.backend = {
               dir(serviceDir(env.REPO_ROOT, 'backend')) {
                 def repoBase = "${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
@@ -212,10 +213,18 @@ pipeline {
 
     stage('Push to ECR') {
       when {
-        expression { return env.BUILD_FRONTEND == 'true' || env.BUILD_ADMIN == 'true' || env.BUILD_BACKEND == 'true' }
+        expression {
+          return (env.BUILD_FRONTEND ?: 'true') == 'true' ||
+                 (env.BUILD_ADMIN ?: 'true') == 'true' ||
+                 (env.BUILD_BACKEND ?: 'true') == 'true'
+        }
       }
       steps {
         script {
+          def buildFrontend = (env.BUILD_FRONTEND ?: 'true') == 'true'
+          def buildAdmin = (env.BUILD_ADMIN ?: 'true') == 'true'
+          def buildBackend = (env.BUILD_BACKEND ?: 'true') == 'true'
+
           ensureAwsCredentials(this, env.AWS_CREDENTIALS_ID) {
             sh """
               aws ecr get-login-password --region "${AWS_REGION}" | \
@@ -225,19 +234,19 @@ pipeline {
 
           def pushTasks = [:]
 
-          if (env.BUILD_FRONTEND == 'true') {
+          if (buildFrontend) {
             pushTasks.frontend = {
               sh "docker push \"${FRONTEND_IMAGE_URI}\""
             }
           }
 
-          if (env.BUILD_ADMIN == 'true') {
+          if (buildAdmin) {
             pushTasks.admin = {
               sh "docker push \"${ADMIN_IMAGE_URI}\""
             }
           }
 
-          if (env.BUILD_BACKEND == 'true') {
+          if (buildBackend) {
             pushTasks.backend = {
               sh "docker push \"${BACKEND_IMAGE_URI}\""
             }
@@ -255,13 +264,21 @@ pipeline {
     stage('Deployment Orchestration') {
       when {
         expression {
+          def buildFrontend = (env.BUILD_FRONTEND ?: 'true') == 'true'
+          def buildAdmin = (env.BUILD_ADMIN ?: 'true') == 'true'
+          def buildBackend = (env.BUILD_BACKEND ?: 'true') == 'true'
+
           return env.TRIGGER_INFRA_DEPLOYMENT == 'true' &&
             env.INFRA_JOB_NAME?.trim() &&
-            (env.BUILD_FRONTEND == 'true' || env.BUILD_ADMIN == 'true' || env.BUILD_BACKEND == 'true')
+            (buildFrontend || buildAdmin || buildBackend)
         }
       }
       steps {
         script {
+          def buildFrontend = (env.BUILD_FRONTEND ?: 'true') == 'true'
+          def buildAdmin = (env.BUILD_ADMIN ?: 'true') == 'true'
+          def buildBackend = (env.BUILD_BACKEND ?: 'true') == 'true'
+
           echo "This app pipeline creates the dev ECR images and pushes them to ${env.ECR_REPO_PREFIX}. The deployment orchestrator will consume the built image URIs only."
           echo "Triggering deployment job ${env.INFRA_JOB_NAME} with image tag ${env.IMAGE_TAG}."
           try {
@@ -275,9 +292,9 @@ pipeline {
               string(name: 'ADMIN_IMAGE_URI', value: env.ADMIN_IMAGE_URI ?: ''),
               string(name: 'BACKEND_IMAGE_URI', value: env.BACKEND_IMAGE_URI ?: ''),
               string(name: 'IMAGE_TAG', value: env.IMAGE_TAG),
-              string(name: 'DEPLOY_FRONTEND', value: env.BUILD_FRONTEND),
-              string(name: 'DEPLOY_ADMIN', value: env.BUILD_ADMIN),
-              string(name: 'DEPLOY_BACKEND', value: env.BUILD_BACKEND),
+              string(name: 'DEPLOY_FRONTEND', value: buildFrontend ? 'true' : 'false'),
+              string(name: 'DEPLOY_ADMIN', value: buildAdmin ? 'true' : 'false'),
+              string(name: 'DEPLOY_BACKEND', value: buildBackend ? 'true' : 'false'),
               booleanParam(name: 'RUN_TERRAFORM', value: false),
               booleanParam(name: 'RUN_ANSIBLE_AFTER_APPLY', value: false),
               booleanParam(name: 'RUN_DEPLOYMENT', value: true)
