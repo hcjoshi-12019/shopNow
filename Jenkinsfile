@@ -126,44 +126,14 @@ pipeline {
             }
           }
 
-          def normalizedChangedFiles = normalizeChangedFiles(changedFiles)
-          def isForcedBuild = params.FORCE_BUILD == true
-          def isFirstBuild = !previousSha || previousSha == 'null'
-          def isConfigChanged = normalizedChangedFiles.any { file ->
-            file == 'Jenkinsfile' ||
-            file == 'README.md' ||
-            file == 'docker-compose.yml' ||
-            file.startsWith('.github/') ||
-            file.startsWith('docker/') ||
-            file.startsWith('scripts/')
-          }
-          def noChangesDetected = normalizedChangedFiles.isEmpty()
+          // Dev image pipeline must always produce fresh images in ECR for every run.
+          // This avoids silent skip when Git metadata is empty or partial.
+          boolean buildFrontend = true
+          boolean buildAdmin = true
+          boolean buildBackend = true
 
-          boolean buildFrontend = false
-          boolean buildAdmin = false
-          boolean buildBackend = false
-
-          if (isForcedBuild || isFirstBuild || isConfigChanged || noChangesDetected) {
-            buildFrontend = true
-            buildAdmin = true
-            buildBackend = true
-            env.CHANGESET = 'frontend/\nadmin/\nbackend/'
-            if (noChangesDetected) {
-              echo 'No changed files detected; forcing all services to build.'
-            } else if (isForcedBuild) {
-              echo 'FORCE_BUILD parameter set; forcing all services to build.'
-            } else if (isFirstBuild) {
-              echo 'First build detected; forcing all services to build.'
-            } else {
-              echo 'Pipeline config changed; forcing all services to build.'
-            }
-          } else {
-            env.CHANGESET = normalizedChangedFiles.take(100).join('\n')
-            buildFrontend = changeMatches(normalizedChangedFiles, ['frontend/'])
-            buildAdmin = changeMatches(normalizedChangedFiles, ['admin/'])
-            buildBackend = changeMatches(normalizedChangedFiles, ['backend/'])
-            echo 'Detecting service changes from git diff.'
-          }
+          env.CHANGESET = 'frontend/\nadmin/\nbackend/'
+          echo 'Dev pipeline is configured to build all service images for every run so Docker images are generated and pushed to ECR.'
 
           env.BUILD_FRONTEND = buildFrontend.toString()
           env.BUILD_ADMIN = buildAdmin.toString()
