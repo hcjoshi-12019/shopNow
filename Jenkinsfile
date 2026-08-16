@@ -51,7 +51,7 @@ pipeline {
     AWS_REGION = 'ap-south-1'
     AWS_ACCOUNT_ID = '559272000457'
     AWS_CREDENTIALS_ID = 'awsId'
-    ECR_REPO_PREFIX = 'shopnow-dev'
+    ECR_REPO_PREFIX = 'shopnow'
     ECR_REPOSITORY_STRATEGY = 'service-repos'
     SINGLE_ECR_REPOSITORY = ''
     USER_NAME = 'harish'
@@ -221,6 +221,11 @@ pipeline {
 
           ensureAwsCredentials(this, env.AWS_CREDENTIALS_ID) {
             sh """
+              for repo in "${ECR_REPO_PREFIX}/frontend" "${ECR_REPO_PREFIX}/admin" "${ECR_REPO_PREFIX}/backend"; do
+                aws ecr describe-repositories --repository-names "$repo" --region "${AWS_REGION}" >/dev/null 2>&1 || \
+                aws ecr create-repository --repository-name "$repo" --region "${AWS_REGION}" --image-scanning-configuration scanOnPush=true --image-tag-mutability MUTABLE >/dev/null
+              done
+
               aws ecr get-login-password --region "${AWS_REGION}" | \
               docker login --username AWS --password-stdin "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
             """
