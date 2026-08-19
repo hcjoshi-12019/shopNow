@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Package, Clock, CheckCircle, XCircle, Eye, Edit, Trash2 } from 'lucide-react';
+import { Search, Package, Clock, CheckCircle, XCircle, Eye } from 'lucide-react';
 
 const AdminDashboard = () => {
   const [orders, setOrders] = useState([]);
