@@ -84,7 +84,8 @@ pipeline {
     ECR_REPOSITORY_STRATEGY = 'service-repos'
     SINGLE_ECR_REPOSITORY = ''
     USER_NAME = 'harish'
-    INFRA_JOB_NAME = 'herovired-infra'
+    // Must match the deployment job configured in Jenkins.
+    INFRA_JOB_NAME = 'herovired-infra-services'
     TRIGGER_INFRA_DEPLOYMENT = 'true'
     FORCE_BUILD = 'false'
     IMAGE_TAG = ''
