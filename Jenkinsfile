@@ -200,7 +200,9 @@ pipeline {
                   docker build \
                     --tag shopnow-frontend:${imageTag} \
                     --tag ${frontendImage} \
-                    --build-arg USER_NAME=${env.USER_NAME} .
+                    --build-arg USER_NAME=${env.USER_NAME} \
+                    --build-arg PUBLIC_URL=/${env.USER_NAME} \
+                    --build-arg REACT_APP_API_BASE_URL=/${env.USER_NAME}-api .
                 """
               }
             }
@@ -213,7 +215,9 @@ pipeline {
                   docker build \
                     --tag shopnow-admin:${imageTag} \
                     --tag ${adminImage} \
-                    --build-arg USER_NAME=${env.USER_NAME} .
+                    --build-arg USER_NAME=${env.USER_NAME} \
+                    --build-arg PUBLIC_URL=/${env.USER_NAME}-admin \
+                    --build-arg REACT_APP_API_BASE_URL=/${env.USER_NAME}-api .
                 """
               }
             }
