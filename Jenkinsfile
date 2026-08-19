@@ -1,5 +1,15 @@
 def changeMatches(List<String> changedFiles, List<String> prefixes) {
-  return changedFiles.any { file -> prefixes.any { prefix -> file == prefix || file.startsWith(prefix) } }
+  return changedFiles.any { file ->
+    def normalized = file?.trim() ?: ''
+    prefixes.any { prefix -> normalized == prefix || normalized.startsWith(prefix) }
+  }
+}
+
+def normalizeChangedFiles(List<String> changedFiles) {
+  return changedFiles
+    .findAll { it != null }
+    .collect { it.trim() }
+    .findAll { !it.isEmpty() }
 }
 
 def repoRoot(script) {
@@ -16,6 +26,41 @@ def serviceDir(String root, String serviceName) {
   return root == '.' ? serviceName : "${root}/${serviceName}"
 }
 
+def safeImageTag(script, String fallbackPrefix = 'manual') {
+  def buildNumber = script.env.BUILD_NUMBER?.trim()
+  if (!buildNumber || buildNumber == 'null') {
+    buildNumber = fallbackPrefix
+  }
+
+  def shortSha = script.sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+  if (!shortSha || shortSha == 'null') {
+    shortSha = new Date().format('yyyyMMddHHmmss')
+  }
+
+  def tag = "${buildNumber}-${shortSha}".replaceAll(/[^A-Za-z0-9_.-]+/, '-')
+  if (!tag || tag == 'null') {
+    tag = "${fallbackPrefix}-${new Date().format('yyyyMMddHHmmss')}"
+  }
+
+  return tag
+}
+
+def resolvedImageTag(script) {
+  def tag = script.env.IMAGE_TAG?.trim()
+  if (!tag || tag == 'null') {
+    tag = safeImageTag(script)
+    script.env.IMAGE_TAG = tag
+  }
+  return tag
+}
+
+def serviceImageUri(script, String serviceName, String imageTag) {
+  def repoBase = "${script.env.AWS_ACCOUNT_ID}.dkr.ecr.${script.env.AWS_REGION}.amazonaws.com"
+  return (script.env.ECR_REPOSITORY_STRATEGY == 'single-repo' || script.env.SINGLE_ECR_REPOSITORY?.trim()) ?
+    "${repoBase}/${script.env.SINGLE_ECR_REPOSITORY ?: script.env.ECR_REPO_PREFIX}:${serviceName}-${imageTag}" :
+    "${repoBase}/${script.env.ECR_REPO_PREFIX}/${serviceName}:${imageTag}"
+}
+
 def ensureAwsCredentials(script, String credentialsId, Closure body) {
   if (credentialsId?.trim()) {
     script.withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: credentialsId.trim()]]) {
@@ -29,19 +74,6 @@ def ensureAwsCredentials(script, String credentialsId, Closure body) {
 pipeline {
   agent any
 
-  parameters {
-    string(name: 'AWS_REGION', defaultValue: 'ap-south-1', description: 'AWS region')
-    string(name: 'AWS_ACCOUNT_ID', defaultValue: '495013583028', description: 'AWS account ID owning ECR')
-    string(name: 'AWS_CREDENTIALS_ID', defaultValue: 'awsId', description: 'Jenkins AWS credentials ID')
-    string(name: 'ECR_REPO_PREFIX', defaultValue: 'shopnow-dev', description: 'ECR repository prefix for the current environment (dev/prod)')
-    choice(name: 'ECR_REPOSITORY_STRATEGY', choices: ['service-repos', 'single-repo'], description: 'Use service repositories (<prefix>/frontend) or one shared repository (<repo>:frontend-<tag>)')
-    string(name: 'SINGLE_ECR_REPOSITORY', defaultValue: '', description: 'Shared ECR repository name for single-repo mode, for example shopnow-ecr-21-07-2027')
-    string(name: 'USER_NAME', defaultValue: 'harish', description: 'Frontend and admin build arg used for public path customization')
-    string(name: 'INFRA_JOB_NAME', defaultValue: 'herovired-infra', description: 'Downstream Jenkins job name for infra deployment orchestration')
-    booleanParam(name: 'TRIGGER_INFRA_DEPLOYMENT', defaultValue: true, description: 'Trigger the infra job after images are pushed')
-    booleanParam(name: 'FORCE_BUILD', defaultValue: false, description: 'Force building and pushing all services regardless of detected changes')
-  }
-
   options {
     skipDefaultCheckout()
     timestamps()
@@ -51,12 +83,19 @@ pipeline {
   }
 
   environment {
-    AWS_REGION = "${params.AWS_REGION}"
-    AWS_ACCOUNT_ID = "${params.AWS_ACCOUNT_ID}"
-    ECR_REPO_PREFIX = "${params.ECR_REPO_PREFIX}"
-    ECR_REPOSITORY_STRATEGY = "${params.ECR_REPOSITORY_STRATEGY}"
-    SINGLE_ECR_REPOSITORY = "${params.SINGLE_ECR_REPOSITORY}"
-    USER_NAME = "${params.USER_NAME}"
+    AWS_REGION = 'ap-south-1'
+    AWS_ACCOUNT_ID = '559272000457'
+    AWS_CREDENTIALS_ID = 'awsId'
+    DEPLOYMENT_ENVIRONMENT = 'dev'
+    ECR_REPO_PREFIX = 'shopnow-dev'
+    ECR_REPOSITORY_STRATEGY = 'service-repos'
+    SINGLE_ECR_REPOSITORY = ''
+    // All browser-facing services use one branded public path hierarchy.
+    APP_BASE_PATH = 'shopnow'
+    // Must match the deployment job configured in Jenkins.
+    INFRA_JOB_NAME = 'herovired-infra-services'
+    TRIGGER_INFRA_DEPLOYMENT = 'true'
+    FORCE_BUILD = 'false'
     IMAGE_TAG = ''
     REPO_ROOT = ''
     CHANGESET = ''
@@ -80,8 +119,9 @@ pipeline {
             resolvedRepoRoot = '.'
           }
           env.REPO_ROOT = resolvedRepoRoot
-
-          env.IMAGE_TAG = "${env.BUILD_NUMBER}-${sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()}"
+          env.DEPLOYMENT_ENVIRONMENT = (env.DEPLOYMENT_ENVIRONMENT?.trim() && env.DEPLOYMENT_ENVIRONMENT != 'null') ? env.DEPLOYMENT_ENVIRONMENT.trim().toLowerCase() : 'dev'
+          env.ECR_REPO_PREFIX = (env.DEPLOYMENT_ENVIRONMENT == 'prod') ? 'shopnow-prod' : 'shopnow-dev'
+          env.IMAGE_TAG = resolvedImageTag(this)
 
           def currentSha = env.GIT_COMMIT?.trim()
           if (!currentSha || currentSha == 'null') {
@@ -106,46 +146,29 @@ pipeline {
           } else {
             def allFiles = sh(script: "git ls-tree --name-only -r ${currentSha}", returnStdout: true).trim()
             changedFiles = allFiles ? allFiles.split('\n') as List<String> : []
-            echo 'No previous commit metadata found. Using repository file list for initial change detection.'
+            echo 'No previous commit metadata found. Falling back to current repository tree.'
           }
 
           if (env.REPO_ROOT != '.') {
             changedFiles = changedFiles.collect { file ->
-              file.startsWith("${env.REPO_ROOT}/") ? file.substring(env.REPO_ROOT.length() + 1) : file
+              def normalized = file?.trim() ?: ''
+              normalized.startsWith("${env.REPO_ROOT}/") ? normalized.substring(env.REPO_ROOT.length() + 1) : normalized
             }
           }
 
-          // Determine if this is a forced build (FORCE_BUILD param, first build, or pipeline config changed)
-          def isForcedBuild = params.FORCE_BUILD
-          def isFirstBuild = !previousSha || previousSha == 'null'
-          def isConfigChanged = changedFiles.any { file -> file == 'Jenkinsfile' || file == 'README.md' || file.startsWith('.github/') || file.startsWith('docker/') || file.startsWith('scripts/') }
-          def noChangesDetected = !changedFiles || changedFiles.isEmpty() || changedFiles.every { it == null || it.trim().isEmpty() }
+          // Code-driven pipeline: ALWAYS build and push images for every run.
+          // No parameterized inputs - configuration is in code only.
+          // This must not depend on stale env values from previous job runs.
+          boolean buildFrontend = true
+          boolean buildAdmin = true
+          boolean buildBackend = true
 
-          if (isForcedBuild) {
-            echo 'FORCE_BUILD parameter set; forcing all services to build.'
-            env.BUILD_FRONTEND = 'true'
-            env.BUILD_ADMIN = 'true'
-            env.BUILD_BACKEND = 'true'
-            env.CHANGESET = 'frontend/\nadmin/\nbackend/'
-          } else if (isFirstBuild || noChangesDetected) {
-            echo 'First build or no changes detected; forcing all services to build.'
-            env.BUILD_FRONTEND = 'true'
-            env.BUILD_ADMIN = 'true'
-            env.BUILD_BACKEND = 'true'
-            env.CHANGESET = 'frontend/\nadmin/\nbackend/'
-          } else if (isConfigChanged) {
-            echo 'Pipeline or repo-level configuration changed; forcing all services to build.'
-            env.BUILD_FRONTEND = 'true'
-            env.BUILD_ADMIN = 'true'
-            env.BUILD_BACKEND = 'true'
-            env.CHANGESET = 'frontend/\nadmin/\nbackend/'
-          } else {
-            echo 'Detecting service changes from git diff.'
-            env.CHANGESET = changedFiles.take(100).join('\n')
-            env.BUILD_FRONTEND = changeMatches(changedFiles, ['frontend/']).toString()
-            env.BUILD_ADMIN = changeMatches(changedFiles, ['admin/']).toString()
-            env.BUILD_BACKEND = changeMatches(changedFiles, ['backend/']).toString()
-          }
+          env.CHANGESET = 'frontend/\nadmin/\nbackend/'
+          echo 'Code-driven pipeline: Building all service images for every run (FORCE_BUILD=' + env.FORCE_BUILD + ')'
+
+          env.BUILD_FRONTEND = buildFrontend ? 'true' : 'false'
+          env.BUILD_ADMIN = buildAdmin ? 'true' : 'false'
+          env.BUILD_BACKEND = buildBackend ? 'true' : 'false'
 
           echo "Repository root: ${resolvedRepoRoot}"
           echo "Changed files (first 100):\n${env.CHANGESET ?: '<none>'}"
@@ -159,55 +182,52 @@ pipeline {
     stage('Build in Parallel') {
       steps {
         script {
+          def buildFrontend = true
+          def buildAdmin = true
+          def buildBackend = true
+          def workspaceRoot = (env.REPO_ROOT?.trim() && env.REPO_ROOT != 'null') ? env.REPO_ROOT.trim() : '.'
+          def imageTag = resolvedImageTag(this)
+          env.IMAGE_TAG = imageTag
+          def frontendImage = serviceImageUri(this, 'frontend', imageTag)
+          def adminImage = serviceImageUri(this, 'admin', imageTag)
+          def backendImage = serviceImageUri(this, 'backend', imageTag)
+
           def buildTasks = [:]
 
-          if (env.BUILD_FRONTEND == 'true') {
+          if (buildFrontend) {
             buildTasks.frontend = {
-              dir(serviceDir(env.REPO_ROOT, 'frontend')) {
-                def repoBase = "${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
-                def frontendImage = (params.ECR_REPOSITORY_STRATEGY == 'single-repo' || params.SINGLE_ECR_REPOSITORY?.trim()) ?
-                  "${repoBase}/${params.SINGLE_ECR_REPOSITORY ?: params.ECR_REPO_PREFIX}:frontend-${env.IMAGE_TAG}" :
-                  "${repoBase}/${params.ECR_REPO_PREFIX}/frontend:${env.IMAGE_TAG}"
-                env.FRONTEND_IMAGE_URI = frontendImage
+              dir(serviceDir(workspaceRoot, 'frontend')) {
                 sh """
                   docker build \
-                    --tag shopnow-frontend:${env.IMAGE_TAG} \
+                    --tag shopnow-frontend:${imageTag} \
                     --tag ${frontendImage} \
-                    --build-arg USER_NAME=${env.USER_NAME} .
+                    --build-arg PUBLIC_URL=/${env.APP_BASE_PATH} \
+                    --build-arg REACT_APP_API_BASE_URL=/${env.APP_BASE_PATH}/api .
                 """
               }
             }
           }
 
-          if (env.BUILD_ADMIN == 'true') {
+          if (buildAdmin) {
             buildTasks.admin = {
-              dir(serviceDir(env.REPO_ROOT, 'admin')) {
-                def repoBase = "${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
-                def adminImage = (params.ECR_REPOSITORY_STRATEGY == 'single-repo' || params.SINGLE_ECR_REPOSITORY?.trim()) ?
-                  "${repoBase}/${params.SINGLE_ECR_REPOSITORY ?: params.ECR_REPO_PREFIX}:admin-${env.IMAGE_TAG}" :
-                  "${repoBase}/${params.ECR_REPO_PREFIX}/admin:${env.IMAGE_TAG}"
-                env.ADMIN_IMAGE_URI = adminImage
+              dir(serviceDir(workspaceRoot, 'admin')) {
                 sh """
                   docker build \
-                    --tag shopnow-admin:${env.IMAGE_TAG} \
+                    --tag shopnow-admin:${imageTag} \
                     --tag ${adminImage} \
-                    --build-arg USER_NAME=${env.USER_NAME} .
+                    --build-arg PUBLIC_URL=/${env.APP_BASE_PATH}/admin \
+                    --build-arg REACT_APP_API_BASE_URL=/${env.APP_BASE_PATH}/api .
                 """
               }
             }
           }
 
-          if (env.BUILD_BACKEND == 'true') {
+          if (buildBackend) {
             buildTasks.backend = {
-              dir(serviceDir(env.REPO_ROOT, 'backend')) {
-                def repoBase = "${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
-                def backendImage = (params.ECR_REPOSITORY_STRATEGY == 'single-repo' || params.SINGLE_ECR_REPOSITORY?.trim()) ?
-                  "${repoBase}/${params.SINGLE_ECR_REPOSITORY ?: params.ECR_REPO_PREFIX}:backend-${env.IMAGE_TAG}" :
-                  "${repoBase}/${params.ECR_REPO_PREFIX}/backend:${env.IMAGE_TAG}"
-                env.BACKEND_IMAGE_URI = backendImage
+              dir(serviceDir(workspaceRoot, 'backend')) {
                 sh """
                   docker build \
-                    --tag shopnow-backend:${env.IMAGE_TAG} \
+                    --tag shopnow-backend:${imageTag} \
                     --tag ${backendImage} .
                 """
               }
@@ -224,32 +244,45 @@ pipeline {
     }
 
     stage('Push to ECR') {
-      when {
-        expression { return env.BUILD_FRONTEND == 'true' || env.BUILD_ADMIN == 'true' || env.BUILD_BACKEND == 'true' }
-      }
       steps {
         script {
-          ensureAwsCredentials(this, params.AWS_CREDENTIALS_ID) {
-            sh 'aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com'
+          def buildFrontend = true
+          def buildAdmin = true
+          def buildBackend = true
+          def imageTag = resolvedImageTag(this)
+          def frontendImage = serviceImageUri(this, 'frontend', imageTag)
+          def adminImage = serviceImageUri(this, 'admin', imageTag)
+          def backendImage = serviceImageUri(this, 'backend', imageTag)
+
+          ensureAwsCredentials(this, env.AWS_CREDENTIALS_ID) {
+            sh '''
+              for repo in "${ECR_REPO_PREFIX}/frontend" "${ECR_REPO_PREFIX}/admin" "${ECR_REPO_PREFIX}/backend"; do
+                aws ecr describe-repositories --repository-names "$repo" --region "${AWS_REGION}" >/dev/null 2>&1 || \
+                aws ecr create-repository --repository-name "$repo" --region "${AWS_REGION}" --image-scanning-configuration scanOnPush=true --image-tag-mutability MUTABLE >/dev/null
+              done
+
+              aws ecr get-login-password --region "${AWS_REGION}" | \
+              docker login --username AWS --password-stdin "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
+            '''
           }
 
           def pushTasks = [:]
 
-          if (env.BUILD_FRONTEND == 'true') {
+          if (buildFrontend) {
             pushTasks.frontend = {
-              sh 'docker push ${FRONTEND_IMAGE_URI}'
+              sh "docker push \"${frontendImage}\""
             }
           }
 
-          if (env.BUILD_ADMIN == 'true') {
+          if (buildAdmin) {
             pushTasks.admin = {
-              sh 'docker push ${ADMIN_IMAGE_URI}'
+              sh "docker push \"${adminImage}\""
             }
           }
 
-          if (env.BUILD_BACKEND == 'true') {
+          if (buildBackend) {
             pushTasks.backend = {
-              sh 'docker push ${BACKEND_IMAGE_URI}'
+              sh "docker push \"${backendImage}\""
             }
           }
 
@@ -262,38 +295,40 @@ pipeline {
       }
     }
 
-    stage('Hand Off to Infra') {
-      when {
-        expression {
-          return params.TRIGGER_INFRA_DEPLOYMENT &&
-            params.INFRA_JOB_NAME?.trim() &&
-            (env.BUILD_FRONTEND == 'true' || env.BUILD_ADMIN == 'true' || env.BUILD_BACKEND == 'true')
-        }
-      }
+    stage('Deployment Orchestration') {
       steps {
         script {
-          echo "Triggering infra job ${params.INFRA_JOB_NAME} with image tag ${env.IMAGE_TAG}."
+          def buildFrontend = true
+          def buildAdmin = true
+          def buildBackend = true
+          def imageTag = resolvedImageTag(this)
+          def frontendImage = serviceImageUri(this, 'frontend', imageTag)
+          def adminImage = serviceImageUri(this, 'admin', imageTag)
+          def backendImage = serviceImageUri(this, 'backend', imageTag)
+
+          echo "This app pipeline creates the dev ECR images and pushes them to ${env.ECR_REPO_PREFIX}. The deployment orchestrator will consume the built image URIs only."
+          echo "Triggering deployment job ${env.INFRA_JOB_NAME} with image tag ${imageTag}."
           try {
-            build job: params.INFRA_JOB_NAME, wait: true, propagate: true, parameters: [
+            build job: env.INFRA_JOB_NAME, wait: true, propagate: true, parameters: [
               string(name: 'AWS_REGION', value: env.AWS_REGION),
               string(name: 'AWS_ACCOUNT_ID', value: env.AWS_ACCOUNT_ID),
               string(name: 'ECR_REPO_PREFIX', value: env.ECR_REPO_PREFIX),
               string(name: 'ECR_REPOSITORY_STRATEGY', value: env.ECR_REPOSITORY_STRATEGY),
               string(name: 'SINGLE_ECR_REPOSITORY', value: env.SINGLE_ECR_REPOSITORY ?: ''),
-              string(name: 'FRONTEND_IMAGE_URI', value: env.FRONTEND_IMAGE_URI ?: ''),
-              string(name: 'ADMIN_IMAGE_URI', value: env.ADMIN_IMAGE_URI ?: ''),
-              string(name: 'BACKEND_IMAGE_URI', value: env.BACKEND_IMAGE_URI ?: ''),
-              string(name: 'IMAGE_TAG', value: env.IMAGE_TAG),
-              string(name: 'DEPLOY_FRONTEND', value: env.BUILD_FRONTEND),
-              string(name: 'DEPLOY_ADMIN', value: env.BUILD_ADMIN),
-              string(name: 'DEPLOY_BACKEND', value: env.BUILD_BACKEND),
+              string(name: 'FRONTEND_IMAGE_URI', value: frontendImage),
+              string(name: 'ADMIN_IMAGE_URI', value: adminImage),
+              string(name: 'BACKEND_IMAGE_URI', value: backendImage),
+              string(name: 'IMAGE_TAG', value: imageTag),
+              string(name: 'DEPLOY_FRONTEND', value: buildFrontend ? 'true' : 'false'),
+              string(name: 'DEPLOY_ADMIN', value: buildAdmin ? 'true' : 'false'),
+              string(name: 'DEPLOY_BACKEND', value: buildBackend ? 'true' : 'false'),
               booleanParam(name: 'RUN_TERRAFORM', value: false),
               booleanParam(name: 'RUN_ANSIBLE_AFTER_APPLY', value: false),
               booleanParam(name: 'RUN_DEPLOYMENT', value: true)
             ]
           } catch (err) {
             if (err.toString().contains('No item named')) {
-              error("Infra handoff failed: Jenkins job '${params.INFRA_JOB_NAME}' was not found. Create a Pipeline job that points to herovired-infra/Jenkinsfile, or update INFRA_JOB_NAME.")
+              error("Deployment orchestration failed: Jenkins job '${env.INFRA_JOB_NAME}' was not found. Create the deployment job or update INFRA_JOB_NAME.")
             }
             throw err
           }
@@ -303,7 +338,7 @@ pipeline {
 
     stage('Summary') {
       steps {
-        echo 'App pipeline finished after pushing images. Deployment orchestration is owned by the infra job.'
+        echo 'This app pipeline created the dev ECR images. Production promotion should read the final image from ECR instead of rebuilding it.'
       }
     }
   }

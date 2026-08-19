@@ -4,10 +4,10 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 INFRA_DIR="${ROOT_DIR}/../herovired-infra"
 AWS_REGION="${AWS_REGION:-ap-south-1}"
-AWS_ACCOUNT_ID="${AWS_ACCOUNT_ID:-495013583028}"
+AWS_ACCOUNT_ID="${AWS_ACCOUNT_ID:-559272000457}"
 ECR_REPO_PREFIX="${ECR_REPO_PREFIX:-shopnow}"
 K8S_NAMESPACE="${K8S_NAMESPACE:-shopnow-ns}"
-CLUSTER_NAME="${EKS_CLUSTER_NAME:-java-spring-eks}"
+CLUSTER_NAME="${EKS_CLUSTER_NAME:-shopnow-app-eks}"
 
 if ! command -v aws >/dev/null 2>&1; then
   echo "AWS CLI is required but not installed."

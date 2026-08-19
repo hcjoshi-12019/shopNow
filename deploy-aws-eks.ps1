@@ -3,10 +3,10 @@ $ErrorActionPreference = 'Stop'
 $rootDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $infraDir = Join-Path (Split-Path -Parent $rootDir) 'herovired-infra'
 $awsRegion = if ($env:AWS_REGION) { $env:AWS_REGION } else { 'ap-south-1' }
-$awsAccountId = if ($env:AWS_ACCOUNT_ID) { $env:AWS_ACCOUNT_ID } else { '495013583028' }
+$awsAccountId = if ($env:AWS_ACCOUNT_ID) { $env:AWS_ACCOUNT_ID } else { '559272000457' }
 $ecrRepoPrefix = if ($env:ECR_REPO_PREFIX) { $env:ECR_REPO_PREFIX } else { 'shopnow' }
 $k8sNamespace = if ($env:K8S_NAMESPACE) { $env:K8S_NAMESPACE } else { 'shopnow-ns' }
-$clusterName = if ($env:EKS_CLUSTER_NAME) { $env:EKS_CLUSTER_NAME } else { 'java-spring-eks' }
+$clusterName = if ($env:EKS_CLUSTER_NAME) { $env:EKS_CLUSTER_NAME } else { 'shopnow-app-eks' }
 
 if (-not (Get-Command aws -ErrorAction SilentlyContinue)) {
     throw 'AWS CLI is required but not installed.'
