@@ -90,7 +90,8 @@ pipeline {
     ECR_REPO_PREFIX = 'shopnow-dev'
     ECR_REPOSITORY_STRATEGY = 'service-repos'
     SINGLE_ECR_REPOSITORY = ''
-    USER_NAME = 'harish'
+    // All browser-facing services use one branded public path hierarchy.
+    APP_BASE_PATH = 'shopnow'
     // Must match the deployment job configured in Jenkins.
     INFRA_JOB_NAME = 'herovired-infra-services'
     TRIGGER_INFRA_DEPLOYMENT = 'true'
@@ -200,9 +201,8 @@ pipeline {
                   docker build \
                     --tag shopnow-frontend:${imageTag} \
                     --tag ${frontendImage} \
-                    --build-arg USER_NAME=${env.USER_NAME} \
-                    --build-arg PUBLIC_URL=/${env.USER_NAME} \
-                    --build-arg REACT_APP_API_BASE_URL=/${env.USER_NAME}-api .
+                    --build-arg PUBLIC_URL=/${env.APP_BASE_PATH} \
+                    --build-arg REACT_APP_API_BASE_URL=/${env.APP_BASE_PATH}/api .
                 """
               }
             }
@@ -215,9 +215,8 @@ pipeline {
                   docker build \
                     --tag shopnow-admin:${imageTag} \
                     --tag ${adminImage} \
-                    --build-arg USER_NAME=${env.USER_NAME} \
-                    --build-arg PUBLIC_URL=/${env.USER_NAME}-admin \
-                    --build-arg REACT_APP_API_BASE_URL=/${env.USER_NAME}-api .
+                    --build-arg PUBLIC_URL=/${env.APP_BASE_PATH}/admin \
+                    --build-arg REACT_APP_API_BASE_URL=/${env.APP_BASE_PATH}/api .
                 """
               }
             }

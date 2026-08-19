@@ -51,7 +51,7 @@ The root `Jenkinsfile` exposes these parameters:
 - `AWS_REGION`: AWS region for ECR and EKS.
 - `AWS_ACCOUNT_ID`: AWS account that owns the ECR registry.
 - `ECR_REPO_PREFIX`: Repository prefix, for example `harish-shopnow`.
-- `USER_NAME`: Public path prefix used by the React build.
+- `APP_BASE_PATH`: Branded public path prefix used by the React build (`shopnow`).
 - `K8S_NAMESPACE`: Namespace used by the application workloads.
 - `AWS_CREDENTIALS_ID`: Jenkins AWS credentials ID.
 - `INFRA_JOB_NAME`: Downstream Jenkins job that runs the infra pipeline.
