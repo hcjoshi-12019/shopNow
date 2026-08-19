@@ -54,6 +54,13 @@ def resolvedImageTag(script) {
   return tag
 }
 
+def serviceImageUri(script, String serviceName, String imageTag) {
+  def repoBase = "${script.env.AWS_ACCOUNT_ID}.dkr.ecr.${script.env.AWS_REGION}.amazonaws.com"
+  return (script.env.ECR_REPOSITORY_STRATEGY == 'single-repo' || script.env.SINGLE_ECR_REPOSITORY?.trim()) ?
+    "${repoBase}/${script.env.SINGLE_ECR_REPOSITORY ?: script.env.ECR_REPO_PREFIX}:${serviceName}-${imageTag}" :
+    "${repoBase}/${script.env.ECR_REPO_PREFIX}/${serviceName}:${imageTag}"
+}
+
 def ensureAwsCredentials(script, String credentialsId, Closure body) {
   if (credentialsId?.trim()) {
     script.withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: credentialsId.trim()]]) {
@@ -180,17 +187,15 @@ pipeline {
           def workspaceRoot = (env.REPO_ROOT?.trim() && env.REPO_ROOT != 'null') ? env.REPO_ROOT.trim() : '.'
           def imageTag = resolvedImageTag(this)
           env.IMAGE_TAG = imageTag
+          def frontendImage = serviceImageUri(this, 'frontend', imageTag)
+          def adminImage = serviceImageUri(this, 'admin', imageTag)
+          def backendImage = serviceImageUri(this, 'backend', imageTag)
 
           def buildTasks = [:]
 
           if (buildFrontend) {
             buildTasks.frontend = {
               dir(serviceDir(workspaceRoot, 'frontend')) {
-                def repoBase = "${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
-                def frontendImage = (env.ECR_REPOSITORY_STRATEGY == 'single-repo' || env.SINGLE_ECR_REPOSITORY?.trim()) ?
-                  "${repoBase}/${env.SINGLE_ECR_REPOSITORY ?: env.ECR_REPO_PREFIX}:frontend-${imageTag}" :
-                  "${repoBase}/${env.ECR_REPO_PREFIX}/frontend:${imageTag}"
-                env.FRONTEND_IMAGE_URI = frontendImage
                 sh """
                   docker build \
                     --tag shopnow-frontend:${imageTag} \
@@ -204,11 +209,6 @@ pipeline {
           if (buildAdmin) {
             buildTasks.admin = {
               dir(serviceDir(workspaceRoot, 'admin')) {
-                def repoBase = "${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
-                def adminImage = (env.ECR_REPOSITORY_STRATEGY == 'single-repo' || env.SINGLE_ECR_REPOSITORY?.trim()) ?
-                  "${repoBase}/${env.SINGLE_ECR_REPOSITORY ?: env.ECR_REPO_PREFIX}:admin-${imageTag}" :
-                  "${repoBase}/${env.ECR_REPO_PREFIX}/admin:${imageTag}"
-                env.ADMIN_IMAGE_URI = adminImage
                 sh """
                   docker build \
                     --tag shopnow-admin:${imageTag} \
@@ -222,11 +222,6 @@ pipeline {
           if (buildBackend) {
             buildTasks.backend = {
               dir(serviceDir(workspaceRoot, 'backend')) {
-                def repoBase = "${env.AWS_ACCOUNT_ID}.dkr.ecr.${env.AWS_REGION}.amazonaws.com"
-                def backendImage = (env.ECR_REPOSITORY_STRATEGY == 'single-repo' || env.SINGLE_ECR_REPOSITORY?.trim()) ?
-                  "${repoBase}/${env.SINGLE_ECR_REPOSITORY ?: env.ECR_REPO_PREFIX}:backend-${imageTag}" :
-                  "${repoBase}/${env.ECR_REPO_PREFIX}/backend:${imageTag}"
-                env.BACKEND_IMAGE_URI = backendImage
                 sh """
                   docker build \
                     --tag shopnow-backend:${imageTag} \
@@ -251,6 +246,10 @@ pipeline {
           def buildFrontend = true
           def buildAdmin = true
           def buildBackend = true
+          def imageTag = resolvedImageTag(this)
+          def frontendImage = serviceImageUri(this, 'frontend', imageTag)
+          def adminImage = serviceImageUri(this, 'admin', imageTag)
+          def backendImage = serviceImageUri(this, 'backend', imageTag)
 
           ensureAwsCredentials(this, env.AWS_CREDENTIALS_ID) {
             sh '''
@@ -268,19 +267,19 @@ pipeline {
 
           if (buildFrontend) {
             pushTasks.frontend = {
-              sh "docker push \"${FRONTEND_IMAGE_URI}\""
+              sh "docker push \"${frontendImage}\""
             }
           }
 
           if (buildAdmin) {
             pushTasks.admin = {
-              sh "docker push \"${ADMIN_IMAGE_URI}\""
+              sh "docker push \"${adminImage}\""
             }
           }
 
           if (buildBackend) {
             pushTasks.backend = {
-              sh "docker push \"${BACKEND_IMAGE_URI}\""
+              sh "docker push \"${backendImage}\""
             }
           }
 
@@ -299,9 +298,13 @@ pipeline {
           def buildFrontend = true
           def buildAdmin = true
           def buildBackend = true
+          def imageTag = resolvedImageTag(this)
+          def frontendImage = serviceImageUri(this, 'frontend', imageTag)
+          def adminImage = serviceImageUri(this, 'admin', imageTag)
+          def backendImage = serviceImageUri(this, 'backend', imageTag)
 
           echo "This app pipeline creates the dev ECR images and pushes them to ${env.ECR_REPO_PREFIX}. The deployment orchestrator will consume the built image URIs only."
-          echo "Triggering deployment job ${env.INFRA_JOB_NAME} with image tag ${env.IMAGE_TAG}."
+          echo "Triggering deployment job ${env.INFRA_JOB_NAME} with image tag ${imageTag}."
           try {
             build job: env.INFRA_JOB_NAME, wait: true, propagate: true, parameters: [
               string(name: 'AWS_REGION', value: env.AWS_REGION),
@@ -309,10 +312,10 @@ pipeline {
               string(name: 'ECR_REPO_PREFIX', value: env.ECR_REPO_PREFIX),
               string(name: 'ECR_REPOSITORY_STRATEGY', value: env.ECR_REPOSITORY_STRATEGY),
               string(name: 'SINGLE_ECR_REPOSITORY', value: env.SINGLE_ECR_REPOSITORY ?: ''),
-              string(name: 'FRONTEND_IMAGE_URI', value: env.FRONTEND_IMAGE_URI ?: ''),
-              string(name: 'ADMIN_IMAGE_URI', value: env.ADMIN_IMAGE_URI ?: ''),
-              string(name: 'BACKEND_IMAGE_URI', value: env.BACKEND_IMAGE_URI ?: ''),
-              string(name: 'IMAGE_TAG', value: env.IMAGE_TAG),
+              string(name: 'FRONTEND_IMAGE_URI', value: frontendImage),
+              string(name: 'ADMIN_IMAGE_URI', value: adminImage),
+              string(name: 'BACKEND_IMAGE_URI', value: backendImage),
+              string(name: 'IMAGE_TAG', value: imageTag),
               string(name: 'DEPLOY_FRONTEND', value: buildFrontend ? 'true' : 'false'),
               string(name: 'DEPLOY_ADMIN', value: buildAdmin ? 'true' : 'false'),
               string(name: 'DEPLOY_BACKEND', value: buildBackend ? 'true' : 'false'),
