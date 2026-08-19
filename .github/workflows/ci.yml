@@ -52,7 +52,10 @@ jobs:
       - name: Smoke test frontend image
         run: |
           set -euo pipefail
-          docker run -d --name shopnow-frontend-smoke -p 8080:80 "${FRONTEND_IMAGE}:${GITHUB_SHA}"
+          docker run -d --name shopnow-frontend-smoke \
+            --add-host backend-service:127.0.0.1 \
+            -p 8080:80 \
+            "${FRONTEND_IMAGE}:${GITHUB_SHA}"
           trap 'docker rm -f shopnow-frontend-smoke >/dev/null 2>&1 || true' EXIT
 
           timeout=30
@@ -70,7 +73,10 @@ jobs:
       - name: Smoke test admin image
         run: |
           set -euo pipefail
-          docker run -d --name shopnow-admin-smoke -p 8081:80 "${ADMIN_IMAGE}:${GITHUB_SHA}"
+          docker run -d --name shopnow-admin-smoke \
+            --add-host backend-service:127.0.0.1 \
+            -p 8081:80 \
+            "${ADMIN_IMAGE}:${GITHUB_SHA}"
           trap 'docker rm -f shopnow-admin-smoke >/dev/null 2>&1 || true' EXIT
 
           timeout=30
